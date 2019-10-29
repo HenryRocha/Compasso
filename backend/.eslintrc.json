@@ -15,5 +15,12 @@
         "ecmaVersion": 2018
     },
     "rules": {
+        "indent": [
+            "error",
+            2
+          ],
+          "require-jsdoc": "off",
+          "max-len": "off",
+          "quotes": ["error", "double"]
     }
 }
