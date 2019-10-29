@@ -8,10 +8,15 @@
     "react-scripts": "3.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "yarn && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "git-branch-is -C ../ -r \"^((?!master).)*$\" && eslint src/**/*.js"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
