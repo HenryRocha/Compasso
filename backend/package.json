@@ -1,0 +1,19 @@
+{
+  "name": "Compasso",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "git-branch-is": "^3.0.0",
+    "husky": "^3.0.9"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "git-branch-is -C ../ -r \"^((?!master).)*$\" && eslint src/*.js"
+    }
+  }
+}
