@@ -5,7 +5,8 @@
   "license": "MIT",
   "dependencies": {
     "git-branch-is": "^3.0.0",
-    "husky": "^3.0.9"
+    "husky": "^3.0.9",
+    "nodemon": "^1.19.4"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
@@ -15,5 +16,9 @@
     "hooks": {
       "pre-commit": "git-branch-is -C ../ -r \"^((?!master).)*$\" && eslint src/*.js"
     }
+  },
+  "scripts": {
+    "start": "nodemon src/projectsAPI/index.js &",
+    "end": "sudo killall -9 nodemon"
   }
 }
