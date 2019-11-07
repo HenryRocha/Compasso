@@ -13,7 +13,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "git-branch-is -C ../ -r \"^((?!master).)*$\" && eslint src/*.js && eslint src/**/*.js && eslint src/**/**/*.js"
+      "pre-commit": "git-branch-is -C ../ -r \"^((?!master).)*$\" && eslint src/*.js && eslint src/**/*.js"
     }
   }
 }
