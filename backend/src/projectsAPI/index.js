@@ -4,24 +4,15 @@
 // MODULES
 // Importing all the modules required.
 require("dotenv").config();
-const mongoose = require("mongoose");
 const parser = require("body-parser");
 const express = require("express");
+const db = require("./db");
 
 
 // CONSTANTS
 // Declaring the app constant and the port this API will run on.
 const app = express();
 const port = process.env.PORT || 3001;
-
-// Declaring the database URL. You need to have a .env file with this variable declared,
-// otherwise the const URL will be set no undefined, since we don't have the environment
-// variable declared.
-const URL = process.env.dbURL;
-
-// Connecting to the the Mongo client.
-mongoose.connect(URL, {useNewUrlParser: true, useUnifiedTopology: true});
-const db = mongoose.connection;
 
 
 // APP
@@ -47,18 +38,11 @@ app.listen(port, function() {
   console.log("projectsAPI listening on port: " + port);
 });
 
-// If we could not connect to the database...
-db.on("error", console.error.bind(console, "Connection error"));
+app.route("/project").post(async (req, res, next) => {
+  console.log("Received POST request on /projects");
+  console.log(req.body);
 
-// If we successfully connected to the database...
-db.once("open", function() {
-  console.log("Successfully connected to the database");
+  db.getProjects();
 
-  // POST on /projects (Create a project).
-  app.route("/projects").post(async (req, res, next) => {
-    console.log("Received POST on /projects");
-    console.log(req.body);
-
-    res.send({success: true});
-  });
+  res.send({"status": "success"});
 });
