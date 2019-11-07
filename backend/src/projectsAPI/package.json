@@ -1,0 +1,16 @@
+{
+    "name": "projectsapi",
+    "version": "1.0.0",
+    "description": "API responsible for handling all project-related requests, such as submitting a project, getting projects, deleting projects, etc.",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "start": "nodemon index.js"
+    },
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "mongodb": "^3.3.3",
+        "nodemon": "^1.19.4"
+    }
+}
