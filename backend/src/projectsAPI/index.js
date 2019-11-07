@@ -4,7 +4,7 @@
 // MODULES
 // Importing all the modules required.
 require("dotenv").config();
-const MongoClient = require("mongodb").MongoClient;
+const mongoose = require("mongoose");
 const parser = require("body-parser");
 const express = require("express");
 
@@ -19,8 +19,9 @@ const port = process.env.PORT || 3001;
 // variable declared.
 const URL = process.env.dbURL;
 
-// Creating the Mongo client.
-const mongo = new MongoClient(URL, {useNewUrlParser: true, useUnifiedTopology: true});
+// Connecting to the the Mongo client.
+mongoose.connect(URL, {useNewUrlParser: true, useUnifiedTopology: true});
+const db = mongoose.connection;
 
 
 // APP
@@ -46,9 +47,12 @@ app.listen(port, function() {
   console.log("projectsAPI listening on port: " + port);
 });
 
-// Connecting to the database.
-mongo.connect(function(err) {
-  if (err) throw err;
+// If we could not connect to the database...
+db.on("error", console.error.bind(console, "Connection error"));
+
+// If we successfully connected to the database...
+db.once("open", function() {
+  console.log("Successfully connected to the database");
 
   // POST on /projects (Create a project).
   app.route("/projects").post(async (req, res, next) => {
@@ -57,6 +61,4 @@ mongo.connect(function(err) {
 
     res.send({success: true});
   });
-
-  mongo.close();
 });

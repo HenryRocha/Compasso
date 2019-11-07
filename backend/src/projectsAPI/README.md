@@ -12,6 +12,18 @@ dbURL = "urlDoBancoDeDados"
 PORT = numeroDaPortaParaRodar
 ```
 
+## Database
+
+Durante o desenvolvimento do projeto vamos utilizar da uma base de dados local, visto que não é possível acessar a base de dados na nuvem no prédio 1. Para criar uma base de dados local basta criar uma pasta onde deseja guardar os dados e dodar o seguinte comando:
+```
+mongod --dbpath caminhoDaPasta
+```
+
+E para acessar o console dessa base de dados, abrir um novo console e rodar:
+```
+mongo
+```
+
 ## Run
 
 Para rodar essa API basta executar:
