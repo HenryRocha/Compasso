@@ -14,7 +14,7 @@ const persistConfig = {
 };
 export const history = createBrowserHistory();
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer(history));
 
 const store = createStore(
     persistedReducer,
