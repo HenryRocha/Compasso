@@ -7,6 +7,7 @@ require("dotenv").config();
 const parser = require("body-parser");
 const express = require("express");
 const db = require("./db");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 
 // CONSTANTS
@@ -38,11 +39,85 @@ app.listen(port, function() {
   console.log("projectsAPI listening on port: " + port);
 });
 
-app.route("/project").post(async (req, res, next) => {
-  console.log("Received POST request on /projects");
+app.route("/projects").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /projects.");
+  console.log(req.query);
+
+  // Getting the userId from the query.
+  const userId = new ObjectId(req.query.userId);
+
+  // Checking if we have a valid user.
+  const {ok, error, user} = await db.getUser(userId);
+
+  if (ok && user) {
+    // Getting the projects for that user...
+    const {ok, error, projects} = await db.getProjects(user._id, user.admin);
+
+    if (ok) {
+      // Send the projects back as a response.
+      res.send({
+        ok: true,
+        projects: projects,
+      });
+    } else {
+      // If an error occured...
+      console.log(error);
+
+      res.status(400).send({
+        ok: false,
+        message: "Could not get projects.",
+      });
+    }
+  } else {
+    // If an error occured...
+    console.log(error);
+
+    res.status(400).send({
+      ok: false,
+      message: "Could not get projects for that userId. Check if the userId is valid.",
+    });
+  }
+});
+
+app.route("/projects").post(async (req, res, next) => {
+  console.log("Received POST request on /projects.");
   console.log(req.body);
 
-  db.getProjects();
+  // Creating the project object.
+  const project = {
+    _userId: new ObjectId(req.body.userId),
+    _companyId: new ObjectId(req.body.companyId),
+    name: req.body.name,
+    description: req.body.description,
+  };
 
-  res.send({"status": "success"});
+  // Checking if we have a valid user.
+  const {ok, error, user} = await db.getUser(project._userId);
+  console.log(ok, error, user);
+
+  if (ok && user) {
+    // Inserting the project into the database.
+    const {ok, error} = await db.addProject(project);
+
+    if (ok) {
+      // Send back ok to show we created the project successfully.
+      res.send({ok: true});
+    } else {
+    // If an error occured...
+      console.log(error);
+
+      res.status(400).send({
+        ok: false,
+        error: "Could not create project.",
+      });
+    }
+  } else {
+    // If an error occured...
+    console.log(error);
+
+    res.status(400).send({
+      ok: false,
+      message: "Could not create project for that userId. Check if the userId is valid.",
+    });
+  }
 });
