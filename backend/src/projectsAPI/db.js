@@ -2,7 +2,6 @@
 // Importing all the modules required.
 require("dotenv").config();
 const mongoose = require("mongoose");
-const ObjectId = require("mongoose").Types.ObjectId;
 
 
 // CONSTANTS
