@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "license": "MIT",
+  "scripts": {
+    "pretest": "./node_modules/.bin/eslint --ignore-path ../.gitignore . --fix"
+  },
   "dependencies": {
     "git-branch-is": "^3.0.0",
     "husky": "^3.0.9"
@@ -13,7 +16,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "git-branch-is -C ../ -r \"^((?!master).)*$\" && eslint src/*.js && eslint src/**/*.js"
+      "pre-commit": "git-branch-is -C ../ -r \"^((?!master).)*$\" && npm run pretest"
     }
   }
 }
