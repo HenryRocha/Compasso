@@ -4,7 +4,7 @@
   "main": "src/index.js",
   "license": "MIT",
   "scripts": {
-    "pretest": "./node_modules/.bin/eslint --ignore-path ../.gitignore . --fix"
+    "pretest": "eslint --config .eslintrc.json --ext .js --ignore-path ../.gitignore ./src/ --fix"
   },
   "dependencies": {
     "git-branch-is": "^3.0.0",
