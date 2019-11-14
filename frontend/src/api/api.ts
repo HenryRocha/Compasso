@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import store from "../store";
 
-export const BASE_URL = "https://api.spotify.com/v1";
+export const BASE_URL = "https://localhost:3000";
 
 type HTTPMethods = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 

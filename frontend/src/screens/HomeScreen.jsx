@@ -3,8 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import "../css/app.css";
 import ProjectForm from "../components/ProjectForm";
-import store, { persistor } from "../store";
-import actions from "../actions";
+import { persistor } from "../store";
 
 const mapStateToProps = state => ({
   projects: state.data.projects

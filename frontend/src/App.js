@@ -8,6 +8,7 @@ import store from "./store";
 import "./css/app.css";
 import { history } from "./store";
 import HomeScreen from "./screens/HomeScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 export class App extends Component {
   persistor = persistStore(store);
@@ -18,7 +19,8 @@ export class App extends Component {
           <ConnectedRouter history={history}>
             <main>
               <Switch>
-                <Route exact path="/" component={HomeScreen} />
+                <Route exact path="/" component={LoginScreen} />
+                <Route exact path="/home" component={HomeScreen} />
               </Switch>
             </main>
           </ConnectedRouter>
