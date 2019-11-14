@@ -8,8 +8,6 @@ import store from "./store";
 import "./App.css";
 import { history } from "./store";
 
-import Login from "./components/login"
-
 export class App extends Component {
     persistor = persistStore(store);
     render() {
@@ -19,8 +17,7 @@ export class App extends Component {
                     <ConnectedRouter history={history}>
                         <main>
                             <Switch>
-                                {/* <Route exact path="/" component={Teste} /> */
-                                <Route exact path="/login" component={Login} />}
+                                {/* <Route exact path="/" component={Teste} /> */}
                             </Switch>
                         </main>
                     </ConnectedRouter>
