@@ -48,7 +48,7 @@ app.route("/projects").get(async (req, res, next) => {
     res.status(response.status).send(response.data);
   } catch (e) {
     res.status(400).send({
-      message: e,
+      message: e.message,
     });
   }
 });
