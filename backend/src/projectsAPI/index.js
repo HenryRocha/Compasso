@@ -24,13 +24,14 @@ app.use(function(req, res, next) {
   });
 
 
-app.get('/projects', function(req, res, next) {
+app.get('/projects', function(req, res, next) { //TODO: check get request
     var name = req.body.project;
     var contactPoint = req.body.contact;
     var interactions = req.body.quiz;
 
 
 });
+
 
 
 
