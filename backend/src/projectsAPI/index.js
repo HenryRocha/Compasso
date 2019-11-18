@@ -1,6 +1,7 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
+const db = require("./db");
 
 const app = express();
 
@@ -28,9 +29,25 @@ app.get('/projects', function(req, res, next) {
     var contactPoint = req.body.contact;
     var interactions = req.body.quiz;
 
-    
+
 });
 
+
+
+app.post('/projects', function (req, res, next) {
+    const projectInfo = {
+        interactions: req.body.interactions,
+        _companyId: new ObjectId(req.body.companyId),
+        projectsName: req.body.name,
+        contact: req.body.contact,
+    };
+
+    addProjects(projectInfo).then((resp) => res.send(resp)).catch((err) => console.log(err))
+
+    
+
+
+})
 
 
 app.listen(port, function() {
