@@ -8,7 +8,8 @@ const axios = require("axios");
 const app = express();
 const PORT = 8080;
 const ADDRESSES = {
-  ideas: "http://localhost:3001",
+  projects: "http://localhost:3001",
+  login: "http://localhost:5002",
 };
 
 // APP
@@ -52,3 +53,27 @@ app.route("/ideas").get(async (req, res, next) => {
     });
   }
 });
+
+app.route("/user").post(async (req, res, next) => {
+  console.log("Posting User");
+  try {
+    const response = await axios.post(ADDRESSES.login + "/auth/register", req.body);
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.message,
+    });
+  }
+})
+
+app.route("/login").post(async (req, res, next) => {
+  console.log("Posting User");
+  try {
+    const response = await axios.post(ADDRESSES.login + "/auth/authenticate", req.body);
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.message,
+    });
+  }
+})
