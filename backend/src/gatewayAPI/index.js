@@ -8,7 +8,7 @@ const axios = require("axios");
 const app = express();
 const PORT = 8080;
 const ADDRESSES = {
-  projects: "http://localhost:3001",
+  ideas: "http://localhost:3001",
 };
 
 // APP
@@ -29,10 +29,10 @@ app.use(function(req, res, next) {
 
 app.listen(PORT, () => console.log("Connected to port " + PORT + "!"));
 
-app.route("/projects").get(async (req, res, next) => {
-  console.log("Requesting projects");
+app.route("/ideas").get(async (req, res, next) => {
+  console.log("GET on /ideas");
   try {
-    const response = await axios.get(ADDRESSES.projects + "/projects", {
+    const response = await axios.get(ADDRESSES.ideas + "/ideas", {
       query: req.query,
     });
     res.status(response.status).send(response.data);
@@ -42,9 +42,9 @@ app.route("/projects").get(async (req, res, next) => {
     });
   }
 }).post(async (req, res, next) => {
-  console.log("Posting projects");
+  console.log("POST on /ideas");
   try {
-    const response = await axios.post(ADDRESSES.projects + "/projects", req.body);
+    const response = await axios.post(ADDRESSES.ideas + "/ideas", req.body);
     res.status(response.status).send(response.data);
   } catch (e) {
     res.status(400).send({
