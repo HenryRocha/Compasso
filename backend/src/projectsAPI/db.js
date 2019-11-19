@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
@@ -13,44 +12,57 @@ db.once("open", function () {
 });
 
 
-const schema = new mongoose.Schema({
+const projectSchema = new mongoose.Schema({
     interactions: [String],
     _companyId: mongoose.ObjectId,
     projectsName: String,
     contact: String,
 });
 
-const db = mongoose.model("projects", schema);
+const userSchema = new mongoose.Schema({
+    company: mongoose.ObjectId,
+    name: String,
+    email: String,
+    hash: String,
+    salt: String
+});
 
+const dbCompany = mongoose.model("projects", projectSchema);
+const dbUsers = mongoose.model("users", userSchema);
 
-
-async function addProject(projectInfo) {
-
-    return new Promise(function (resolve, reject) { //TODO: Verify if user exist
-
-
-        
-        db.findOne({ _companyId: projectInfo._companyId }).then((resp) => {
-            if (resp === undefined) {
-
-                db.create(projectInfo).then((resp) => {
-                    resolve({"status:": "success",
-                    "data": {"projectInfo": projectInfo, inserted:resp}})
-                    
-                })
-
-
-
-                
+async function getUser(userID) {
+    return new Promise(function (resolve, reject) {
+        dbUsers.findById(userID).then((resp) => {
+            if (resp != null) {
+                resolve({ "found": true, "message": "Usuário encontrado!" })
             } else {
-                resolve({"status": "error",
-                "data": "Já existe um projeto com este nome"});
+                resolve({ "found": false, "message": "Usuário não encontrado!" })
             }
         }).catch((err) => {
             console.log(err)
-
         })
+    })
+}
 
+async function addProject(projectInfo) {
+    return new Promise(function (resolve, reject) { //TODO: Verify if user exist
+        dbCompany.findOne({ _companyId: projectInfo._companyId }).then((resp) => {
+            if (resp === undefined) {
+                dbCompany.create(projectInfo).then((resp) => {
+                    resolve({
+                        "status:": "success",
+                        "data": { "projectInfo": projectInfo, inserted: resp }
+                    })
+                })
+            } else {
+                resolve({
+                    "status": "error",
+                    "data": "Já existe um projeto com este nome"
+                });
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
     })
 }
 
