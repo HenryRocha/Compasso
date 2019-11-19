@@ -65,3 +65,15 @@ app.route("/user").post(async (req, res, next) => {
     });
   }
 })
+
+app.route("/login").post(async (req, res, next) => {
+  console.log("Posting User");
+  try {
+    const response = await axios.post(ADDRESSES.login + "/auth/authenticate", req.body);
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.message,
+    });
+  }
+})
