@@ -23,12 +23,16 @@ router.post("/register", async (req, res) => {
     }
 
     const user = await User.create(req.body);
+    user.id = user._id;
+    delete user._id;
+    delete user.password;
 
-    user.password = undefined;
-
+    console.log(user);
     res.send({
-      user,
-      // token: generateToken({ id: user.id }),
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      createdAt: user.createdAt,
     });
   } catch (err) {
     return res.status(400).send({error: "Registration failed"});
