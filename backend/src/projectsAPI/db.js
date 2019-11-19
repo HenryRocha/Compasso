@@ -51,7 +51,7 @@ async function addProject(projectInfo) {
                 dbCompany.create(projectInfo).then((resp) => {
                     resolve({
                         "status:": "success",
-                        "data": { "projectInfo": projectInfo, inserted: resp }
+                        "data": {"projectInfo": projectInfo, inserted: resp }
                     })
                 })
             } else {
