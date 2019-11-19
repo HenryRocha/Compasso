@@ -27,9 +27,7 @@ const db = mongoose.model("projects", schema);
 async function addProject(projectInfo) {
 
     return new Promise(function (resolve, reject) { //TODO: Verify if user exist
-
-
-        
+    
         db.findOne({ _companyId: projectInfo._companyId }).then((resp) => {
             if (resp === undefined) {
 
@@ -37,7 +35,7 @@ async function addProject(projectInfo) {
                     resolve({"status:": "success",
                     "data": {"projectInfo": projectInfo, inserted:resp}})
                     
-                })
+                }).catch((err) => console.log(err))
 
 
 
