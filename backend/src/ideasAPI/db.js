@@ -10,8 +10,8 @@ const mongoose = require("mongoose");
 // variable declared.
 const URL = process.env.dbURL;
 
-// Project Document JSON structure.
-const projectsSchema = new mongoose.Schema({
+// Idea Document JSON structure.
+const ideasSchema = new mongoose.Schema({
   _userId: mongoose.ObjectId,
   _companyId: mongoose.ObjectId,
   name: String,
@@ -27,8 +27,8 @@ const usersSchema = new mongoose.Schema({
   salt: String,
 });
 
-// Connecting to the projects collection.
-const dbProjects = mongoose.model("projects", projectsSchema);
+// Connecting to the ideas collection.
+const dbIdeas = mongoose.model("ideas", ideasSchema);
 const dbUsers = mongoose.model("users", usersSchema);
 
 
@@ -69,38 +69,38 @@ async function getUser(userId) {
   }
 };
 
-async function getProjects(userId, admin) {
+async function getIdeas(userId, admin) {
   try {
-    // Declaring the projects variable...
-    let projects = {};
+    // Declaring the ideas variable...
+    let ideas = {};
 
-    // If the user is an admin, we get all the projects.
+    // If the user is an admin, we get all the ideas.
     if (admin == true) {
-      // Getting all the projects.
-      projects = await dbProjects.find({});
+      // Getting all the ideas.
+      ideas = await dbIdeas.find({});
     } else {
-      // Getting the projects from a specific user.
-      projects = await dbProjects.find({_userId: userId});
+      // Getting the ideas from a specific user.
+      ideas = await dbIdeas.find({_userId: userId});
     }
 
     return {
       ok: true,
       error: {},
-      projects: projects,
+      ideas: ideas,
     };
   } catch (err) {
     // If an error occurred, we return that error.
     return {
       ok: false,
       error: err,
-      projects: {},
+      ideas: {},
     };
   }
 };
 
-async function addProject(project) {
+async function addIdea(idea) {
   try {
-    await dbProjects.create(project);
+    await dbIdeas.create(idea);
 
     return {
       ok: true,
@@ -115,4 +115,4 @@ async function addProject(project) {
   }
 }
 
-module.exports = {getUser, getProjects, addProject};
+module.exports = {getUser, getIdeas, addIdea};

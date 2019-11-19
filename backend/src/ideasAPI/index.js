@@ -1,4 +1,4 @@
-// This API is responsible for handling all project-related requests.
+// This API is responsible for handling all idea-related requests.
 
 
 // MODULES
@@ -39,8 +39,8 @@ app.listen(port, function() {
   console.log("projectsAPI listening on port: " + port);
 });
 
-app.route("/projects").get(async (req, res, next) => {
-  console.log("\nReceived GET request on /projects.");
+app.route("/ideas").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /ideas.");
   console.log(req.query);
 
   // Getting the userId from the query.
@@ -50,14 +50,14 @@ app.route("/projects").get(async (req, res, next) => {
   const {ok, error, user} = await db.getUser(userId);
 
   if (ok && user) {
-    // Getting the projects for that user...
-    const {ok, error, projects} = await db.getProjects(user._id, user.admin);
+    // Getting the ideas for that user...
+    const {ok, error, ideas} = await db.getIdeas(user._id, user.admin);
 
     if (ok) {
-      // Send the projects back as a response.
+      // Send the ideas back as a response.
       res.send({
         ok: true,
-        projects: projects,
+        ideas: ideas,
       });
     } else {
       // If an error occured...
@@ -65,7 +65,7 @@ app.route("/projects").get(async (req, res, next) => {
 
       res.status(400).send({
         ok: false,
-        message: "Could not get projects.",
+        message: "Could not get ideas.",
       });
     }
   } else {
@@ -74,17 +74,17 @@ app.route("/projects").get(async (req, res, next) => {
 
     res.status(400).send({
       ok: false,
-      message: "Could not get projects for that userId. Check if the userId is valid.",
+      message: "Could not get ideas for that userId. Check if the userId is valid.",
     });
   }
 });
 
-app.route("/projects").post(async (req, res, next) => {
-  console.log("Received POST request on /projects.");
+app.route("/ideas").post(async (req, res, next) => {
+  console.log("Received POST request on /ideas.");
   console.log(req.body);
 
-  // Creating the project object.
-  const project = {
+  // Creating the idea object.
+  const idea = {
     _userId: new ObjectId(req.body.userId),
     _companyId: new ObjectId(req.body.companyId),
     name: req.body.name,
@@ -92,15 +92,15 @@ app.route("/projects").post(async (req, res, next) => {
   };
 
   // Checking if we have a valid user.
-  const {ok, error, user} = await db.getUser(project._userId);
+  const {ok, error, user} = await db.getUser(idea._userId);
   console.log(ok, error, user);
 
   if (ok && user) {
-    // Inserting the project into the database.
-    const {ok, error} = await db.addProject(project);
+    // Inserting the idea into the database.
+    const {ok, error} = await db.addIdea(idea);
 
     if (ok) {
-      // Send back ok to show we created the project successfully.
+      // Send back ok to show we created the idea successfully.
       res.send({ok: true});
     } else {
     // If an error occured...
@@ -108,7 +108,7 @@ app.route("/projects").post(async (req, res, next) => {
 
       res.status(400).send({
         ok: false,
-        error: "Could not create project.",
+        error: "Could not create idea.",
       });
     }
   } else {
@@ -117,7 +117,7 @@ app.route("/projects").post(async (req, res, next) => {
 
     res.status(400).send({
       ok: false,
-      message: "Could not create project for that userId. Check if the userId is valid.",
+      message: "Could not create idea for that userId. Check if the userId is valid.",
     });
   }
 });

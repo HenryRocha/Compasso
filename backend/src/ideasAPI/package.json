@@ -1,7 +1,7 @@
 {
-    "name": "projectsapi",
+    "name": "ideasapi",
     "version": "1.0.0",
-    "description": "API responsible for handling all project-related requests, such as submitting a project, getting projects, deleting projects, etc.",
+    "description": "API responsible for handling all idea-related requests, such as submitting an idea, getting ideas, deleting ideas, etc.",
     "main": "index.js",
     "license": "MIT",
     "scripts": {
