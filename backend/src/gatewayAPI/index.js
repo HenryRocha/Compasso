@@ -64,7 +64,7 @@ app.route("/user").post(async (req, res, next) => {
       message: e.message,
     });
   }
-})
+});
 
 app.route("/login").post(async (req, res, next) => {
   console.log("Posting User");
@@ -76,4 +76,4 @@ app.route("/login").post(async (req, res, next) => {
       message: e.message,
     });
   }
-})
+});
