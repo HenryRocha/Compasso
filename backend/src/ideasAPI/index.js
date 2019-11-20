@@ -77,9 +77,7 @@ app.route("/ideas").get(async (req, res, next) => {
       message: "Could not get ideas for that userId. Check if the userId is valid.",
     });
   }
-});
-
-app.route("/ideas").post(async (req, res, next) => {
+}).post(async (req, res, next) => {
   console.log("Received POST request on /ideas.");
   console.log(req.body);
 
