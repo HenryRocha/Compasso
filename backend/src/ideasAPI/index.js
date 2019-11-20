@@ -36,7 +36,7 @@ app.use(function(req, res, next) {
 
 // Making the API listen on the given port.
 app.listen(port, function() {
-  console.log("projectsAPI listening on port: " + port);
+  console.log("ideasAPI listening on port: " + port);
 });
 
 app.route("/ideas").get(async (req, res, next) => {
