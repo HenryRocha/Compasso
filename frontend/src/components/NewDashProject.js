@@ -7,7 +7,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import './CardDashProj.css';
+import './NewDashProject.css';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
 const useStyles = makeStyles({
   card: {
     height: 345,
@@ -18,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MediaCard() {
+export default function NewDashProject() {
   const classes = useStyles();
 
   return (
@@ -26,24 +28,16 @@ export default function MediaCard() {
     <div className="project_card">
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2" className="project_title">
-            Nome do Projeto
-          </Typography>
-          <Typography gutterBottom variant="h5" component="h2" className="project_title">
-            2020
-          </Typography>
-          <Typography gutterBottom variant="h5" component="h2" className="project_title">
-            Data
-          </Typography>
-          <Typography gutterBottom variant="h5" component="h2" className="project_title">
-            Sicredi
+          Adicionar Projeto
           </Typography>
         </CardContent>
     </div>
-      <CardActions className="seeMore">
-        <Button size="small" color="primary">
-          Ver detalhes
+      <CardActions className="addProject">
+        <Button size="large">
+        <AddCircleOutlineIcon />
         </Button>
       </CardActions>
+
     </Card>
   );
 }
