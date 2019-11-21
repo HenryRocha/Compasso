@@ -4,9 +4,11 @@
   "main": "src/index.js",
   "license": "MIT",
   "scripts": {
-    "pretest": "eslint --config .eslintrc.json --ext .js --ignore-path ../.gitignore ./src/ --fix"
+    "pretest": "eslint --config .eslintrc.json --ext .js --ignore-path ../.gitignore ./src/ --fix",
+    "start": "concurrently --kill-others \"cd src/gatewayAPI/; yarn start\" \"cd src/ideasAPI/; yarn start\" \"cd src/loginAPI/; yarn start\""
   },
   "dependencies": {
+    "concurrently": "^5.0.0",
     "git-branch-is": "^3.0.0",
     "husky": "^3.0.9"
   },

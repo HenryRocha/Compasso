@@ -8,7 +8,7 @@ const axios = require("axios");
 const app = express();
 const PORT = 8080;
 const ADDRESSES = {
-  projects: "http://localhost:3001",
+  ideas: "http://localhost:3001",
   login: "http://localhost:5002",
 };
 
