@@ -39,7 +39,7 @@ app.route("/ideas").get(async (req, res, next) => {
     res.status(response.status).send(response.data);
   } catch (e) {
     res.status(400).send({
-      message: e.message,
+      message: e.response.data.message,
     });
   }
 }).post(async (req, res, next) => {
@@ -49,7 +49,7 @@ app.route("/ideas").get(async (req, res, next) => {
     res.status(response.status).send(response.data);
   } catch (e) {
     res.status(400).send({
-      message: e.message,
+      message: e.response.data.message,
     });
   }
 });
@@ -61,7 +61,7 @@ app.route("/user").post(async (req, res, next) => {
     res.status(response.status).send(response.data);
   } catch (e) {
     res.status(400).send({
-      message: e.message,
+      message: e.response.data.message,
     });
   }
 });
@@ -73,7 +73,7 @@ app.route("/login").post(async (req, res, next) => {
     res.status(response.status).send(response.data);
   } catch (e) {
     res.status(400).send({
-      message: e.message,
+      message: e.response.data.message,
     });
   }
 });
