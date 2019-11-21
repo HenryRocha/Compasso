@@ -2,8 +2,10 @@ import { initialState } from "../store";
 
 export function user(state = initialState.user, action) {
   switch (action.type) {
-    case "LOGIN_SUCCESSFUL":
-      return { ...state, user: action.payload };
+    case "api/GET_USER_SUCCESSFUL":
+      return { ...action.payload };
+    case "api/POST_LOGIN_SUCCESSFUL":
+      return { ...action.payload };
     default:
       return state;
   }
