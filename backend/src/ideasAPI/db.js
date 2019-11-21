@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 // Declaring the database URL. You need to have a .env file with this variable declared,
 // otherwise the const URL will be set no undefined, since we don't have the environment
 // variable declared.
-const URL = process.env.dbURL;
+const URL = (process.env.dbURL) ? process.env.dbURL : "mongodb://localhost/noderest";
 
 // Idea Document JSON structure.
 const ideasSchema = new mongoose.Schema({
