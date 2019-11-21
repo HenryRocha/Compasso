@@ -1,22 +1,61 @@
-.App {
-  text-align: center;
+body {
+  margin: 0%;
+  padding: 0%;
+  font-family: "Avenir", sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
+h1 {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 1.3rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+h2 {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+}
+
+h3 {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+button {
+  border: none;
+  background-color: #212121;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.hoverUnderline:hover {
+  text-decoration: underline;
+}
+
+.hoverPointer:hover {
+  cursor: pointer;
+}
+
+.container {
+  width: 85%;
+}
+
+.hoverGreen {
+  height: 100%;
+  width: 10%;
   color: white;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
 }
 
-.App-link {
-  color: #09d3ac;
+::-webkit-scrollbar {
+  display: none;
 }

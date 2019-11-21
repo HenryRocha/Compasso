@@ -10,9 +10,9 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import './components/CardDashProj.css';
+import '../components/CardDashProj.css';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-
+import Header from '../components/Header';
 class DashDaBia extends React.Component {
     constructor(props) {
         super(props);
@@ -61,6 +61,7 @@ class DashDaBia extends React.Component {
         return (
             //   Header< nao esquecer
             <div>
+            <Header />
                 <Grid direction="column">
                     <Grid item xs container direction="row" spacing={2} style={titleStyle} >
                         <Typography gutterBottom variant="subtitle1">
@@ -73,8 +74,8 @@ class DashDaBia extends React.Component {
                         </ThemeProvider>
                     </Grid>
                     <CarouselProvider
-                        naturalSlideWidth={80}
-                        naturalSlideHeight={80}
+                        naturalSlideWidth={30}
+                        naturalSlideHeight={15}
                         totalSlides={3}
                         touchEnabled="true"
                         visibleSlides={2}>
@@ -173,8 +174,8 @@ class DashDaBia extends React.Component {
                         </ThemeProvider>
                     </Grid>
                     <CarouselProvider
-                        naturalSlideWidth={80}
-                        naturalSlideHeight={80}
+                        naturalSlideWidth={30}
+                        naturalSlideHeight={15}
                         totalSlides={3}
                         touchEnabled="true"
                         visibleSlides={2}>
