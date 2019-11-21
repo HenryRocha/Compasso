@@ -1,6 +1,9 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost/noderest"), {useMongoClient: true};
+const URL = (process.env.dbURL) ? process.env.dbURL : "mongodb://localhost/noderest";
+
+mongoose.connect(URL), {useNewUrlParser: true, useUnifiedTopology: true};
 mongoose.Promise = global.Promise;
 
 module.exports = mongoose;
