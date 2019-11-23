@@ -50,3 +50,5 @@ E para acessar o console dessa base de dados, abrir um novo console e rodar:
 ```
 mongo
 ```
+
+O detalhamento da base de dados por ser encontrado em ```/backend/DATABASE.md``` ou clicando [aqui](DATABASE.md).
