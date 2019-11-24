@@ -19,12 +19,10 @@ class DashDaBia extends React.Component {
         this.projects = {
             hits: []
         };
-
     }
-
-        handleClick = event => {
-            history.push('/home');
-        }
+    teste() {
+        this.props.history.push('create_project');
+    }
     render() {
 
 
@@ -63,7 +61,6 @@ class DashDaBia extends React.Component {
             margin: 5
         };
 
-
         return (
             //   Header< nao esquecer
             <div>
@@ -74,7 +71,7 @@ class DashDaBia extends React.Component {
             PROJETO EM ANDAMENTO
             </Typography>
             <ThemeProvider theme={theme}>
-            <Fab style={buttonStyle} color="secondary" size="small" aria-label="add" onclick={handleClick}>
+            <Fab style={buttonStyle} color="secondary" size="small" aria-label="add" onclick={e => this.teste()}>
             <AddIcon />
             </Fab>
             </ThemeProvider>
