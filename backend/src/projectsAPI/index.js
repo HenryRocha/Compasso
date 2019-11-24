@@ -12,7 +12,7 @@ var port = process.env.PORT || 3001;
 
 app.use(function(req, res, next) {
     // Website you wish to allow to connect.
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
   
     // Request methods you wish to allow.
     res.setHeader("Access-Control-Allow-Methods", "POST");
@@ -37,7 +37,6 @@ app.get('/projects', function(req, res, next) { //TODO: check get request
 
 app.post('/projects', function (req, res, next) {
     const projectInfo = {
-        interactions: req.body.interactions,
         _companyId: new ObjectId(req.body.companyId),
         projectsName: req.body.name,
         contact: req.body.contact,

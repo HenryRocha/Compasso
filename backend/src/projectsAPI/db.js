@@ -13,7 +13,6 @@ db.once("open", function () {
 
 
 const projectSchema = new mongoose.Schema({
-    interactions: [String],
     _companyId: mongoose.ObjectId,
     projectsName: String,
     contact: String,
@@ -45,7 +44,7 @@ async function getUser(userID) {
 }
 
 async function addProject(projectInfo) {
-    return new Promise(function (resolve, reject) { //TODO: Verify if user exist
+    return new Promise(function (resolve, reject) { 
         dbCompany.findOne({ _companyId: projectInfo._companyId }).then((resp) => {
             if (resp === undefined) {
                 dbCompany.create(projectInfo).then((resp) => {
