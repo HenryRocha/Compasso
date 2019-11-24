@@ -1,4 +1,8 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
+
+const URL = process.env.dbURL
+
 
 mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
@@ -52,6 +56,8 @@ async function addProject(projectInfo) {
                         "status:": "success",
                         "data": {"projectInfo": projectInfo, inserted: resp }
                     })
+                }).catch((err) => {
+                    console.log(err)
                 })
             } else {
                 resolve({
