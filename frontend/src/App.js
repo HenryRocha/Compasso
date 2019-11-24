@@ -20,7 +20,8 @@ export class App extends Component {
                     <ConnectedRouter history={history}>
                         <main>
                             <Switch>
-                                { <Route exact path="/" component={CriacaoDeProjeto} /> }
+                                { <Route exact path="/" component={DashDaBia} /> }
+                                { <Route exact path="/create_project" component={CriacaoDeProjeto} /> }
                             </Switch>
                         </main>
                     </ConnectedRouter>
