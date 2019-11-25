@@ -1,33 +1,35 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const mongoose = require('mongoose');
-const cors = require('cors');
+require("dotenv").config();
+const createError = require("http-errors");
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const mongoose = require("mongoose");
+const cors = require("cors");
 
-var indexRouter = require('./routes/index');
+const indexRouter = require("./routes/index");
 
-var app = express();
+const app = express();
 
-//connect to MongoDB
-mongoose.connect('mongodb://localhost/quizAPI', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+const dbURL = (process.env.dbURL) ? process.env.dbURL : "mongodb://localhost/noderest";
+
+// connect to MongoDB
+mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
 const db = mongoose.connection;
 
-//handle mongo error
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
+// handle mongo error
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function() {
   // we're connected!
-  console.log("Conncted to DB")
+  console.log("Conncted to DB");
 });
 
 app.use(cors());
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use('/', indexRouter);
+app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

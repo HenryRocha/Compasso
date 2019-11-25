@@ -1,11 +1,11 @@
-var mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-var TemplateSchema = new mongoose.Schema({
+const TemplateSchema = new mongoose.Schema({
   title: {
     type: String,
     unique: true,
     required: true,
-    trim: true
+    trim: true,
   },
   description: {
     type: String,
@@ -14,10 +14,10 @@ var TemplateSchema = new mongoose.Schema({
     type: Array,
   },
   companies: {
-      type: [String]
-  }
+    type: [String],
+  },
 });
 
 
-var Template = mongoose.model('Template', TemplateSchema);
+const Template = mongoose.model("Template", TemplateSchema);
 module.exports = Template;
