@@ -96,3 +96,22 @@ app.route("/quizzes/idea").get(async (req, res, next) => {
     });
   }
 });
+
+app.route("/quiz/D0").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /quiz/D0");
+
+  const {ok, error, quiz} = await db.getQuizD0(req.query.userId, req.query.projectId);
+
+  if (ok === true) {
+    res.send({
+      ok: true,
+      quiz,
+    });
+  } else {
+    console.log(error);
+    res.send({
+      ok: false,
+      message: "Could not get quiz D0 for that project",
+    });
+  }
+});

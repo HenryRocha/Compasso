@@ -183,6 +183,36 @@ async function getQuizzesIdea(userId, ideaId) {
   }
 }
 
+async function getQuizD0(userId, projectId) {
+  try {
+    const user = await dbUsers.findById(userId);
+    const project = await dbProjects.findById(projectId);
+    console.log(user, project);
+
+    if (user && project) {
+      if (user.admin || (user.manager && user._projectId.equals(idea._projectId)) || (user._id.equal(project._id))) {
+        return {
+          ok: true,
+          error: {},
+          quiz: project.quizzes.D0,
+        };
+      }
+    }
+
+    return {
+      ok: false,
+      error: "No user or project with that id found",
+      quizzes: {},
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      error: err,
+      quizzes: {},
+    };
+  }
+}
+
 module.exports = {
-  postQuiz, getQuiz, getQuizzesProject, getQuizzesIdea,
+  postQuiz, getQuiz, getQuizzesProject, getQuizzesIdea, getQuizD0,
 };
