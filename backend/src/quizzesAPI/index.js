@@ -22,26 +22,6 @@ app.listen(CONSTANTS.PORT, () => {
 
 
 // ROUTES
-app.route("/quiz").post(async (req, res, next) => {
-  console.log("\nReceived POST request on /quiz");
-
-  const {ok, error, _quizId} = await db.postQuiz(req.body);
-
-  if (ok === true) {
-    res.send({
-      ok: true,
-      message: "Quiz created successfully",
-      _quizId,
-    });
-  } else {
-    console.log(error);
-    res.send({
-      ok: false,
-      message: "Could not create quiz",
-    });
-  }
-});
-
 app.route("/quiz").get(async (req, res, next) => {
   console.log("\nReceived GET request on /quiz");
 
@@ -57,6 +37,24 @@ app.route("/quiz").get(async (req, res, next) => {
     res.send({
       ok: false,
       message: "Could not get quiz",
+    });
+  }
+}).post(async (req, res, next) => {
+  console.log("\nReceived POST request on /quiz");
+
+  const {ok, error, _quizId} = await db.postQuiz(req.body);
+
+  if (ok === true) {
+    res.send({
+      ok: true,
+      message: "Quiz created successfully",
+      _quizId,
+    });
+  } else {
+    console.log(error);
+    res.send({
+      ok: false,
+      message: "Could not create quiz",
     });
   }
 });

@@ -1,21 +1,18 @@
 {
-  "name": "ideasapi",
-  "description": "API responsible for handling all idea related requests.",
+  "name": "projectsapi",
   "version": "1.0.0",
-  "author": "Henry Rocha",
+  "description": "API with the purpose of creating a project",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "npm install && nodemon index.js",
     "start": "node index.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.7.12"
-  },
-  "devDependencies": {
+    "mongoose": "^5.7.12",
     "nodemon": "^2.0.1"
   }
 }
