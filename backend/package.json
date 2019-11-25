@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "pretest": "eslint --config .eslintrc.json --ext .js --ignore-path ../.gitignore ./src/ --fix",
-    "start": "concurrently --kill-others \"cd src/gatewayAPI/; yarn start\" \"cd src/ideasAPI/; yarn start\" \"cd src/loginAPI/; yarn start\""
+    "start": "yarn && concurrently --kill-others \"cd src/gatewayAPI/; yarn; yarn start\" \"cd src/ideasAPI/; yarn; yarn start\" \"cd src/loginAPI/; yarn; yarn start\" \"cd src/quizzesAPI/; yarn; yarn start\""
   },
   "dependencies": {
     "concurrently": "^5.0.0",

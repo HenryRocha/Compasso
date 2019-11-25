@@ -5,7 +5,6 @@ import "../css/app.css";
 import actions from "../actions";
 import { Colors } from "../constants/Colors";
 
-
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch =>
@@ -18,7 +17,6 @@ class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
       name: "",
       email: "",
       password: "",
@@ -32,12 +30,10 @@ class LoginScreen extends React.Component {
     const { name, email, password, token, isRegistering } = this.state;
     if (isRegistering) {
       this.props.register(name, email, password); //, token);
-
     } else {
       this.props.login(email, password);
     }
   }
-
 
   isRegisterValid() {
     const {
@@ -79,7 +75,6 @@ class LoginScreen extends React.Component {
       isRegistering,
       name
     } = this.state;
-
     return (
       <div
         style={{
@@ -146,7 +141,6 @@ class LoginScreen extends React.Component {
                     borderBottom: "0.09rem solid black",
                     fontSize: "1rem"
                   }}
-
                   onChange={e =>
                     this.setState({ confirmPassword: e.target.value })
                   }
@@ -162,7 +156,6 @@ class LoginScreen extends React.Component {
                     borderBottom: "0.09rem solid black",
                     fontSize: "1rem"
                   }}
-
                   onChange={e => this.setState({ token: e.target.value })}
                   value={token}
                 />
@@ -209,7 +202,6 @@ class LoginScreen extends React.Component {
             <h1 style={{ alignSelf: "center", color: Colors.white }}>
               Cadastrar
             </h1>
-
           </div>
         </div>
       </div>
@@ -217,6 +209,4 @@ class LoginScreen extends React.Component {
   }
 }
 
-
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
-

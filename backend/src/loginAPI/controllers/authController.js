@@ -11,7 +11,7 @@ router.post("/register", async (req, res) => {
 
   try {
     if (await User.findOne({email})) {
-      return res.status(400).send({error: "User alredy exists"});
+      return res.status(400).send({message: "User alredy exists"});
     }
 
     const user = await User.create(req.body);
@@ -24,7 +24,7 @@ router.post("/register", async (req, res) => {
       createdAt: user.createdAt,
     });
   } catch (err) {
-    return res.status(400).send({error: "Registration failed"});
+    return res.status(400).send({message: "Registration failed"});
   }
 });
 
@@ -34,11 +34,11 @@ router.post("/authenticate", async (req, res) => {
   const user = await User.findOne({email}).select("+password");
 
   if (!user) {
-    return res.status(400).send({error: "User not found"});
+    return res.status(400).send({message: "User not found"});
   }
 
   if (!await bcrypt.compare(password, user.password)) {
-    return res.status(400).send({error: "Invalid password"});
+    return res.status(400).send({message: "Invalid password"});
   }
 
   user.password = undefined;
