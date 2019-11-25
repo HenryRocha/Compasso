@@ -104,20 +104,6 @@ app.route("/quiz").get(async (req, res, next) => {
   }
 });
 
-app.route("/quizzes/project").get(async (req, res, next) => {
-  try {
-    const response = await axios.get(ADDRESSES.quizzes + "/quizzes/project", {
-      query: req.query,
-    });
-
-    res.status(response.status).send(response.data);
-  } catch (e) {
-    res.status(400).send({
-      message: e.response.data.message,
-    });
-  }
-});
-
 app.route("/quizzes/idea").get(async (req, res, next) => {
   try {
     const response = await axios.get(ADDRESSES.quizzes + "/quizzes/idea", {
