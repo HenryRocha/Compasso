@@ -13,7 +13,7 @@ const ObjectId = require("mongoose").Types.ObjectId;
 // CONSTANTS
 // Declaring the app constant and the port this API will run on.
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 
 // APP
@@ -45,8 +45,9 @@ app.get("/projects", function(req, res, next) { // TODO: check get request
 app.post("/projects", function(req, res, next) {
   const projectInfo = {
     _companyId: new ObjectId(req.body.companyId),
-    projectsName: req.body.name,
+    name: req.body.name,
     contact: req.body.contact,
+    token: Math.round(Math.random() * (9999-1000) + 1000),
   };
 
   db.addProject(projectInfo).then((resp) => res.send(resp)).catch((err) => console.log(err));
