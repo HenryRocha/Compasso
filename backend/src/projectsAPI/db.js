@@ -71,3 +71,5 @@ async function addProject(projectInfo) {
     })
 }
 
+
+module.exports = {addProject, getUser};

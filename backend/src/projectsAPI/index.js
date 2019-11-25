@@ -42,7 +42,7 @@ app.post('/projects', function (req, res, next) {
         contact: req.body.contact,
     };
 
-    addProjects(projectInfo).then((resp) => res.send(resp)).catch((err) => console.log(err))
+    addProject(projectInfo).then((resp) => res.send(resp)).catch((err) => console.log(err))
 
     
 
