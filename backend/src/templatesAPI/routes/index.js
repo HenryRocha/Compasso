@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const template = require('../models/template');
+const Template = require('../models/template');
 
 
 router.post('/template', function (req, res, next) {
@@ -28,8 +28,8 @@ router.get('/template/:id', function(req, res, next) {
 
 router.put('/template/:id', function(req, res, next) {
   const {id} = req.params
-  const { name, description, questions } = req.body
-  const template = { name, description, questions }
+  var { title, description, questions, companies } = req.body;
+  const template = { title, description, questions, companies }
   Template.findByIdAndUpdate(id, { $set: template }).exec(function (error) {
     if (error) {
       res.status(400).json({text: error.message});
@@ -51,22 +51,22 @@ router.delete('/template/:id', function(req, res, next) {
 });
 
 router.get('/templates', function(req, res, next) {
-  Template.find().exec(function (error, templatees) {
+  Template.find().exec(function (error, templates) {
     if (error) {
       res.status(400).json({text: error.message});
     }else{
-      res.status(200).json({templatees});
+      res.status(200).json({templates});
     }
   });
 });
 
 router.get('/templates/:company', function(req, res, next) {
   const { company } = req.params
-  Template.find({ companies: { "$regex": company, "$options": "i" } }).exec(function (error, templatees) {
+  Template.find({ companies: { "$regex": company, "$options": "i" } }).exec(function (error, templates) {
     if (error) {
       res.status(400).json({text: error.message});
     }else{
-      res.status(200).json({templatees});
+      res.status(200).json({templates});
     }
   });
 });
