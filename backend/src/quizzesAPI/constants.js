@@ -4,6 +4,6 @@ require("dotenv").config();
 
 // EXPORTS
 module.exports = {
-  PORT: process.env.PORT,
-  DBURL: process.env.DBURL,
+  PORT: process.env.PORT || 8081,
+  DBURL: process.env.DBURL || "mongodb://localhost/Compasso",
 };
