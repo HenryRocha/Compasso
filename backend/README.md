@@ -60,11 +60,8 @@ E para acessar o console dessa base de dados, abrir um novo console e rodar:
 mongo
 ```
 
-<<<<<<< HEAD
-=======
 O detalhamento da base de dados por ser encontrado em ```/backend/DATABASE.md``` ou clicando [aqui](DATABASE.md).
 
->>>>>>> a7c67b0f9385a0e3407b9e849dfb8928779a0574
 ## STARTING BACKEND
 
 Na pasta inicial (`/backend`), rode o seguinte comando:
