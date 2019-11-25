@@ -79,9 +79,11 @@ app.route("/login").post(async (req, res, next) => {
   }
 });
 
-app.route("/quiz").post(async (req, res, next) => {
+app.route("/quiz").get(async (req, res, next) => {
   try {
-    const response = await axios.get(ADDRESSES.quizzes + "/quiz", req.body);
+    const response = await axios.get(ADDRESSES.quizzes + "/quiz", {
+      query: req.query,
+    });
 
     res.status(response.status).send(response.data);
   } catch (e) {
@@ -89,13 +91,9 @@ app.route("/quiz").post(async (req, res, next) => {
       message: e.response.data.message,
     });
   }
-});
-
-app.route("/quiz").get(async (req, res, next) => {
+}).post(async (req, res, next) => {
   try {
-    const response = await axios.get(ADDRESSES.quizzes + "/quiz", {
-      query: req.query,
-    });
+    const response = await axios.get(ADDRESSES.quizzes + "/quiz", req.body);
 
     res.status(response.status).send(response.data);
   } catch (e) {
