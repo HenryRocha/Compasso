@@ -8,18 +8,28 @@ const mongoose = require("mongoose");
 // Declaring the database URL. You need to have a .env file with this variable declared,
 // otherwise the const URL will be set no undefined, since we don't have the environment
 // variable declared.
-const URL = process.env.dbURL;
+const URL = (process.env.dbURL) ? process.env.dbURL : "mongodb://localhost/noderest";
 
-// Project Document JSON structure.
-const projectsSchema = new mongoose.Schema({
-  _userId: mongoose.ObjectId,
-  _companyId: mongoose.ObjectId,
-  name: String,
-  description: String,
+mongoose.connect(URL, {useNewUrlParser: true, useUnifiedTopology: true});
+const db = mongoose.connection;
+
+db.on("error", function() {
+  console.log("Could not connect to the database");
 });
 
-// User Document JSON structure.
-const usersSchema = new mongoose.Schema({
+db.once("open", function() {
+  console.log("Successfully connected to the database");
+});
+
+
+const projectSchema = new mongoose.Schema({
+  _companyId: mongoose.ObjectId,
+  name: String,
+  contact: String,
+  token: Number,
+});
+
+const userSchema = new mongoose.Schema({
   company: mongoose.ObjectId,
   name: String,
   email: String,
@@ -27,92 +37,48 @@ const usersSchema = new mongoose.Schema({
   salt: String,
 });
 
-// Connecting to the projects collection.
-const dbProjects = mongoose.model("projects", projectsSchema);
-const dbUsers = mongoose.model("users", usersSchema);
+const dbCompany = mongoose.model("projects", projectSchema);
+const dbUsers = mongoose.model("users", userSchema);
 
-
-// DATABASE
-// Connecting to the the Mongo client.
-mongoose.connect(URL, {useNewUrlParser: true, useUnifiedTopology: true});
-const db = mongoose.connection;
-
-// If we could not connect to the database...
-db.on("error", function() {
-  console.log("Could not connect to the database");
-});
-
-// If we successfully connectprojected to the database...
-db.once("open", function() {
-  console.log("Successfully connected to the database");
-});
-
-
-// FUNCTIONS
-async function getUser(userId) {
-  try {
-    // Looking for an user with that ID.
-    const user = await dbUsers.findById(userId);
-
-    return {
-      ok: true,
-      error: {},
-      user: user,
-    };
-  } catch (err) {
-    // If an error occurred, we return that error.
-    return {
-      ok: false,
-      error: err,
-      user: {},
-    };
-  }
-};
-
-async function getProjects(userId, admin) {
-  try {
-    // Declaring the projects variable...
-    let projects = {};
-
-    // If the user is an admin, we get all the projects.
-    if (admin == true) {
-      // Getting all the projects.
-      projects = await dbProjects.find({});
-    } else {
-      // Getting the projects from a specific user.
-      projects = await dbProjects.find({_userId: userId});
-    }
-
-    return {
-      ok: true,
-      error: {},
-      projects: projects,
-    };
-  } catch (err) {
-    // If an error occurred, we return that error.
-    return {
-      ok: false,
-      error: err,
-      projects: {},
-    };
-  }
-};
-
-async function addProject(project) {
-  try {
-    await dbProjects.create(project);
-
-    return {
-      ok: true,
-      error: {},
-    };
-  } catch (err) {
-    // If an error occurred, we return that error.
-    return {
-      ok: false,
-      error: err,
-    };
-  }
+async function getUser(userID) {
+  return new Promise(function(resolve, reject) {
+    dbUsers.findById(userID).then((resp) => {
+      if (resp != null) {
+        resolve({"found": true, "message": "Usuário encontrado!"});
+      } else {
+        resolve({"found": false, "message": "Usuário não encontrado!"});
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+  });
 }
 
-module.exports = {getUser, getProjects, addProject};
+async function addProject(projectInfo) {
+  return new Promise(function(resolve, reject) {
+    dbCompany.findOne({_companyId: projectInfo._companyId}).then((resp) => {
+      if (resp === undefined || resp === null) {
+        dbCompany.create(projectInfo).then((resp) => {
+          resolve({
+            id: resp._id,
+            companyId: resp._companyId,
+            name: resp.name,
+            contact: resp.contact,
+            token: resp.token,
+          });
+        }).catch((err) => {
+          console.log(err);
+        });
+      } else {
+        resolve({
+          "status": "error",
+          "message": "Já existe um projeto com essa empresa",
+        });
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+  });
+}
+
+module.exports = {getUser, addProject};

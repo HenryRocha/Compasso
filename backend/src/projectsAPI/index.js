@@ -1,4 +1,4 @@
-// This API is responsible for handling all project-related requests.
+// This API is responsible for handling all projects-related requests.
 
 
 // MODULES
@@ -13,7 +13,7 @@ const ObjectId = require("mongoose").Types.ObjectId;
 // CONSTANTS
 // Declaring the app constant and the port this API will run on.
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 
 // APP
@@ -34,90 +34,26 @@ app.use(function(req, res, next) {
   next();
 });
 
-// Making the API listen on the given port.
-app.listen(port, function() {
-  console.log("projectsAPI listening on port: " + port);
+
+app.get("/projects", function(req, res, next) { // TODO: check get request
+  const name = req.body.project;
+  const contactPoint = req.body.contact;
+  const interactions = req.body.quiz;
 });
 
-app.route("/projects").get(async (req, res, next) => {
-  console.log("\nReceived GET request on /projects.");
-  console.log(req.query);
 
-  // Getting the userId from the query.
-  const userId = new ObjectId(req.query.userId);
-
-  // Checking if we have a valid user.
-  const {ok, error, user} = await db.getUser(userId);
-
-  if (ok && user) {
-    // Getting the projects for that user...
-    const {ok, error, projects} = await db.getProjects(user._id, user.admin);
-
-    if (ok) {
-      // Send the projects back as a response.
-      res.send({
-        ok: true,
-        projects: projects,
-      });
-    } else {
-      // If an error occured...
-      console.log(error);
-
-      res.status(400).send({
-        ok: false,
-        message: "Could not get projects.",
-      });
-    }
-  } else {
-    // If an error occured...
-    console.log(error);
-
-    res.status(400).send({
-      ok: false,
-      message: "Could not get projects for that userId. Check if the userId is valid.",
-    });
-  }
-});
-
-app.route("/projects").post(async (req, res, next) => {
-  console.log("Received POST request on /projects.");
-  console.log(req.body);
-
-  // Creating the project object.
-  const project = {
-    _userId: new ObjectId(req.body.userId),
+app.post("/projects", function(req, res, next) {
+  const projectInfo = {
     _companyId: new ObjectId(req.body.companyId),
     name: req.body.name,
-    description: req.body.description,
+    contact: req.body.contact,
+    token: Math.round(Math.random() * (9999-1000) + 1000),
   };
 
-  // Checking if we have a valid user.
-  const {ok, error, user} = await db.getUser(project._userId);
-  console.log(ok, error, user);
+  db.addProject(projectInfo).then((resp) => res.send(resp)).catch((err) => console.log(err));
+});
 
-  if (ok && user) {
-    // Inserting the project into the database.
-    const {ok, error} = await db.addProject(project);
 
-    if (ok) {
-      // Send back ok to show we created the project successfully.
-      res.send({ok: true});
-    } else {
-    // If an error occured...
-      console.log(error);
-
-      res.status(400).send({
-        ok: false,
-        error: "Could not create project.",
-      });
-    }
-  } else {
-    // If an error occured...
-    console.log(error);
-
-    res.status(400).send({
-      ok: false,
-      message: "Could not create project for that userId. Check if the userId is valid.",
-    });
-  }
+app.listen(port, function() {
+  console.log("App running");
 });

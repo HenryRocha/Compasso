@@ -1,16 +1,18 @@
 {
-    "name": "projectsapi",
-    "version": "1.0.0",
-    "description": "API responsible for handling all project-related requests, such as submitting a project, getting projects, deleting projects, etc.",
-    "main": "index.js",
-    "license": "MIT",
-    "scripts": {
-        "start": "nodemon index.js"
-    },
-    "dependencies": {
-        "dotenv": "^8.2.0",
-        "express": "^4.17.1",
-        "mongoose": "^5.7.8",
-        "nodemon": "^1.19.4"
-    }
+  "name": "projectsapi",
+  "version": "1.0.0",
+  "description": "API with the purpose of creating a project",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npm install && nodemon index.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.12",
+    "nodemon": "^2.0.1"
+  }
 }
