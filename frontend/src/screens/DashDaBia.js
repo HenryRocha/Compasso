@@ -21,7 +21,7 @@ class DashDaBia extends React.Component {
         };
     }
     teste() {
-        this.props.history.push('create_project');
+        this.props.history.push("create_project");
     }
     render() {
 
@@ -71,8 +71,8 @@ class DashDaBia extends React.Component {
             PROJETO EM ANDAMENTO
             </Typography>
             <ThemeProvider theme={theme}>
-            <Fab style={buttonStyle} color="secondary" size="small" aria-label="add" onclick={e => this.teste()}>
-            <AddIcon />
+            <Fab style={buttonStyle} color="secondary" size="small" aria-label="add" onClick={()=> this.teste()}>
+            <AddIcon/>
             </Fab>
             </ThemeProvider>
             </Grid>
