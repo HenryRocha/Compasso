@@ -1,4 +1,5 @@
 import api from "../api/api";
+
 import { persistor, history } from "../store";
 
 export const login = (email, password) => async _dispatch => {
