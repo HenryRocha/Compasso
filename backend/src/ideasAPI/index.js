@@ -22,25 +22,6 @@ app.listen(CONSTANTS.PORT, () => {
 
 
 // ROUTES
-app.route("/idea").post(async (req, res, next) => {
-  console.log("\nReceived POST request on /idea");
-
-  const {ok, error} = await db.postIdea(req.body);
-
-  if (ok === true) {
-    res.send({
-      ok: true,
-      message: "Idea created successfully",
-    });
-  } else {
-    console.log(error);
-    res.send({
-      ok: false,
-      message: "Could not create idea",
-    });
-  }
-});
-
 app.route("/idea").get(async (req, res, next) => {
   console.log("\nReceived GET request on /idea");
 
@@ -56,6 +37,23 @@ app.route("/idea").get(async (req, res, next) => {
     res.send({
       ok: false,
       message: "Could not get idea",
+    });
+  }
+}).post(async (req, res, next) => {
+  console.log("\nReceived POST request on /idea");
+
+  const {ok, error} = await db.postIdea(req.body);
+
+  if (ok === true) {
+    res.send({
+      ok: true,
+      message: "Idea created successfully",
+    });
+  } else {
+    console.log(error);
+    res.send({
+      ok: false,
+      message: "Could not create idea",
     });
   }
 });
