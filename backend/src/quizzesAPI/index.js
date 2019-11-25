@@ -39,28 +39,29 @@ app.route("/quiz").get(async (req, res, next) => {
       message: "Could not get quiz",
     });
   }
-}).post(async (req, res, next) => {
-  console.log("\nReceived POST request on /quiz");
+});
 
-  const {ok, error, _quizId} = await db.postQuiz(req.body);
+app.route("/idea/quizzes").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /idea/quizzes");
+
+  const {ok, error, quizzes} = await db.getQuizzesIdea(req.query.userId, req.query.ideaId);
 
   if (ok === true) {
     res.send({
       ok: true,
-      message: "Quiz created successfully",
-      _quizId,
+      quizzes,
     });
   } else {
     console.log(error);
     res.send({
       ok: false,
-      message: "Could not create quiz",
+      message: "Could not get quizzes",
     });
   }
 });
 
-app.route("/quizzes/project").get(async (req, res, next) => {
-  console.log("\nReceived GET request on /quizzes/projects");
+app.route("/project/quizzes").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /project/quizzes");
 
   const {ok, error, quizzes} = await db.getQuizzesProject(req.query.userId, req.query.projectId);
 
@@ -78,21 +79,21 @@ app.route("/quizzes/project").get(async (req, res, next) => {
   }
 });
 
-app.route("/quizzes/idea").get(async (req, res, next) => {
-  console.log("\nReceived GET request on /quizzes/idea");
+app.route("/quiz").patch(async (req, res, next) => {
+  console.log("\nReceived PATCH request on /quiz");
 
-  const {ok, error, quizzes} = await db.getQuizzesIdea(req.query.userId, req.query.ideaId);
+  const {ok, error} = await db.patchQuiz(req.body);
 
   if (ok === true) {
     res.send({
       ok: true,
-      quizzes,
+      message: "Quiz patched successfully",
     });
   } else {
     console.log(error);
     res.send({
       ok: false,
-      message: "Could not get quizzes",
+      message: "Could not patch quiz",
     });
   }
 });

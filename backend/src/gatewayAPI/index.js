@@ -10,7 +10,7 @@ const PORT = 8080;
 const ADDRESSES = {
   ideas: "http://localhost:3001",
   login: "http://localhost:5002",
-  quizzes: "http://localhost:8081",
+  quizzes: "http://localhost:8085",
   projects: "http://localhost:3002",
 };
 
@@ -92,7 +92,9 @@ app.route("/quiz").get(async (req, res, next) => {
       message: e.response.data.message,
     });
   }
-}).post(async (req, res, next) => {
+});
+
+app.route("/quiz").patch(async (req, res, next) => {
   try {
     const response = await axios.get(ADDRESSES.quizzes + "/quiz", req.body);
 
@@ -104,9 +106,9 @@ app.route("/quiz").get(async (req, res, next) => {
   }
 });
 
-app.route("/quizzes/project").get(async (req, res, next) => {
+app.route("/idea/quizzes").get(async (req, res, next) => {
   try {
-    const response = await axios.get(ADDRESSES.quizzes + "/quizzes/project", {
+    const response = await axios.get(ADDRESSES.quizzes + "/quizzes/idea", {
       query: req.query,
     });
 
@@ -118,7 +120,7 @@ app.route("/quizzes/project").get(async (req, res, next) => {
   }
 });
 
-app.route("/quizzes/idea").get(async (req, res, next) => {
+app.route("/project/quizzes").get(async (req, res, next) => {
   try {
     const response = await axios.get(ADDRESSES.quizzes + "/quizzes/idea", {
       query: req.query,
