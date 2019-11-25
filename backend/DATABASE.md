@@ -42,7 +42,7 @@ A _collection_ de **projects** é responsável por guardar todos os projetos em 
 ```
 
 ## Ideas
-A _collection_ de **ideas** é responsável por guardar todas as idéias existentes. Esse objeto contém as informações de cada idéia cadastrada. O atributo _quizzes_ contém a lista de quizzes que essa idéia deverá responder. Cada item dentro de _quizzes_ especifica qual será o template usado, se ele foi respondido, quando foi respondido, até quando pode ser respondido e o _id_ do quiz correspondente (Caso já tenha sido respondido, senão será _null_, assim como _answerDate_). O objeto que representa cada ideia é o seguinte:
+A _collection_ de **ideas** é responsável por guardar todas as idéias existentes. Esse objeto contém as informações de cada idéia cadastrada. O atributo _quizzes_ contém a lista de quizzes que essa idéia é relacionada. Quando uma idéia é criada, todos os quizzes que ela terá que responder são criados automaticamente, mas sem respostas. O objeto que representa cada ideia é o seguinte:
 ```json
 {
   "_id": "ObjectId('5dc83519570f662ac81a59b4')",
@@ -78,7 +78,7 @@ A _collection_ de **templates** é responsável por guardar todos os templates e
 ```
 
 ## Quizzes
-A _collection_ de **quizzes** é responsável por guardar todos os quizzes já respondidos, incluindo o D0. Os atributos _answerDate_ e _deadline_ indicam quando esse quiz foi respondido e qual era a data limite para respondê-lo. Para mais informações sobre o atributo _questions_, ler a parte de **templates**. O objeto que representa cada quizz é o seguinte:
+A _collection_ de **quizzes** é responsável por guardar todos os quizzes já respondidos. Os atributos _answerDate_ e _deadline_ indicam quando esse quiz foi respondido e qual era a data limite para respondê-lo. Quando os quizzes são criado, os atributos _answerDate_ é null, visto que esse quiz ainda não foi realizado. Para mais informações sobre o atributo _questions_, ler a parte de **templates**. O objeto que representa cada quiz é o seguinte:
 ```json
 {
   "_id": "ObjectId('5dc83519570f662ac81a59b4')",
@@ -87,6 +87,7 @@ A _collection_ de **quizzes** é responsável por guardar todos os quizzes já r
   "_templateId": "ObjectId('5dc83519570f662ac81a59b4')",
   "answerDate": "2019-11-25T03:00:00.000+00:00",
   "deadline": "2019-12-31T03:00:00.000+00:00",
+  "name": "D0",
   "questions": [
     {
       "question": "Você recomenda esse professor?",
