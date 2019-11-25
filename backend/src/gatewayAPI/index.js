@@ -11,6 +11,7 @@ const ADDRESSES = {
   ideas: "http://localhost:3001",
   login: "http://localhost:5002",
   quizzes: "http://localhost:8081",
+  projects: "http://localhost:3002",
 };
 
 // APP
@@ -120,6 +121,20 @@ app.route("/quizzes/project").get(async (req, res, next) => {
 app.route("/quizzes/idea").get(async (req, res, next) => {
   try {
     const response = await axios.get(ADDRESSES.quizzes + "/quizzes/idea", {
+      query: req.query,
+    });
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/projects").post(async (req, res, next) => {
+  try {
+    const response = await axios.get(ADDRESSES.projects + "/projects", {
       query: req.query,
     });
 

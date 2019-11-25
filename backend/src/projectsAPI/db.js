@@ -24,8 +24,9 @@ db.once("open", function() {
 
 const projectSchema = new mongoose.Schema({
   _companyId: mongoose.ObjectId,
-  projectsName: String,
+  name: String,
   contact: String,
+  token: Number,
 });
 
 const userSchema = new mongoose.Schema({
@@ -56,11 +57,14 @@ async function getUser(userID) {
 async function addProject(projectInfo) {
   return new Promise(function(resolve, reject) {
     dbCompany.findOne({_companyId: projectInfo._companyId}).then((resp) => {
-      if (resp === undefined) {
+      if (resp === undefined || resp === null) {
         dbCompany.create(projectInfo).then((resp) => {
           resolve({
-            "status:": "success",
-            "data": {"projectInfo": projectInfo, "inserted": resp},
+            id: resp._id,
+            companyId: resp._companyId,
+            name: resp.name,
+            contact: resp.contact,
+            token: resp.token,
           });
         }).catch((err) => {
           console.log(err);
@@ -68,7 +72,7 @@ async function addProject(projectInfo) {
       } else {
         resolve({
           "status": "error",
-          "data": "Já existe um projeto com este nome",
+          "message": "Já existe um projeto com essa empresa",
         });
       }
     }).catch((err) => {
