@@ -7,9 +7,10 @@ const SCHEMAS = require("./schemas");
 // MODELS
 const dbTemplates = mongoose.model("templates", SCHEMAS.TEMPLATE);
 const dbProjects = mongoose.model("projects", SCHEMAS.PROJECT);
+const dbQuizzes = mongoose.model("quizzes", SCHEMAS.QUIZ);
 const dbUsers = mongoose.model("users", SCHEMAS.USER);
 const dbIdeas = mongoose.model("ideas", SCHEMAS.IDEA);
-const IdeaQuizModel = mongoose.model("t", SCHEMAS.IDEAQUIZ);
+const quizModel = mongoose.model("quiz", SCHEMAS.QUIZ);
 
 
 // DATABASE
@@ -28,87 +29,43 @@ db.once("open", () => {
 // FUNCTIONS
 async function postIdea(idea) {
   try {
+    const user = await dbUsers.findById(idea._userId);
     const project = await dbProjects.findById(idea._projectId);
 
-    if (project) {
-      const user = await dbUsers.findById(idea._userId);
+    if (user && project) {
+      const quizIdList = [];
 
-      if (user && (user.admin || (user.manager && user._projectId.equals(project._id)) || (user._projectId.equals(project._id)))) {
-        for (const quiz of Object.keys(project.quizzes)) {
-          let template = {};
+      for (const quiz in project.quizzes) {
+        const template = await dbTemplates.findById(project.quizzes[quiz]._templateId);
 
-          if (quiz !== "D0") {
-            let newQuiz = {};
-
-            newQuiz = project.quizzes[quiz];
-            newQuiz._quizId = null;
-            newQuiz.answered = false;
-            newQuiz.name = quiz;
-
-            idea.quizzes.push(new IdeaQuizModel(newQuiz));
-
-            template = await dbTemplates.findById(newQuiz._templateId);
-          } else {
-            idea.quizzes[0] = new IdeaQuizModel(idea.quizzes[0]);
-            template = await dbTemplates.findById(idea.quizzes[0]._templateId);
-          }
-
-          if (!template) {
-            return {
-              ok: false,
-              error: `No template found for quiz ${quiz}`,
-            };
-          }
-        }
-
-        await dbIdeas.create(idea);
-
-        return {
-          ok: true,
-          error: {},
+        let newQuiz = {
+          _userId: idea._userId,
+          _projectId: idea._projectId,
+          _templateId: idea._templateId,
+          deadline: project.quizzes[quiz].deadline,
+          questions: template.questions,
+          name: project.quizzes[quiz].name,
         };
+
+        newQuiz = new quizModel(newQuiz);
+
+        const createdQuiz = await dbQuizzes.create(newQuiz);
+
+        quizIdList.push(createdQuiz._id);
       }
-      return {
-        ok: false,
-        error: "No user found or user does not have enough privileges",
-      };
-    }
 
-    return {
-      ok: false,
-      error: "No project with that id found",
-    };
-  } catch (err) {
-    return {
-      ok: false,
-      error: err,
-    };
-  }
-}
+      idea.quizzes = quizIdList;
 
-async function getIdeas(userId) {
-  try {
-    const user = await dbUsers.findById(userId);
-
-    if (user) {
-      let ideas = {};
-
-      if (user.admin) {
-        ideas = await dbIdeas.find({});
-      } else if (user.manager) {
-        ideas = await dbIdeas.find({_projectId: user._projectId});
-      } else {
-        ideas = await dbIdeas.find({_userId: user._id});
-      }
+      createdIdea = await dbIdeas.create(idea);
 
       return {
         ok: true,
-        ideas,
+        error: {},
       };
     }
     return {
       ok: false,
-      error: "No user found",
+      error: "No user or project found with that id",
     };
   } catch (err) {
     return {
@@ -121,27 +78,12 @@ async function getIdeas(userId) {
 async function getIdea(userId, ideaId) {
   try {
     const user = await dbUsers.findById(userId);
+    const idea = await dbIdeas.findById(ideaId);
 
-    if (user) {
-      if (user.admin) {
-        const idea = await dbIdeas.findById(ideaId);
-
-        return {
-          ok: true,
-          idea,
-        };
-      } if (user.manager) {
-        const idea = await dbIdeas.find({_id: ideaId, _projectId: user._projectId});
-
-        return {
-          ok: true,
-          idea,
-        };
-      }
-      const idea = await dbIdeas.find({_id: ideaId, _userId: user._id});
-
+    if (user && idea && ((user.admin) || (user.manager && user._projectId.equals(idea._projectId)) || (user._id.equals(idea._userId)))) {
       return {
         ok: true,
+        error: {},
         idea,
       };
     }
@@ -158,4 +100,59 @@ async function getIdea(userId, ideaId) {
   }
 }
 
-module.exports = {postIdea, getIdeas, getIdea};
+async function getProjectIdeas(userId, projectId) {
+  try {
+    const user = await dbUsers.findById(userId);
+    const project = await dbProjects.findById(projectId);
+
+    if (user && project && ((user.admin) || (user.manager && user._projectId.equals(project._id)))) {
+      const ideas = await dbIdeas.find({_projectId: project._id});
+
+      return {
+        ok: true,
+        error: {},
+        ideas,
+      };
+    }
+
+    return {
+      ok: false,
+      error: "No user found or does not have enough privileges",
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      error: err,
+    };
+  }
+}
+
+async function getUserIdeas(userId) {
+  try {
+    const user = await dbUsers.findById(userId);
+
+    if (user) {
+      const ideas = await dbIdeas.find({_userId: user._id});
+
+      return {
+        ok: true,
+        error: {},
+        ideas,
+      };
+    }
+
+    return {
+      ok: true,
+      error: "No user found with that id",
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      error: err,
+    };
+  }
+}
+
+module.exports = {
+  postIdea, getIdea, getProjectIdeas, getUserIdeas,
+};
