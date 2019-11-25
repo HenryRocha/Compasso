@@ -5,7 +5,6 @@ const SCHEMAS = require("./schemas");
 
 
 // MODELS
-const dbTemplates = mongoose.model("templates", SCHEMAS.TEMPLATE);
 const dbProjects = mongoose.model("projects", SCHEMAS.PROJECT);
 const dbQuizzes = mongoose.model("quizzes", SCHEMAS.QUIZ);
 const dbUsers = mongoose.model("users", SCHEMAS.USER);
@@ -26,50 +25,91 @@ db.once("open", () => {
 
 
 // FUNCTIONS
-async function postQuiz(quiz) {
+async function getQuiz(userId, quizId) {
   try {
-    const user = await dbUsers.findById(quiz._userId);
-    const project = await dbProjects.findById(quiz._projectId);
-    const template = await dbTemplates.findById(quiz._templateId);
+    const user = await dbUsers.findById("userId");
+    const quiz = await dbQuizzes.findById(quizId);
+    console.log(user, quiz);
 
-    if (user && project && template) {
-      const createdQuiz = await dbQuizzes.create(quiz);
-
+    if (user && quiz && ((user.admin) || (user.manager && user._projectId.equals(quiz._projectId)) || (user._id.equals(quiz._userId)))) {
       return {
         ok: true,
-        error: {},
-        _quizId: createdQuiz._id,
+        quiz,
       };
     }
 
     return {
       ok: false,
-      error: "No user, project or template found",
-      _quizId: {},
+      error: "No user found or does not have enough privileges",
     };
   } catch (err) {
     return {
       ok: false,
       error: err,
-      _quizId: {},
     };
   }
 }
 
-async function getQuiz(userId, quizId) {
+async function getQuizzesProject(userId, projectId) {
   try {
     const user = await dbUsers.findById(userId);
+    const project = await dbProjects.findById(projectId);
+    console.log(user, project);
 
-    if (user) {
-      let quiz = {};
+    if (user && project && ((user.admin) || (user.manager && user._projectId.equals(project._id)))) {
+      const quizzes = await dbQuizzes.find({_projectId: project._id});
 
-      if (user.admin) {
-        quiz = await dbQuizzes.findById(quizId);
-      } if (user.manager) {
-        quiz = await dbQuizzes.find({_id: quizId, _projectId: user._projectId});
-      } else {
-        quiz = await dbQuizzes.find({_id: quizId, _userId: user._id});
-      }
+      return {
+        ok: true,
+        quizzes,
+      };
+    }
+
+    return {
+      ok: false,
+      error: "No user or project with that id found, or user does not have enough privileges",
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      error: err,
+    };
+  }
+}
+
+async function getQuizzesIdea(userId, ideaId) {
+  try {
+    const user = await dbUsers.findById(userId);
+    const idea = await dbIdeas.findById(ideaId);
+
+    if (user && idea && ((user.admin) || (user.manager && user._projectId.equals(idea._projectId)) || (user._id.equals(idea._userId)))) {
+      const quizzes = await dbQuizzes.find({_id: {$in: idea.quizzes}});
+
+      return {
+        ok: true,
+        quizzes,
+      };
+    }
+
+    return {
+      ok: false,
+      error: "No user or idea with that id found",
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      error: err,
+    };
+  }
+}
+
+async function patchQuiz(quiz) {
+  try {
+    const user = await dbUsers.findById(quiz._userId);
+    const originalQuiz = await dbQuizzes.findById(quiz._id);
+
+    if (user && originalQuiz && ((user.admin) || (user.manager && user._projectId.equals(originalQuiz._projectId)) || (user._id.equals(originalQuiz._userId)))) {
+      await dbQuizzes.updateOne({_id: quiz._id}, quiz);
 
       return {
         ok: true,
@@ -79,140 +119,16 @@ async function getQuiz(userId, quizId) {
 
     return {
       ok: false,
-      error: "No user found",
-      quiz: {},
+      error: "No user found or does not have enough privileges",
     };
   } catch (err) {
     return {
       ok: false,
       error: err,
-      quiz: {},
-    };
-  }
-}
-
-async function getQuizzesProject(userId, projectId) {
-  try {
-    const user = await dbUsers.findById(userId);
-
-    if (user) {
-      const project = await dbProjects.findById(projectId);
-
-      if (project) {
-        let quizzes = {};
-
-        if (user.admin) {
-          quizzes = await dbQuizzes.find({_projectId: project._id});
-        } else if (user.manager) {
-          quizzes = await dbQuizzes.find({_projectId: user._projectId});
-        }
-
-        return {
-          ok: true,
-          error: {},
-          quizzes,
-        };
-      }
-      return {
-        ok: false,
-        error: "No project with that id found",
-        quizzes: {},
-      };
-    }
-
-    return {
-      ok: false,
-      error: "No user found or user does not have enough privileges",
-      quizzes: {},
-    };
-  } catch (err) {
-    return {
-      ok: false,
-      error: err,
-      quizzes: {},
-    };
-  }
-}
-
-async function getQuizzesIdea(userId, ideaId) {
-  try {
-    const idea = await dbIdeas.findById(ideaId);
-
-    if (idea) {
-      const user = await dbUsers.findById(userId);
-
-      if (user) {
-        if (user.admin || (user.manager && user._projectId.equals(idea._projectId))) {
-          const answeredQuizzes = [];
-          console.log(idea);
-
-          for (const quiz of Object.keys(idea.quizzes)) {
-            if (idea.quizzes[quiz].answered === true) {
-              answeredQuizzes.push(idea.quizzes[quiz]._quizId);
-            }
-          }
-
-          const quizzes = await dbQuizzes.find({_id: {$in: answeredQuizzes}});
-
-          return {
-            ok: true,
-            error: {},
-            quizzes,
-          };
-        }
-      } else {
-        return {
-          ok: false,
-          error: "No user with that id found",
-          quizzes: {},
-        };
-      }
-    }
-
-    return {
-      ok: false,
-      error: "No idea with that id found",
-      quizzes: {},
-    };
-  } catch (err) {
-    return {
-      ok: false,
-      error: err,
-      quizzes: {},
-    };
-  }
-}
-
-async function getQuizD0(userId, projectId) {
-  try {
-    const user = await dbUsers.findById(userId);
-    const project = await dbProjects.findById(projectId);
-    console.log(user, project);
-
-    if (user && project) {
-      if (user.admin || (user.manager && user._projectId.equals(idea._projectId)) || (user._id.equal(project._id))) {
-        return {
-          ok: true,
-          error: {},
-          quiz: project.quizzes.D0,
-        };
-      }
-    }
-
-    return {
-      ok: false,
-      error: "No user or project with that id found",
-      quizzes: {},
-    };
-  } catch (err) {
-    return {
-      ok: false,
-      error: err,
-      quizzes: {},
     };
   }
 }
 
 module.exports = {
-  postQuiz, getQuiz, getQuizzesProject, getQuizzesIdea, getQuizD0,
+  getQuiz, getQuizzesProject, getQuizzesIdea, patchQuiz,
 };

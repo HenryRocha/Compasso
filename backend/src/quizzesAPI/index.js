@@ -39,47 +39,10 @@ app.route("/quiz").get(async (req, res, next) => {
       message: "Could not get quiz",
     });
   }
-}).post(async (req, res, next) => {
-  console.log("\nReceived POST request on /quiz");
-
-  const {ok, error, _quizId} = await db.postQuiz(req.body);
-
-  if (ok === true) {
-    res.send({
-      ok: true,
-      message: "Quiz created successfully",
-      _quizId,
-    });
-  } else {
-    console.log(error);
-    res.send({
-      ok: false,
-      message: "Could not create quiz",
-    });
-  }
 });
 
-app.route("/quizzes/project").get(async (req, res, next) => {
-  console.log("\nReceived GET request on /quizzes/projects");
-
-  const {ok, error, quizzes} = await db.getQuizzesProject(req.query.userId, req.query.projectId);
-
-  if (ok === true) {
-    res.send({
-      ok: true,
-      quizzes,
-    });
-  } else {
-    console.log(error);
-    res.send({
-      ok: false,
-      message: "Could not get quizzes",
-    });
-  }
-});
-
-app.route("/quizzes/idea").get(async (req, res, next) => {
-  console.log("\nReceived GET request on /quizzes/idea");
+app.route("/idea/quizzes").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /idea/quizzes");
 
   const {ok, error, quizzes} = await db.getQuizzesIdea(req.query.userId, req.query.ideaId);
 
@@ -97,21 +60,40 @@ app.route("/quizzes/idea").get(async (req, res, next) => {
   }
 });
 
-app.route("/quiz/D0").get(async (req, res, next) => {
-  console.log("\nReceived GET request on /quiz/D0");
+app.route("/project/quizzes").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /project/quizzes");
 
-  const {ok, error, quiz} = await db.getQuizD0(req.query.userId, req.query.projectId);
+  const {ok, error, quizzes} = await db.getQuizzesProject(req.query.userId, req.query.projectId);
 
   if (ok === true) {
     res.send({
       ok: true,
-      quiz,
+      quizzes,
     });
   } else {
     console.log(error);
     res.send({
       ok: false,
-      message: "Could not get quiz D0 for that project",
+      message: "Could not get quizzes",
+    });
+  }
+});
+
+app.route("/quiz").patch(async (req, res, next) => {
+  console.log("\nReceived PATCH request on /quiz");
+
+  const {ok, error} = await db.patchQuiz(req.body);
+
+  if (ok === true) {
+    res.send({
+      ok: true,
+      message: "Quiz patched successfully",
+    });
+  } else {
+    console.log(error);
+    res.send({
+      ok: false,
+      message: "Could not patch quiz",
     });
   }
 });
