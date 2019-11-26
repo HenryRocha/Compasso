@@ -46,11 +46,11 @@ onChangeD60 = () => {
     }));
 }
 
-handleClick = (title, contact) => {
+handleClick = (title, email) => {
     //O BACK RECEBE OS QUIZ EM LISTA
     //Aqui falta mandar os dados para o back e voltar para o dash
     const apiBaseUrl = "http://localhost:8080/";
-    var payload = {"title": title, "contact": contact}
+    var payload = {"title": title, "email": email}
     axios.post(apiBaseUrl + "project", payload);
     this.props.history.push("/dash_bia");
 
