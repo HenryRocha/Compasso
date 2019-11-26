@@ -22,6 +22,8 @@ db.once("open", function () {
 });
 
 
+
+
 const PROJECTQUIZ = new mongoose.Schema({
     _templateId: mongoose.ObjectId,
     deadline: Date,
@@ -34,7 +36,7 @@ const projectSchema = new mongoose.Schema({
     description: String,
     email: String,
     token: Number,
-    quizzes: [PROJECTQUIZ]
+    quizzes: [PROJECTQUIZ],
 });
 
 const userSchema = new mongoose.Schema({
@@ -45,7 +47,7 @@ const userSchema = new mongoose.Schema({
     hash: String,
     admin: Boolean,
     manager: Boolean,
-  });
+});
 
 const dbCompany = mongoose.model("projects", projectSchema);
 const dbUsers = mongoose.model("users", userSchema);
@@ -106,6 +108,10 @@ async function getProjects(userID) {
         }).catch((err) => console.log(err))
     });
 }
+
+
+
+
 
 async function addProject(projectInfo) {
     return new Promise(function (resolve, reject) {

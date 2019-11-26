@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 // MODULES
 const mongoose = require("mongoose");
 const CONSTANTS = require("./constants");
@@ -36,22 +37,24 @@ async function postIdea(idea) {
       const quizIdList = [];
 
       for (const quiz in project.quizzes) {
-        const template = await dbTemplates.findById(project.quizzes[quiz]._templateId);
+        if (quiz) {
+          const template = await dbTemplates.findById(project.quizzes[quiz]._templateId);
 
-        let newQuiz = {
-          _userId: idea._userId,
-          _projectId: idea._projectId,
-          _templateId: idea._templateId,
-          deadline: project.quizzes[quiz].deadline,
-          questions: template.questions,
-          name: project.quizzes[quiz].name,
-        };
+          let newQuiz = {
+            _userId: idea._userId,
+            _projectId: idea._projectId,
+            _templateId: idea._templateId,
+            deadline: project.quizzes[quiz].deadline,
+            questions: template.questions,
+            name: project.quizzes[quiz].name,
+          };
 
-        newQuiz = new quizModel(newQuiz);
+          newQuiz = new quizModel(newQuiz);
 
-        const createdQuiz = await dbQuizzes.create(newQuiz);
+          const createdQuiz = await dbQuizzes.create(newQuiz);
 
-        quizIdList.push(createdQuiz._id);
+          quizIdList.push(createdQuiz._id);
+        }
       }
 
       idea.quizzes = quizIdList;
