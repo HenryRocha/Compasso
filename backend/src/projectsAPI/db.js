@@ -38,12 +38,14 @@ const projectSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
-    company: mongoose.ObjectId,
+    _projectId: mongoose.ObjectId,
     name: String,
     email: String,
-    hash: String,
     salt: String,
-});
+    hash: String,
+    admin: Boolean,
+    manager: Boolean,
+  });
 
 const dbCompany = mongoose.model("projects", projectSchema);
 const dbUsers = mongoose.model("users", userSchema);
