@@ -34,10 +34,12 @@ app.use(function (req, res, next) {
 });
 
 
+
 //Request that get all projects in db (admin only)
 app.get("/projects", function (req, res, next) {
   db.getProjects(req.query.userId).then((resp) => res.send(resp.data)).catch((err) => console.log(err));
 });
+
 
 
 //Request that get a specific project (admin and manager only)
@@ -48,12 +50,14 @@ app.get("/project", function (req, res, next) {
 
 //Request that create a project
 app.post("/projects", function (req, res, next) {
+
   const projectInfo = {
     title: req.body.title,
     description: req.body.description,
     email: req.body.email,
     token: Math.round(Math.random() * (9999 - 1000) + 1000),
     quizzes: req.body.quizzes
+
 
 
 
