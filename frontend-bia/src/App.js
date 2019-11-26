@@ -12,6 +12,7 @@ import BiaDashScreen from "./screens/BiaDashScreen";
 import CreateProjectScreen from "./screens/CreateProjectScreen";
 import LoginScreen from "./screens/LoginScreen";
 import Header from "./components/Header";
+import createQuizzes from "./screens/CreateQuizzes"
 
 export class App extends Component {
   persistor = persistStore(store);
@@ -27,6 +28,7 @@ export class App extends Component {
                 <Route exact path="/home" component={HomeScreen} />
                 <Route exact path="/dash" component={BiaDashScreen} />
                 <Route exact path="/create_project" component={CreateProjectScreen} />
+                <Route exact path="/create_quizzes" component={createQuizzes}/>
               </Switch>
             </main>
           </ConnectedRouter>
