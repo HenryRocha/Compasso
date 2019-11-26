@@ -51,10 +51,10 @@ app.get("/project", function(req, res, next) {
 app.post("/projects", function(req, res, next) {
   const projectInfo = {
     title: req.body.title,
-    description: req.body.description,
+    // description: req.body.description,
     email: req.body.email,
-    token: Math.round(Math.random() * (9999-1000) + 1000),
-    quizzes: req.body.quizzes
+    // token: Math.round(Math.random() * (9999-1000) + 1000),
+    // quizzes: req.body.quizzes
 
     
             
