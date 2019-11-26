@@ -22,18 +22,29 @@ db.once("open", function() {
 });
 
 
+const PROJECTQUIZ = new mongoose.Schema({
+  _templateId: mongoose.ObjectId,
+  deadline: Date,
+  name: String,
+});
+
+
 const projectSchema = new mongoose.Schema({
-  _companyId: mongoose.ObjectId,
-  projectsName: String,
-  contact: String,
+  title: String,
+  description: String,
+  email: String,
+  token: Number,
+  quizzes: [PROJECTQUIZ],
 });
 
 const userSchema = new mongoose.Schema({
-  company: mongoose.ObjectId,
+  _projectId: mongoose.ObjectId,
   name: String,
   email: String,
-  hash: String,
   salt: String,
+  hash: String,
+  admin: Boolean,
+  manager: Boolean,
 });
 
 const dbCompany = mongoose.model("projects", projectSchema);
@@ -43,9 +54,9 @@ async function getUser(userID) {
   return new Promise(function(resolve, reject) {
     dbUsers.findById(userID).then((resp) => {
       if (resp != null) {
-        resolve({"found": true, "message": "Usuário encontrado!"});
+        resolve({"status": "true", "data": resp});
       } else {
-        resolve({"found": false, "message": "Usuário não encontrado!"});
+        resolve({"status": "false", "data": resp});
       }
     }).catch((err) => {
       console.log(err);
@@ -53,14 +64,53 @@ async function getUser(userID) {
   });
 }
 
+
+async function getProject(projectID, userID) {
+  return new Promise(function(resolve, reject) {
+    getUser(userID).then((resp) => {
+      if (resp.data.admin || resp.data.manager && resp.data._projectId.equals(projectID)) {
+        dbCompany.findById(projectID).then((resp) => {
+          resolve({resp});
+        }).catch((err) => console.log(err));
+      } else {
+        resolve({
+          "status": "error",
+          "message": "Voce nao tem permissao para acessar essa pagina",
+        });
+      }
+    });
+  });
+}
+
+
+async function getProjects(userID) {
+  return new Promise(function(resolve, reject) {
+    getUser(userID).then((resp) => {
+      if (resp.data.admin && resp.data != null) {
+        dbCompany.find().then((resp) => {
+          resolve(resp);
+        }).catch((err) => console.log(err));
+      } else {
+        resolve({
+          "status": "error",
+          "message": "Voce não tem permissão para ver todos projetos",
+        });
+      }
+    }).catch((err) => console.log(err));
+  });
+}
+
 async function addProject(projectInfo) {
   return new Promise(function(resolve, reject) {
-    dbCompany.findOne({_companyId: projectInfo._companyId}).then((resp) => {
-      if (resp === undefined) {
+    dbCompany.findOne({title: projectInfo.title}).then((resp) => {
+      if (resp === undefined || resp === null) {
         dbCompany.create(projectInfo).then((resp) => {
           resolve({
-            "status:": "success",
-            "data": {"projectInfo": projectInfo, "inserted": resp},
+            title: resp.title,
+            description: resp.description,
+            email: resp.email,
+            token: resp.token,
+            quizzes: resp.quizzes,
           });
         }).catch((err) => {
           console.log(err);
@@ -68,7 +118,7 @@ async function addProject(projectInfo) {
       } else {
         resolve({
           "status": "error",
-          "data": "Já existe um projeto com este nome",
+          "message": "Já existe um projeto com essa empresa",
         });
       }
     }).catch((err) => {
@@ -77,4 +127,4 @@ async function addProject(projectInfo) {
   });
 }
 
-module.exports = {getUser, addProject};
+module.exports = {getUser, addProject, getProjects, getProject};

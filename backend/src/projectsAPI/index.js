@@ -7,13 +7,12 @@ require("dotenv").config();
 const parser = require("body-parser");
 const express = require("express");
 const db = require("./db");
-const ObjectId = require("mongoose").Types.ObjectId;
 
 
 // CONSTANTS
 // Declaring the app constant and the port this API will run on.
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 
 // APP
@@ -35,18 +34,27 @@ app.use(function(req, res, next) {
 });
 
 
-app.get("/projects", function(req, res, next) { // TODO: check get request
-  const name = req.body.project;
-  const contactPoint = req.body.contact;
-  const interactions = req.body.quiz;
+// Request that get all projects in db (admin only)
+app.get("/projects", function(req, res, next) {
+  db.getProjects(req.query.userId).then((resp) => res.send(resp.data)).catch((err) => console.log(err));
 });
 
 
+// Request that get a specific project (admin and manager only)
+app.get("/project", function(req, res, next) {
+  db.getProject(req.query.projectId, req.query.userId).then((resp) => res.send(resp)).catch((err) => console.log(err));
+});
+
+// Request that create a project
 app.post("/projects", function(req, res, next) {
   const projectInfo = {
-    _companyId: new ObjectId(req.body.companyId),
-    projectsName: req.body.name,
-    contact: req.body.contact,
+    title: req.body.title,
+    description: req.body.description,
+    email: req.body.email,
+    token: Math.round(Math.random() * (9999-1000) + 1000),
+    quizzes: req.body.quizzes,
+
+
   };
 
   db.addProject(projectInfo).then((resp) => res.send(resp)).catch((err) => console.log(err));
