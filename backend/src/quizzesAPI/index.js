@@ -17,83 +17,83 @@ app.use((req, res, next) => {
 });
 
 app.listen(CONSTANTS.PORT, () => {
-  console.log(`ideasAPI listening on port ${CONSTANTS.PORT}`);
+  console.log(`quizzesAPI listening on port ${CONSTANTS.PORT}`);
 });
 
 
 // ROUTES
-app.route("/idea").post(async (req, res, next) => {
-  console.log("\nReceived POST request on /idea");
+app.route("/quiz").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /quiz");
 
-  const {ok, error} = await db.postIdea(req.body);
+  const {ok, error, quiz} = await db.getQuiz(req.query.userId, req.query.quizId);
 
   if (ok === true) {
     res.send({
       ok: true,
-      message: "Idea created successfully",
+      quiz,
     });
   } else {
     console.log(error);
     res.send({
       ok: false,
-      message: "Could not create idea",
+      message: "Could not get quiz",
     });
   }
 });
 
-app.route("/idea").get(async (req, res, next) => {
-  console.log("\nReceived GET request on /idea");
+app.route("/idea/quizzes").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /idea/quizzes");
 
-  const {ok, error, idea} = await db.getIdea(req.query.userId, req.query.ideaId);
+  const {ok, error, quizzes} = await db.getQuizzesIdea(req.query.userId, req.query.ideaId);
 
   if (ok === true) {
     res.send({
       ok: true,
-      idea,
+      quizzes,
     });
   } else {
     console.log(error);
     res.send({
       ok: false,
-      message: "Could not get idea",
+      message: "Could not get quizzes",
     });
   }
 });
 
-app.route("/project/ideas").get(async (req, res, next) => {
-  console.log("\nReceived GET request on /project/ideas");
+app.route("/project/quizzes").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /project/quizzes");
 
-  const {ok, error, ideas} = await db.getProjectIdeas(req.query.userId, req.query.projectId);
+  const {ok, error, quizzes} = await db.getQuizzesProject(req.query.userId, req.query.projectId);
 
   if (ok === true) {
     res.send({
       ok: true,
-      ideas,
+      quizzes,
     });
   } else {
     console.log(error);
     res.send({
       ok: false,
-      message: "Could not get ideas",
+      message: "Could not get quizzes",
     });
   }
 });
 
-app.route("/user/ideas").get(async (req, res, next) => {
-  console.log("\nReceived GET request on /user/ideas");
+app.route("/quiz").patch(async (req, res, next) => {
+  console.log("\nReceived PATCH request on /quiz");
 
-  const {ok, error, ideas} = await db.getUserIdeas(req.query.userId);
+  const {ok, error} = await db.patchQuiz(req.body);
 
   if (ok === true) {
     res.send({
       ok: true,
-      ideas,
+      message: "Quiz patched successfully",
     });
   } else {
     console.log(error);
     res.send({
       ok: false,
-      message: "Could not get ideas",
+      message: "Could not patch quiz",
     });
   }
 });

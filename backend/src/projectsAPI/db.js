@@ -1,8 +1,14 @@
-const mongoose = require("mongoose");
+// MODULES
+// Importing all the modules required.
 require("dotenv").config();
+const mongoose = require("mongoose");
 
-const URL = process.env.dbURL
 
+// CONSTANTS
+// Declaring the database URL. You need to have a .env file with this variable declared,
+// otherwise the const URL will be set no undefined, since we don't have the environment
+// variable declared.
+const URL = (process.env.dbURL) ? process.env.dbURL : "mongodb://localhost/noderest";
 
 mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
@@ -16,10 +22,19 @@ db.once("open", function () {
 });
 
 
+const PROJECTQUIZ = new mongoose.Schema({
+    _templateId: mongoose.ObjectId,
+    deadline: Date,
+    name: String,
+});
+
+
 const projectSchema = new mongoose.Schema({
-    _companyId: mongoose.ObjectId,
-    projectsName: String,
-    contact: String,
+    title: String,
+    description: String,
+    email: String,
+    token: Number,
+    quizzes: [PROJECTQUIZ]
 });
 
 const userSchema = new mongoose.Schema({
@@ -27,7 +42,7 @@ const userSchema = new mongoose.Schema({
     name: String,
     email: String,
     hash: String,
-    salt: String
+    salt: String,
 });
 
 const dbCompany = mongoose.model("projects", projectSchema);
@@ -37,39 +52,84 @@ async function getUser(userID) {
     return new Promise(function (resolve, reject) {
         dbUsers.findById(userID).then((resp) => {
             if (resp != null) {
-                resolve({ "found": true, "message": "Usuário encontrado!" })
+                resolve({ "status": "true", "data": resp });
             } else {
-                resolve({ "found": false, "message": "Usuário não encontrado!" })
+                resolve({ "status": "false", "data": resp });
             }
         }).catch((err) => {
-            console.log(err)
-        })
-    })
+            console.log(err);
+        });
+    });
 }
 
-async function addProject(projectInfo) {
-    return new Promise(function (resolve, reject) { 
-        dbCompany.findOne({ _companyId: projectInfo._companyId }).then((resp) => {
-            if (resp === undefined) {
-                dbCompany.create(projectInfo).then((resp) => {
-                    resolve({
-                        "status:": "success",
-                        "data": {"projectInfo": projectInfo, inserted: resp }
-                    })
-                }).catch((err) => {
-                    console.log(err)
-                })
+
+
+async function getProject(projectID, userID) {
+    return new Promise(function (resolve, reject) {
+        getUser(userID).then((resp) => {
+            if (resp.data.admin || resp.data.manager && resp.data._projectId.equals(projectID)) {
+                dbCompany.findById(projectID).then((resp) => {
+                    resolve({ resp })
+                }).catch((err) => console.log(err))
             } else {
                 resolve({
                     "status": "error",
-                    "data": "Já existe um projeto com este nome"
-                });
+                    "data": "Voce nao tem permissao para acessar essa pagina"
+                })
             }
-        }).catch((err) => {
-            console.log(err)
         })
-    })
+
+    });
 }
 
 
-module.exports = {addProject, getUser};
+
+async function getProjects(userID) {
+    return new Promise(function (resolve, reject) {
+        getUser(userID).then((resp) => {
+            if (resp.data.admin && resp.data != null) {
+                dbCompany.find().then((resp) => {
+                    resolve({
+                        "status": "success",
+                        "data": resp
+                    })
+                }).catch((err) => console.log(err))
+            } else {
+                resolve({
+                    "status": "error",
+                    "data": "Voce não tem permissão para ver todos projetos"
+                })
+            }
+
+        }).catch((err) => console.log(err))
+    });
+}
+
+async function addProject(projectInfo) {
+    return new Promise(function (resolve, reject) {
+        dbCompany.findOne({ title: projectInfo.title }).then((resp) => {
+            if (resp === undefined || resp === null) {
+                dbCompany.create(projectInfo).then((resp) => {
+                    resolve({
+                        title: resp.title,
+                        description: resp.description,
+                        email: resp.email,
+                        token: resp.token,
+                        quizzes: resp.quizzes
+                    });
+                }).catch((err) => {
+                    console.log(err);
+                });
+            } else {
+                resolve({
+                    "status": "error",
+                    "message": "Já existe um projeto com essa empresa",
+                });
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+    });
+}
+
+module.exports = { getUser, addProject, getProjects, getProject };
