@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "npm install nodemon && nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js &"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
