@@ -4,32 +4,31 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import { Switch, Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
+import DashDaBia from './screens/DashDaBia';
+import NewDashProject from './components/NewDashProject';
+import CriacaoDeProjeto from './screens/CriacaoDeProjeto';
 import store from "./store";
-import "./css/app.css";
+import "./App.css";
 import { history } from "./store";
-import HomeScreen from "./screens/HomeScreen";
-import LoginScreen from "./screens/LoginScreen";
-import Header from "./components/Header";
 
 export class App extends Component {
-  persistor = persistStore(store);
-  render() {
-    return (
-      <PersistGate loading={null} persistor={this.persistor}>
-        <Provider store={store}>
-          <ConnectedRouter history={history}>
-            <main>
-              <Header />
-              <Switch>
-                <Route exact path="/" component={LoginScreen} />
-                <Route exact path="/home" component={HomeScreen} />
-              </Switch>
-            </main>
-          </ConnectedRouter>
-        </Provider>
-      </PersistGate>
-    );
-  }
+    persistor = persistStore(store);
+    render() {
+        return (
+            <PersistGate loading={null} persistor={this.persistor}>
+                <Provider store={store}>
+                    <ConnectedRouter history={history}>
+                        <main>
+                            <Switch>
+                                { <Route exact path="/dash_bia" component={DashDaBia} /> }
+                                { <Route exact path="/create_project" component={CriacaoDeProjeto} /> }
+                            </Switch>
+                        </main>
+                    </ConnectedRouter>
+                </Provider>
+            </PersistGate>
+        );
+    }
 }
 
 export default App;

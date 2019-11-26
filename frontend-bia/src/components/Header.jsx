@@ -1,8 +1,7 @@
 import { bindActionCreators } from "redux";
 import React from "react";
 import { connect } from "react-redux";
-import "../css/app.css";
-import actions from "../actions";
+import "../App.css";
 import { Colors } from "../constants/Colors";
 
 const mapStateToProps = state => ({ user: state.user });
