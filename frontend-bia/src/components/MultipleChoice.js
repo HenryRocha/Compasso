@@ -15,13 +15,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function MultipleChoice(props) {
 
-    const [quiz, setQuiz] = React.useState({
-        question: "",
-        choices: [],
-        answers: [],
-        type: ""
-    });
-
     const classes = useStyles();
 
     const titleStyle = {
@@ -33,16 +26,6 @@ export default function MultipleChoice(props) {
         fontSize: "20px"
       };
 
-    const onHandleChange = (event)=>{
-        setQuiz({
-            answer:event.target.value
-        });
-    }
-
-    const onChangeQuestion = (event) =>{
-        onHandleChange(event)
-        // props.changeQuestion(quiz.question)
-    }
 
     return (
         <div>
@@ -56,7 +39,8 @@ export default function MultipleChoice(props) {
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
-                // onInput={onChangeQuestion}
+                onChange={(e) => props.changeQuestion(e.target.value)}
+ 
             />
             </Grid>
             <TextField
@@ -68,6 +52,8 @@ export default function MultipleChoice(props) {
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
+                onChange={(e) => props.changeChoiceA(e.target.value)}
+
             />
             <TextField
                 id="outlined-multiline-static"
@@ -78,6 +64,7 @@ export default function MultipleChoice(props) {
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
+                onChange={(e) => props.changeChoiceB(e.target.value)}
             />
             <TextField
                 id="outlined-multiline-static"
@@ -88,6 +75,7 @@ export default function MultipleChoice(props) {
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
+                onChange={(e) => props.changeChoiceC(e.target.value)}
             />
             <TextField
                 id="outlined-multiline-static"
@@ -98,6 +86,7 @@ export default function MultipleChoice(props) {
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
+                onChange={(e) => props.changeChoiceD(e.target.value)}
             />
         </div>
     );

@@ -14,29 +14,55 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 class QuizzesCreate extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
 
-  show = {
-    showPreview: true
-  };
-  quizzes = {
-    lastQuiz: [],
-    quizzes: []
-  };
-  state = {
-    title: "",
-    description: "",
-    questions: [
-      {
-        question: "",
-        choices: [],
-        answers: [],
-        type: ""
-      }
-    ],
-  };
+    this.show = {
+      showPreview: true
+    };
+    this.state = {
+      title: "",
+      description: "",
+      questions: [
+        {
+          question: "",
+          choices: [],
+          answers: [],
+          type: ""
+        }
+      ],
+    };
+
+    this.quiz = {
+      question: "",
+      choices: [],
+      answers: [],
+      type: ""
+    };
+
+  }
+
+  // show = {
+  //   showPreview: true
+  // };
+  // quizzes = {
+  //   lastQuiz: [],
+  //   quizzes: []
+  // };
+  // state = {
+  //   title: "",
+  //   description: "",
+  //   questions: [
+  //     {
+  //       question: "",
+  //       choices: [],
+  //       answers: [],
+  //       type: ""
+  //     }
+  //   ],
+  // };
+
+
 
   // togglePopup() {
   //   this.setShow({
@@ -52,14 +78,17 @@ class QuizzesCreate extends React.Component {
   //   });
   // }
 
-  // saveQuiz(){
-  //   this.quizzes.lastQuiz===[] ?
-  //   this.setQuizzes({
-
-  //     quizzes:
-  //   }):
-  // }
-
+  saveQuiz(){
+        
+  }
+  changeQuizzes(event) {
+    console.log("CreateQuizzes")
+    console.log(event.question)
+    this.quiz.questions = event.question
+    this.quiz.choices = event.choices
+    this.quiz.type = event.type
+    console.log(this.quiz)
+  }
 
   render() {
 
@@ -85,8 +114,8 @@ class QuizzesCreate extends React.Component {
     return (
       <div>
         <TextField
-          id="nome-novo-quiz"
-          label="Nome do Quiz"
+          id="nome-novo-template"
+          label="Nome do Template"
           style={{ margin: 7 }}
           placeholder=""
           fullWidth
@@ -95,7 +124,9 @@ class QuizzesCreate extends React.Component {
           onChange={e => this.setState({ title: e.target.value })}
         />
         <Grid item xs container direction="row" spacing={2} style={titleStyle} >
-          <FormQuizDialogo></FormQuizDialogo>
+          <FormQuizDialogo
+            changeQuizzes={(e) => this.changeQuizzes(e)}
+          />
         </Grid>
         {this.show.showPreview ?
           <Preview></Preview>

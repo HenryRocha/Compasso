@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Rating() {
+export default function Rating(props) {
 
     const classes = useStyles();
 
@@ -21,11 +21,13 @@ export default function Rating() {
                 id="outlined-multiline-static"
                 label="Enunciado"
                 multiline
-                rows="4"
+                rows="2"
                 defaultValue=""
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
+                onChange={(e) => props.changeQuestion(e.target.value)}
+
             />
         </div>
     );

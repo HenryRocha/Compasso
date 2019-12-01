@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Short() {
+export default function Short(props) {
 
     const classes = useStyles();
 
@@ -21,11 +21,12 @@ export default function Short() {
                 id="outlined-multiline-static"
                 label="Enunciado"
                 multiline
-                rows="4"
+                rows="2"
                 defaultValue=""
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
+                onChange={(e) => props.changeQuestion(e.target.value)}
             />
         </div>
     );

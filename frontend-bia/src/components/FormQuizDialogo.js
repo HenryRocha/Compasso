@@ -27,16 +27,15 @@ const useStyles = makeStyles(theme => ({
 export default function FormDialog(props) {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState('');
+    const [A, setA] = React.useState('');
+    const [B, setB] = React.useState('');
+    const [C, setC] = React.useState('');
+    const [D, setD] = React.useState('');
     const [quiz, setQuiz] = React.useState({
         question: "",
         choices: [],
         answers: [],
         type: ""
-    });
-    const [quizzes, setQuizzes] = React.useState({
-        title: "",
-        description: "",
-        questions: [],
     });
 
     const handleClickOpen = () => {
@@ -52,24 +51,68 @@ export default function FormDialog(props) {
     const handleChange = event => {
         setValue(event.target.value);
     };
-    const handleSubmit = event => {
-        if (quiz) {
-            setQuizzes(quizzes.questions.concat(quiz));
-        }
-        setQuiz({
-            question: "",
-            choices: [],
-            answers: [],
-            type: ""
-        });
-        event.preventDefault();
+    const handleSubmit = () => {
+        console.log(quiz.question)
+        props.changeQuizzes(quiz)
+        handleClose()
     };
+    const changeChoices = () => {
+        if (A !== '' && B !== '' && C !== '' && D !== '') {
+            let localChoices = []
+            localChoices.push(A, B, C, D);
+            setQuiz({
+                question: quiz.question,
+                choices: localChoices,
+                type: quiz.type
+            });
+            console.log('Entrou em Choices')
+        }
+    }
 
-    const changeQuestion = newQuestion => {
+    // Multiple
+    const changeMQuestion = newQuestion => {
+        console.log("Entrou Question")
         setQuiz({
-            question: newQuestion
+            question: newQuestion,
+            type: "Multipla escolha"
         });
-        handleSubmit()
+    }
+    const changeMChoiceA = newChoiceA => {
+        console.log("Entrou A")
+        setA(newChoiceA);
+        changeChoices();
+    }
+    const changeMChoiceB = newChoiceB => {
+        console.log("Entrou B")
+        setB(newChoiceB);
+        changeChoices();
+    }
+    const changeMChoiceC = newChoiceC => {
+        console.log("Entrou C")
+        setC(newChoiceC);
+        changeChoices();
+    }
+    const changeMChoiceD = newChoiceD => {
+        console.log("Entrou D")
+        setD(newChoiceD);
+        changeChoices();
+    }
+
+    // Short
+    const changeSQuestion = newQuestion => {
+        console.log("Entrou Question")
+        setQuiz({
+            question: newQuestion,
+            type: "Resposta curta"
+        });
+    }
+    // Rating
+    const changeRQuestion = newQuestion => {
+        console.log("Entrou Question")
+        setQuiz({
+            question: newQuestion,
+            type: "Rating"
+        });
     }
 
     return (
@@ -91,18 +134,26 @@ export default function FormDialog(props) {
                 </DialogContent>
                 {value === "Multipla escolha" ?
                     <MultipleChoice
-                        // changeQuestion={changeQuestion.bind(this)}
+                        changeQuestion={changeMQuestion.bind(this)}
+                        changeChoiceA={changeMChoiceA.bind(this)}
+                        changeChoiceB={changeMChoiceB.bind(this)}
+                        changeChoiceC={changeMChoiceC.bind(this)}
+                        changeChoiceD={changeMChoiceD.bind(this)}
                     /> : (
                         value === "Resposta Curta" ?
-                            <Short></Short> : (
+                            <Short
+                                changeQuestion={changeSQuestion.bind(this)}
+                            /> : (
                                 value === "Rating" ?
-                                    <Rating></Rating> : null
+                                    <Rating
+                                        changeQuestion={changeRQuestion.bind(this)}
+                                    /> : null
                             ))}
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancelar
                     </Button>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleSubmit} color="primary">
                         Salvar
                     </Button>
                 </DialogActions>
