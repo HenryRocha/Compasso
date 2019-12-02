@@ -1,6 +1,6 @@
 {
-  "name": "ideasapi",
-  "description": "API responsible for handling all idea related requests.",
+  "name": "quizzesapi",
+  "description": "API responsible for handling all quiz related requests.",
   "version": "1.0.0",
   "author": "Henry Rocha",
   "main": "index.js",

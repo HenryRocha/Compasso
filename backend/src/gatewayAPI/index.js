@@ -6,10 +6,12 @@ const axios = require("axios");
 // CONSTANTS
 // Declaring the app constant and the port this API will run on.
 const app = express();
-const PORT = 8080;
+const PORT = 80;
 const ADDRESSES = {
-  ideas: "http://localhost:3001",
+  ideas: "http://localhost:8084",
   login: "http://localhost:5002",
+  quizzes: "http://localhost:8085",
+  projects: "http://localhost:3002",
 };
 
 // APP
@@ -30,10 +32,20 @@ app.use(function(req, res, next) {
 
 app.listen(PORT, () => console.log("Connected to port " + PORT + "!"));
 
-app.route("/ideas").get(async (req, res, next) => {
-  console.log("GET on /ideas");
+app.route("/idea").post(async (req, res, next) => {
   try {
-    const response = await axios.get(ADDRESSES.ideas + "/ideas", {
+    const response = await axios.post(ADDRESSES.ideas + "/idea", req.body);
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/idea").get(async (req, res, next) => {
+  try {
+    const response = await axios.post(ADDRESSES.ideas + "/idea", {
       query: req.query,
     });
     res.status(response.status).send(response.data);
@@ -42,10 +54,26 @@ app.route("/ideas").get(async (req, res, next) => {
       message: e.response.data.message,
     });
   }
-}).post(async (req, res, next) => {
-  console.log("POST on /ideas");
+});
+
+app.route("/projects/ideas").get(async (req, res, next) => {
   try {
-    const response = await axios.post(ADDRESSES.ideas + "/ideas", req.body);
+    const response = await axios.post(ADDRESSES.ideas + "/projects/ideas", {
+      query: req.query,
+    });
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/user/ideas").get(async (req, res, next) => {
+  try {
+    const response = await axios.post(ADDRESSES.ideas + "/user/ideas", {
+      query: req.query,
+    });
     res.status(response.status).send(response.data);
   } catch (e) {
     res.status(400).send({
@@ -70,6 +98,74 @@ app.route("/login").post(async (req, res, next) => {
   console.log("Posting User");
   try {
     const response = await axios.post(ADDRESSES.login + "/auth/authenticate", req.body);
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/quiz").get(async (req, res, next) => {
+  try {
+    const response = await axios.get(ADDRESSES.quizzes + "/quiz", {
+      query: req.query,
+    });
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/quiz").patch(async (req, res, next) => {
+  try {
+    const response = await axios.get(ADDRESSES.quizzes + "/quiz", req.body);
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/idea/quizzes").get(async (req, res, next) => {
+  try {
+    const response = await axios.get(ADDRESSES.quizzes + "/quizzes/idea", {
+      query: req.query,
+    });
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/project/quizzes").get(async (req, res, next) => {
+  try {
+    const response = await axios.get(ADDRESSES.quizzes + "/quizzes/idea", {
+      query: req.query,
+    });
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/projects").post(async (req, res, next) => {
+  try {
+    const response = await axios.get(ADDRESSES.projects + "/projects", {
+      query: req.query,
+    });
+
     res.status(response.status).send(response.data);
   } catch (e) {
     res.status(400).send({
