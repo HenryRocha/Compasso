@@ -105,6 +105,7 @@ class QuizzesCreate extends React.Component {
             changeQuizzes={(e) => this.changeQuizzes(e)}
           />
         </Grid>
+        <Preview/>
       </div>
 
     );
