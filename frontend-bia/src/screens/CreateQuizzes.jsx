@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import TextField from "@material-ui/core/TextField";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
@@ -6,6 +7,7 @@ import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import FormQuizDialogo from '../components/FormQuizDialogo'
 import Preview from '../components/Preview';
+import axios from 'axios';
 
 const mapStateToProps = state => ({ user: state.user });
 
@@ -17,20 +19,10 @@ class QuizzesCreate extends React.Component {
   constructor(props) {
     super(props);
 
-    this.show = {
-      showPreview: true
-    };
     this.state = {
       title: "",
       description: "",
-      questions: [
-        {
-          question: "",
-          choices: [],
-          answers: [],
-          type: ""
-        }
-      ],
+      questions: [],
     };
 
     this.quiz = {
@@ -42,52 +34,43 @@ class QuizzesCreate extends React.Component {
 
   }
 
-  // show = {
-  //   showPreview: true
-  // };
-  // quizzes = {
-  //   lastQuiz: [],
-  //   quizzes: []
-  // };
-  // state = {
-  //   title: "",
-  //   description: "",
-  //   questions: [
-  //     {
-  //       question: "",
-  //       choices: [],
-  //       answers: [],
-  //       type: ""
-  //     }
-  //   ],
-  // };
+  componentDidMount() {
+    fetch('/templates')
+      .then(res => res.json())
+      .then((response) => {
+        console.log("response", response);
+        this.setState({
+          title: response.title,
+          description: response.description,
+          questions: response.questions
+        });
+        console.log("fetchQuestions", this.state.questions);
+      }, (error) => {
+        console.log(error);
+      });
+  }
 
+  componentDidUpdate(prevProps, prevState) {
+    fetch('/template', {
+      method: 'post',
+      body: JSON.stringify(this.state)
+    }).then(function (response) {
+      return response.json();
+    });
+  }
 
-
-  // togglePopup() {
-  //   this.setShow({
-  //     showPopup: !this.show.showPopup,
-  //     showQuizzes: this.show.showQuizzes
-  //   });
-  // }
-
-  // showQuizzes() {
-  //   this.setShow({
-  //     showPopup: this.show.showPopup,
-  //     showQuizzes: !this.show.showQuizzes
-  //   });
-  // }
-
-  saveQuiz(){
-        
+  saveQuiz() {
+    this.state.questions.push(this.quiz)
+    console.log(this.state)
   }
   changeQuizzes(event) {
     console.log("CreateQuizzes")
     console.log(event.question)
-    this.quiz.questions = event.question
+    this.quiz.question = event.question
     this.quiz.choices = event.choices
     this.quiz.type = event.type
     console.log(this.quiz)
+    this.saveQuiz()
   }
 
   render() {
@@ -100,16 +83,10 @@ class QuizzesCreate extends React.Component {
       textAlign: "center",
       fontSize: "20px"
     };
-    // const buttonStyle = {
-    //   margin: 5
-    // };
-    // const theme = createMuiTheme({
-    //   palette: {
-    //     secondary: {
-    //       main: '#F25C5C'
-    //     }
-    //   },
-    // });
+
+    const previewElement = <Preview
+      changePreview={this.state.questions}
+    />
 
     return (
       <div>
@@ -128,10 +105,6 @@ class QuizzesCreate extends React.Component {
             changeQuizzes={(e) => this.changeQuizzes(e)}
           />
         </Grid>
-        {this.show.showPreview ?
-          <Preview></Preview>
-          : null
-        }
       </div>
 
     );

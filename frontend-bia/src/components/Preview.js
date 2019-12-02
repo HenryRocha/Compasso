@@ -28,32 +28,39 @@ export default function Preview(props) {
         fontSize: "20px"
     };
 
+    const { changePreview } = props;
+
     return (
         <div>
-            <Grid item xs container direction="row" spacing={2} style={titleStyle} >
-                <Grid item xs container direction="row" spacing={5} style={titleStyle} >
-                    <Typography
-                        style={titleStyle}
-                    >Enunciado da questão</Typography>
+            {!changePreview.length === 0 ?
+            changePreview.map((a, i) => (
+                <Grid item xs container direction="row" spacing={2} style={titleStyle} >
+                    <Grid item xs container direction="row" spacing={5} style={titleStyle} >
+                        <Typography
+                            style={titleStyle}
+                        >{a.question}</Typography>
 
-                    <TextField
-                        id="tipo"
-                        label="Tipo"
-                        multiline
-                        rows="2"
-                        defaultValue="Multipla escolha"
-                        className={classes.textField}
-                        margin="normal"
-                        variant="outlined"
-                    />
-                    <Button onClick={null} color="primary">
-                        Editar
+                        <TextField
+                            id="tipo"
+                            label="Tipo"
+                            multiline
+                            rows="2"
+                            defaultValue={a.type}
+                            className={classes.textField}
+                            margin="normal"
+                            variant="outlined"
+                        />
+                        <Button onClick={null} color="primary">
+                            Editar
                     </Button>
-                    <Button onClick={null} color="primary">
-                        Deletar
+                        <Button onClick={null} color="primary">
+                            Deletar
                     </Button>
+                    </Grid>
                 </Grid>
-            </Grid>
+            ))
+                : null
+            }
         </div>
     );
 }
