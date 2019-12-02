@@ -100,10 +100,6 @@ async function getProjects(userID) {
 }
 
 
-
-
-
-
 async function addProject(projectInfo) {
   return new Promise(function(resolve, reject) {
     dbCompany.findOne({title: projectInfo.title}).then((resp) => {
@@ -132,5 +128,5 @@ async function addProject(projectInfo) {
 }
 
 
-module.exports = { getUser, addProject, getProjects, getProject };
+module.exports = {getUser, addProject, getProjects, getProject};
 
