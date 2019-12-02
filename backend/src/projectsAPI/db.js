@@ -67,7 +67,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 const dbCompany = mongoose.model("projects", projectSchema);
-const dbUsers = mongoose.model("users", userSchema);
+const dbUsers = mongoose.model("users", UserSchema);
 
 async function getUser(userID) {
   return new Promise(function(resolve, reject) {
