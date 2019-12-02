@@ -1,0 +1,14 @@
+.project_card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.project_title {
+    text-align: center;
+}
+.addProject {
+    display: flex;
+    justify-content: center;
+}

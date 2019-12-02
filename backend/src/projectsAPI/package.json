@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "npm install && nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js &"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

@@ -22,24 +22,7 @@ app.listen(CONSTANTS.PORT, () => {
 
 
 // ROUTES
-app.route("/idea").get(async (req, res, next) => {
-  console.log("\nReceived GET request on /idea");
-
-  const {ok, error, idea} = await db.getIdea(req.query.userId, req.query.ideaId);
-
-  if (ok === true) {
-    res.send({
-      ok: true,
-      idea,
-    });
-  } else {
-    console.log(error);
-    res.send({
-      ok: false,
-      message: "Could not get idea",
-    });
-  }
-}).post(async (req, res, next) => {
+app.route("/idea").post(async (req, res, next) => {
   console.log("\nReceived POST request on /idea");
 
   const {ok, error} = await db.postIdea(req.body);
@@ -58,10 +41,48 @@ app.route("/idea").get(async (req, res, next) => {
   }
 });
 
-app.route("/ideas").get(async (req, res, next) => {
-  console.log("\nReceived GET request on /ideas");
+app.route("/idea").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /idea");
 
-  const {ok, error, ideas} = await db.getIdeas(req.query.userId);
+  const {ok, error, idea} = await db.getIdea(req.query.userId, req.query.ideaId);
+
+  if (ok === true) {
+    res.send({
+      ok: true,
+      idea,
+    });
+  } else {
+    console.log(error);
+    res.send({
+      ok: false,
+      message: "Could not get idea",
+    });
+  }
+});
+
+app.route("/project/ideas").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /project/ideas");
+
+  const {ok, error, ideas} = await db.getProjectIdeas(req.query.userId, req.query.projectId);
+
+  if (ok === true) {
+    res.send({
+      ok: true,
+      ideas,
+    });
+  } else {
+    console.log(error);
+    res.send({
+      ok: false,
+      message: "Could not get ideas",
+    });
+  }
+});
+
+app.route("/user/ideas").get(async (req, res, next) => {
+  console.log("\nReceived GET request on /user/ideas");
+
+  const {ok, error, ideas} = await db.getUserIdeas(req.query.userId);
 
   if (ok === true) {
     res.send({

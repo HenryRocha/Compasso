@@ -1,0 +1,14 @@
+.project_card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.project_title {
+    text-align: center;
+}
+.seeMore {
+    display: flex;
+    justify-content: flex-end;
+}

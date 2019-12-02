@@ -23,8 +23,16 @@ const QUIZ = new mongoose.Schema({
   _userId: mongoose.ObjectId,
   _projectId: mongoose.ObjectId,
   _templateId: mongoose.ObjectId,
-  answerDate: {type: Date, default: Date.now},
+  answerDate: {type: Date, default: null},
+  deadline: Date,
   questions: [{type: mongoose.Schema.Types.Mixed, ref: QUESTION}],
+  name: String,
+});
+
+const PROJECTQUIZ = new mongoose.Schema({
+  _templateId: mongoose.ObjectId,
+  deadline: Date,
+  name: String,
 });
 
 const PROJECT = new mongoose.Schema({
@@ -32,7 +40,7 @@ const PROJECT = new mongoose.Schema({
   description: String,
   email: String,
   token: String,
-  quizzes: mongoose.Schema.Types.Mixed,
+  quizzes: [PROJECTQUIZ],
 });
 
 const TEMPLATE = new mongoose.Schema({
@@ -44,7 +52,9 @@ const TEMPLATE = new mongoose.Schema({
 const IDEA = new mongoose.Schema({
   _userId: mongoose.ObjectId,
   _projectId: mongoose.ObjectId,
-  quizzes: JSON,
+  title: String,
+  description: String,
+  quizzes: [mongoose.ObjectId],
 });
 
 // EXPORTS
