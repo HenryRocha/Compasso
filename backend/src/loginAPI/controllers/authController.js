@@ -3,15 +3,21 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 
 const User = require("../models/user");
+const Project = require("../models/project");
 
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
-  const {email} = req.body;
-
+  const {email} = req.body.email;
+  const {token} = req.body.project;
+  
   try {
     if (await User.findOne({email})) {
       return res.status(400).send({message: "User alredy exists"});
+    }
+
+    if (await !Project.findOne({token})) {
+      return res.status(400).send({message: "Token not found"});
     }
 
     const user = await User.create(req.body);
@@ -21,6 +27,7 @@ router.post("/register", async (req, res) => {
       id: user._id,
       name: user.name,
       email: user.email,
+      project: user.project,
       createdAt: user.createdAt,
     });
   } catch (err) {
