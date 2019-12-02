@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post("/register", async (req, res) => {
   const {email} = req.body.email;
-  const {token} = req.body.project;
+  const {token} = req.body.projectToken;
   
   try {
     if (await User.findOne({email})) {
