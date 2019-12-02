@@ -122,7 +122,7 @@ app.route("/quiz").get(async (req, res, next) => {
 
 app.route("/quiz").patch(async (req, res, next) => {
   try {
-    const response = await axios.get(ADDRESSES.quizzes + "/quiz", req.body);
+    const response = await axios.patch(ADDRESSES.quizzes + "/quiz", req.body);
 
     res.status(response.status).send(response.data);
   } catch (e) {
@@ -160,9 +160,35 @@ app.route("/project/quizzes").get(async (req, res, next) => {
   }
 });
 
-app.route("/projects").post(async (req, res, next) => {
+app.route("/projects").get(async (req, res, next) => {
   try {
     const response = await axios.get(ADDRESSES.projects + "/projects", {
+      query: req.query,
+    });
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/projects").post(async (req, res, next) => {
+  try {
+    const response = await axios.post(ADDRESSES.projects + "/projects", req.body);
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/project").get(async (req, res, next) => {
+  try {
+    const response = await axios.get(ADDRESSES.projects + "/project", {
       query: req.query,
     });
 

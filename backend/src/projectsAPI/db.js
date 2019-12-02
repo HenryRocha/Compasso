@@ -28,7 +28,6 @@ const PROJECTQUIZ = new mongoose.Schema({
   name: String,
 });
 
-
 const projectSchema = new mongoose.Schema({
   title: String,
   description: String,
@@ -100,6 +99,7 @@ async function getProjects(userID) {
   });
 }
 
+
 async function addProject(projectInfo) {
   return new Promise(function(resolve, reject) {
     dbCompany.findOne({title: projectInfo.title}).then((resp) => {
@@ -127,4 +127,6 @@ async function addProject(projectInfo) {
   });
 }
 
+
 module.exports = {getUser, addProject, getProjects, getProject};
+
