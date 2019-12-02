@@ -6,7 +6,7 @@ const axios = require("axios");
 // CONSTANTS
 // Declaring the app constant and the port this API will run on.
 const app = express();
-const PORT = 8080;
+const PORT = 80;
 const ADDRESSES = {
   ideas: "http://localhost:8084",
   login: "http://localhost:5002",
