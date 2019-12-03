@@ -63,7 +63,7 @@ async function postIdea(idea) {
 
       return {
         ok: true,
-        error: {},
+        idea,
       };
     }
     return {
