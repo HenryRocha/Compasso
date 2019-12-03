@@ -1,3 +1,4 @@
+
 // MODULES
 const parser = require("body-parser");
 const express = require("express");
@@ -47,11 +48,17 @@ app.route("/idea/quizzes").get(async (req, res, next) => {
   const {ok, error, quizzes} = await db.getQuizzesIdea(req.query.userId, req.query.ideaId);
 
   if (ok === true) {
-    for (i = 0; i < quizzes.length; i++) {
-      quizzes[i].ideaId = req.query.ideaId;
-    }
+    //for (i = 0; i < quizzes.length; i++) {
+    //  quizzes[i].ideaId = req.query.ideaId;
+    //}
+    let response = [];
+    quizzes.forEach((quizz) => {
+      const q = {...quizz._doc, ideaId: req.query.ideaId}
+      console.log(q);
+      response.push(q);
+    });
     res.send({
-      quizzes,
+      quizzes: response,
     });
   } else {
     console.log(error);
