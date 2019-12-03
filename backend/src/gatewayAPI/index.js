@@ -134,9 +134,7 @@ app.route("/quiz").patch(async (req, res, next) => {
 
 app.route("/idea/quizzes").get(async (req, res, next) => {
   try {
-    const response = await axios.get(ADDRESSES.quizzes + "/quizzes/idea", {
-      query: req.query,
-    });
+    const response = await axios.get(ADDRESSES.quizzes + "/idea/quizzes?userId=" + req.query.userId + "&ideaId=" + req.query.ideaId);
 
     res.status(response.status).send(response.data);
   } catch (e) {
