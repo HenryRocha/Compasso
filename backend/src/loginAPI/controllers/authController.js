@@ -8,7 +8,7 @@ const Project = require("../models/project");
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
-  const {projectToken, email} = req.body
+  const {projectToken, email} = req.body;
 
   try {
     if (await User.findOne({email})) {
@@ -21,7 +21,9 @@ router.post("/register", async (req, res) => {
       return res.status(400).send({message: "Token not found"});
     }
 
-    const user = await User.create({...req.body, projectId: project._id});
+    req.body.projectId = project._id;
+
+    const user = await User.create(req.body);
 
     console.log(user);
     res.send({
@@ -59,6 +61,8 @@ router.post("/authenticate", async (req, res) => {
     id: user._id,
     name: user.name,
     email: user.email,
+    projectId: user.projectId,
+    projectToken: user.projectToken,
     createdAt: user.createdAt,
   });
 });
