@@ -12,6 +12,7 @@ const ADDRESSES = {
   login: "http://localhost:5002",
   quizzes: "http://localhost:8085",
   projects: "http://localhost:3002",
+  templates: "http://localhost:5003",
 };
 
 // APP
@@ -191,6 +192,78 @@ app.route("/project").get(async (req, res, next) => {
     const response = await axios.get(ADDRESSES.projects + "/project", {
       query: req.query,
     });
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/template").post(async (req, res, next) => {
+  try {
+    const response = await axios.post(ADDRESSES.templates + "/template", req.body);
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/template/:templateId").get(async (req, res, next) => {
+  try {
+    const response = await axios.get(ADDRESSES.templates + "/template/" + req.params.templateId);
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/template/:templateId").put(async (req, res, next) => {
+  try {
+    const response = await axios.put(ADDRESSES.templates + "/template/" + req.params.templateId, req.body);
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/template/:templateId").delete(async (req, res, next) => {
+  try {
+    const response = await axios.delete(ADDRESSES.templates + "/template/" + req.params.templateId);
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/templates").get(async (req, res, next) => {
+  try {
+    const response = await axios.get(ADDRESSES.templates + "/templates");
+
+    res.status(response.status).send(response.data);
+  } catch (e) {
+    res.status(400).send({
+      message: e.response.data.message,
+    });
+  }
+});
+
+app.route("/templates/:company").get(async (req, res, next) => {
+  try {
+    const response = await axios.get(ADDRESSES.templates + "/template/" + req.params.company);
 
     res.status(response.status).send(response.data);
   } catch (e) {
