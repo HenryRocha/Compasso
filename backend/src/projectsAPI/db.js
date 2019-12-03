@@ -24,9 +24,9 @@ db.once("open", function() {
 
 const PROJECTQUIZ = new mongoose.Schema({
   _templateId: mongoose.ObjectId,
-  deadline: Date,
+  deadline: String,
   name: String,
-});
+}, { _id: false });
 
 const projectSchema = new mongoose.Schema({
   title: String,
