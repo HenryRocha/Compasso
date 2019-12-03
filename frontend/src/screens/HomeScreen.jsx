@@ -5,10 +5,11 @@ import "../css/app.css";
 import ProjectForm from "../components/ProjectForm";
 import { persistor } from "../store";
 import actions from "../actions";
+import { Colors } from "../constants/Colors";
 
 const mapStateToProps = state => ({
-  ideas: state.data.ideas,
-  user: state.user
+    ideas: state.data.ideas,
+    user: state.user
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
