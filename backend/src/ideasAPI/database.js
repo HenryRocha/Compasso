@@ -4,8 +4,6 @@ const mongoose = require("mongoose");
 const CONSTANTS = require("./constants");
 const SCHEMAS = require("./schemas");
 
-const ObjectId = mongoose.ObjectId();
-
 
 // MODELS
 const dbTemplates = mongoose.model("templates", SCHEMAS.TEMPLATE);
@@ -32,8 +30,8 @@ db.once("open", () => {
 // FUNCTIONS
 async function postIdea(idea) {
   try {
-    const user = await dbUsers.findById(new ObjectId(idea._userId));
-    const project = await dbProjects.findById(new ObjectId(idea._projectId));
+    const user = await dbUsers.findById(idea._userId);
+    const project = await dbProjects.findById(idea._projectId);
 
     if (user && project) {
       const quizIdList = [];
