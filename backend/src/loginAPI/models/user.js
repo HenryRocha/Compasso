@@ -2,6 +2,7 @@ const mongoose = require("../database");
 const bcrypt = require("bcryptjs");
 
 const UserSchema = new mongoose.Schema({
+  _projectId: mongoose.ObjectId,
   name: {
     type: String,
     require: true,
@@ -16,6 +17,13 @@ const UserSchema = new mongoose.Schema({
     type: String,
     require: true,
     select: false,
+  },
+  salt: String,
+  hash: String,
+  admin: Boolean,
+  manager: Boolean,
+  projectToken: {
+    type: Number,
   },
   createdAt: {
     type: Date,
