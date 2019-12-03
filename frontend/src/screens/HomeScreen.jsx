@@ -89,21 +89,11 @@ class HomeScreen extends React.Component {
                 Adicionar
               </h1>
             </div>
-<<<<<<< HEAD
-          ))}
-      
-        </div>
-        </div>
-    )
-    }
-    
-=======
           </div>
         </div>
       </div>
     );
   }
->>>>>>> e3954befad89569d6f065052e0b91a531869bbfd
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
