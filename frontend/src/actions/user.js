@@ -20,8 +20,8 @@ export const register = (name, email, password, token) => async _dispatch => {
     const response = await api.fetchAndDispatch("POST", "user", "USER", {
       name: name,
       email: email,
-      password: password
-      //token: token
+      password: password,
+      projectToken: token
     });
     history.push("/home");
     return response;

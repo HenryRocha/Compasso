@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import "../css/app.css";
 import actions from "../actions";
 import { Colors } from "../constants/Colors";
+import { persistor } from "../store";
 
 const mapStateToProps = state => ({ user: state.user });
 
@@ -24,18 +25,41 @@ class Header extends React.Component {
           top: 0,
           left: 0,
           display: "flex",
-          flexDirection: "flex-row"
+          flexDirection: "flex-row",
+          alignContent: "center",
+          alignItems: "center",
+          justifyContent: "space-between"
         }}
       >
-        <img
+        <div
           style={{
-            heigth: "2.2rem",
-            width: "2.2rem",
-            margin: "1rem 0 1rem 1rem"
+            display: "flex",
+            flexDirection: "flex-row",
+            alignContent: "center",
+            alignItems: "center"
           }}
-          src="https://teambuilding.mastertech.com.br/assets/images/mastertech-logo.png"
-        />
-        {user && <h1>Olá, {user.name}</h1>}
+        >
+          <img
+            style={{
+              heigth: "2.2rem",
+              width: "2.2rem",
+              margin: "1rem 0 1rem 1rem"
+            }}
+            src="https://teambuilding.mastertech.com.br/assets/images/mastertech-logo.png"
+          />
+          {user && (
+            <h1 style={{ color: Colors.white, marginLeft: "1rem" }}>
+              Olá, {user.name}
+            </h1>
+          )}
+        </div>
+        <h1
+          className="hoverPointer"
+          style={{ color: Colors.white, marginRight: "1rem" }}
+          onClick={() => persistor.purge()}
+        >
+          Logout
+        </h1>
       </div>
     );
   }
