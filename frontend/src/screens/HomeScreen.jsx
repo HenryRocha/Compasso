@@ -36,7 +36,7 @@ class HomeScreen extends React.Component {
           isVisible={showForm}
           onConfirm={() => this.setState({ showForm: false })}
         />
-        {ideas && ideas.map((idea, i) => <div> Ideia {idea.idea.title}</div>)}
+        {ideas && ideas.map((idea, i) => <div> Ideia {idea.title}</div>)}
       </div>
     );
   }

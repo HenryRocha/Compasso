@@ -8,7 +8,8 @@ import { persistor } from "../store";
 
 const mapStateToProps = state => ({ user: state.user });
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ logout: actions.logout }, dispatch);
 
 class Header extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, logout } = this.props;
     return (
       <div
         style={{
@@ -53,13 +54,15 @@ class Header extends React.Component {
             </h1>
           )}
         </div>
-        <h1
-          className="hoverPointer"
-          style={{ color: Colors.white, marginRight: "1rem" }}
-          onClick={() => persistor.purge()}
-        >
-          Logout
-        </h1>
+        {user && (
+          <h1
+            className="hoverPointer"
+            style={{ color: Colors.white, marginRight: "1rem" }}
+            onClick={() => logout()}
+          >
+            Logout
+          </h1>
+        )}
       </div>
     );
   }
