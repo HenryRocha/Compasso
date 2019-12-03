@@ -39,7 +39,7 @@ saveQuiz(e) {
     this.state.questions.push(e);
 }
 async handleSaveTemplate(e) {
-    var apiBaseUrl = "localhost:3000/";
+    var apiBaseUrl = "localhost:80/";
     await axios.post(apiBaseUrl+'templates', this.state)
     .then(function (response) {
         this.props.history.push("/dash");

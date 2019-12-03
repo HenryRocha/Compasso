@@ -49,7 +49,7 @@ class CreateProjectScreen extends React.Component {
 
    async handleClick(e) {
 
-    var apiBaseUrl = "localhost:3000/";
+    var apiBaseUrl = "localhost:80/";
     await axios.post(apiBaseUrl+'projects', this.state)
     .then(function (response) {
         this.props.history.push("/dash");
