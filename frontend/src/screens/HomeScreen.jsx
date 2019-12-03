@@ -5,6 +5,7 @@ import "../css/app.css";
 import ProjectForm from "../components/ProjectForm";
 import { Colors } from "../constants/Colors";
 import Idea from "../components/Idea";
+import QuizModal from "../components/QuizModal";
 
 const mapStateToProps = state => ({
   ideas: state.data.ideas,
@@ -28,85 +29,67 @@ class HomeScreen extends React.Component {
         style={{
           display: "flex",
           flexFlow: "row nowrap",
-          justifyContent: "space-between",
-          marginTop: "3vh"
+          justifyContent: "space-between"
         }}
       >
+        <QuizModal />
         <div
           style={{
             display: "flex",
             flexFlow: "row wrap",
-            justifyContent: "flex-start",
-            width: "45vw"
+            justifyContent: "flex-start"
           }}
         >
-          {ideas &&
-            ideas.map((idea, i) => (
-              <div
-                style={{
-                  width: "10vw",
-                  display: "flex",
-                  flexFlow: "row nowrap",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  padding: "0.4rem"
-                }}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              padding: "0.8rem"
+            }}
+          >
+            {ideas &&
+              ideas.map((idea, i) => (
+                <div
+                  style={{
+                    display: "flex",
+                    flexFlow: "row nowrap",
+                    justifyContent: "flex-start"
+                  }}
+                >
+                  <Idea idea={idea} />
+                </div>
+              ))}
 
+            <div
+              style={{
+                display: "flex",
+                flexFlow: "row nowrap",
+                justifyContent: "space-around"
+              }}
             >
-                <div
-                    style={{
-                        display: "flex",
-                        flexFlow: "row wrap",
-                        justifyContent: "flex-start",
-                        width: "45vw"
-                    }}
-                >
-                    {ideas &&
-                        ideas.map((idea, i) => (
-                            <div
-                                style={{
-                                    width: "20vw",
-                                    height: "10vh",
-                                    display: "flex",
-                                    flexFlow: "row nowrap",
-                                    alignItems: "center",
-                                    justifyContent: "flex-start",
-                                    padding: "0.4rem"
-                                }}
-                            >
-                                <Idea idea={idea} />
-                            </div>
-                        ))}
-                </div>
-                <div
-                    style={{
-                        display: "flex",
-                        flexFlow: "row nowrap",
-                        justifyContent: "space-around",
-                        width: "45vw"
-                    }}
-                >
-                    <ProjectForm
-                        isVisible={showForm}
-                        onConfirm={() => this.setState({ showForm: false })}
-                    />
-
-                    <h1
-                        className="hoverPointer"
-                        style={{
-                            marginRight: "1rem",
-                            backgroundColor: Colors.darkPink,
-                            color: "white",
-                            borderRadius: "0.3rem",
-                            padding: "0.6rem",
-                            height: "2.5vh"
-                        }}
-                        onClick={() => this.setState({ showForm: true })}
-                    >
-                        Adicionar ideia
-                    </h1>
-                </div>
+              <ProjectForm
+                isVisible={showForm}
+                onConfirm={() => this.setState({ showForm: false })}
+              />
+              <h1
+                className="hoverPointer"
+                style={{
+                  marginRight: "1rem",
+                  backgroundColor: Colors.black,
+                  color: "white",
+                  borderRadius: "0.3rem",
+                  padding: "0.6rem",
+                  height: "2.5vh",
+                  alignContent: "center",
+                  textAlign: "center",
+                  justifyContent: "center"
+                }}
+                onClick={() => this.setState({ showForm: true })}
+              >
+                Adicionar
+              </h1>
             </div>
+<<<<<<< HEAD
           ))}
       
         </div>
@@ -114,6 +97,13 @@ class HomeScreen extends React.Component {
     )
     }
     
+=======
+          </div>
+        </div>
+      </div>
+    );
+  }
+>>>>>>> e3954befad89569d6f065052e0b91a531869bbfd
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

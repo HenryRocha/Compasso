@@ -14,6 +14,7 @@ export const postIdea = (
     title,
     description
   });
+  await store.dispatch(actions.getQuizzes());
 };
 
 export const getIdeas = userId => async _dispatch => {
@@ -39,4 +40,18 @@ export const getQuizzes = () => async _dispatch => {
     (await data.ideas.map(idea =>
       store.dispatch(actions.getQuizz(user.id, idea._id))
     ));
+};
+
+export const patchQuizz = (quizId, data) => async _dispatch => {
+  try {
+    const response = await api.fetchAndDispatch(
+      "PATCH",
+      `quizzes?quizId=${quizId}`,
+      "QUIZZ",
+      data
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };

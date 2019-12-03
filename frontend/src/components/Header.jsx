@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import "../css/app.css";
 import actions from "../actions";
 import { Colors } from "../constants/Colors";
-import { persistor } from "../store";
 
 const mapStateToProps = state => ({ user: state.user });
 
