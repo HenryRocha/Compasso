@@ -6,6 +6,7 @@ import ProjectForm from "../components/ProjectForm";
 import { persistor } from "../store";
 import actions from "../actions";
 import { Colors } from "../constants/Colors";
+import Idea from "../components/Idea";
 
 const mapStateToProps = state => ({
     ideas: state.data.ideas,
@@ -45,7 +46,8 @@ class HomeScreen extends React.Component {
                         ideas.map((idea, i) => (
                             <div
                                 style={{
-                                    width: "10vw",
+                                    width: "20vw",
+                                    height: "10vh",
                                     display: "flex",
                                     flexFlow: "row nowrap",
                                     alignItems: "center",
@@ -53,7 +55,7 @@ class HomeScreen extends React.Component {
                                     padding: "0.4rem"
                                 }}
                             >
-                                <h1> Ideia {idea.idea.title}</h1>
+                                <Idea idea={idea} />
                             </div>
                         ))}
                 </div>
@@ -77,7 +79,7 @@ class HomeScreen extends React.Component {
                             backgroundColor: Colors.darkPink,
                             color: "white",
                             borderRadius: "0.3rem",
-                            padding: "0.4rem",
+                            padding: "0.6rem",
                             height: "2.5vh"
                         }}
                         onClick={() => this.setState({ showForm: true })}
