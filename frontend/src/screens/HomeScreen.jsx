@@ -43,17 +43,18 @@ class HomeScreen extends React.Component {
                     <div
                         style={{
                             display: "flex",
-                            flexFlow: "row wrap",
-                            justifyContent: "flex-start",
-                            width: "45vw"
+                            flexDirection: "row",
+                            //flexFlow: "row wrap",
+                            //justifyContent: "flex-start",
+                            //: "60vw"
                         }}
                     >
                         {ideas &&
                             ideas.map((idea, i) => (
                                 <div
                                     style={{
-                                        width: "20vw",
-                                        height: "10vh",
+                                        //width: "15vw",
+                                        //height: "10vh",
                                         display: "flex",
                                         flexFlow: "row nowrap",
                                         alignItems: "center",
@@ -64,34 +65,39 @@ class HomeScreen extends React.Component {
                                     <Idea idea={idea} />
                                 </div>
                             ))}
-                    </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            flexFlow: "row nowrap",
-                            justifyContent: "space-around",
-                            width: "45vw"
-                        }}
-                    >
-                        <ProjectForm
-                            isVisible={showForm}
-                            onConfirm={() => this.setState({ showForm: false })}
-                        />
 
-                        <h1
-                            className="hoverPointer"
+                        <div
                             style={{
-                                marginRight: "1rem",
-                                backgroundColor: Colors.darkPink,
-                                color: "white",
-                                borderRadius: "0.3rem",
-                                padding: "0.6rem",
-                                height: "2.5vh"
+                                display: "flex",
+                                flexFlow: "row nowrap",
+                                justifyContent: "space-around",
+                                //width: "40vw"
                             }}
-                            onClick={() => this.setState({ showForm: true })}
                         >
-                            Adicionar ideia
-                        </h1>
+                            <ProjectForm
+                                isVisible={showForm}
+                                onConfirm={() =>
+                                    this.setState({ showForm: false })
+                                }
+                            />
+
+                            <h1
+                                className="hoverPointer"
+                                style={{
+                                    marginRight: "1rem",
+                                    backgroundColor: Colors.darkPink,
+                                    color: "white",
+                                    borderRadius: "0.3rem",
+                                    padding: "0.6rem",
+                                    height: "2.5vh"
+                                }}
+                                onClick={() =>
+                                    this.setState({ showForm: true })
+                                }
+                            >
+                                Adicionar ideia
+                            </h1>
+                        </div>
                     </div>
                 </div>
             </div>
