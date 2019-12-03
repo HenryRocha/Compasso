@@ -47,6 +47,9 @@ app.route("/idea/quizzes").get(async (req, res, next) => {
   const {ok, error, quizzes} = await db.getQuizzesIdea(req.query.userId, req.query.ideaId);
 
   if (ok === true) {
+    quizzes.map((quizz) => {
+      quizz.ideaId = req.query.ideaId;
+    });
     res.send({
       quizzes,
     });
