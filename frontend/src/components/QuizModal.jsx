@@ -63,24 +63,25 @@ class QuizModal extends React.Component {
             padding: "1rem"
           }}
         >
-          {quiz.questions.map(q => (
+          {quiz.questions.map((q, qi) => (
             <React.Fragment>
-              <h1>{q.question}</h1>
+              <h1>{qi + 1 + ") " + q.question}</h1>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 {q.type === "checkbox" ? (
-                  q.choices.map((c, i) => (
+                  q.choices.map((c, ci) => (
                     <div
                       style={{ borderRadius: "0.5rem", borderColor: "black" }}
                     >
                       <h1
                         style={{
                           marginRight: "0.5rem",
-                          color: c === answers[i] ? Colors.pink : "black"
+                          marginBottom: "0.5rem",
+                          color: c === answers[qi] ? Colors.pink : "black"
                         }}
                         className="hoverPointer"
                         onClick={() => {
                           const oldState = [...answers];
-                          oldState[i] = c;
+                          oldState[qi] = c;
                           this.setState({ answers: oldState });
                         }}
                       >
@@ -94,9 +95,28 @@ class QuizModal extends React.Component {
               </div>
             </React.Fragment>
           ))}
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <h1
+              className="hoverPointer"
+              style={{
+                marginRight: "1rem",
+                textDecoration: "underline"
+              }}
+              onClick={() => this.onConfirm()}
+            >
+              enviar
+            </h1>
 
-          <h1 onClick={() => this.onConfirm()}>enviar</h1>
-          <h1 onClick={() => toggleQuizModal(null)}>CLOSE</h1>
+            <h1
+              className="hoverPointer"
+              style={{
+                textDecoration: "underline"
+              }}
+              onClick={() => toggleQuizModal(null)}
+            >
+              cancelar
+            </h1>
+          </div>
         </div>
       )
     );

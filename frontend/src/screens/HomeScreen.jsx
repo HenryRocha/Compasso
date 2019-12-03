@@ -53,7 +53,6 @@ class HomeScreen extends React.Component {
                   style={{
                     display: "flex",
                     flexFlow: "row nowrap",
-                    alignItems: "center",
                     justifyContent: "flex-start"
                   }}
                 >
@@ -82,11 +81,12 @@ class HomeScreen extends React.Component {
                   padding: "0.6rem",
                   height: "2.5vh",
                   alignContent: "center",
-                  textAlign: "center"
+                  textAlign: "center",
+                  justifyContent: "center"
                 }}
                 onClick={() => this.setState({ showForm: true })}
               >
-                Adicionar ideia
+                Adicionar
               </h1>
             </div>
           </div>
