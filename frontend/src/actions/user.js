@@ -10,7 +10,8 @@ export const login = (email, password) => async _dispatch => {
       password: password
     });
     history.push("/home");
-    store.dispatch(actions.getIdeas(response.data.id));
+    await store.dispatch(actions.getIdeas(response.data.id));
+    await store.dispatch(actions.getQuizzes());
     return response;
   } catch (error) {
     throw error;
