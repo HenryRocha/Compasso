@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const CONSTANTS = require("./constants");
 const SCHEMAS = require("./schemas");
 
-const ObjectId = mongoose.ObjectId;
+const ObjectId = mongoose.ObjectId();
 
 
 // MODELS
