@@ -55,6 +55,10 @@ class BiaDashScreen extends React.Component {
     teste() {
         this.props.history.push('create_project');
     }
+    handleCreateTemplate() {
+        this.props.history.push('create_template');
+    }
+
     render() {
 
         const titleStyle = {
@@ -166,7 +170,7 @@ class BiaDashScreen extends React.Component {
                             FORM PADRÃO
                         </Typography>
                         <ThemeProvider theme={theme}>
-                            <Fab style={buttonStyle} color="secondary" size="small" aria-label="add">
+                            <Fab style={buttonStyle} color="secondary" size="small" aria-label="add" onClick={e => this.handleCreateTemplate()}>
                                 <AddIcon />
                             </Fab>
                         </ThemeProvider>

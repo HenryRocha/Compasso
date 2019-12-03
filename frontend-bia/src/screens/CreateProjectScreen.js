@@ -6,13 +6,14 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from '@material-ui/core/Button';
-
+import axios from 'axios';
 
 class CreateProjectScreen extends React.Component {
   state = {
-    nomeProjeto: [],
-    pontoDeContato: [],
-    listaDeInteracao: [],
+    title: '',
+    description: '',
+    email: '',
+    quizzes: {},
     D0:false,
     D7:false,
     D14:false,
@@ -46,11 +47,14 @@ class CreateProjectScreen extends React.Component {
     }));
   }
 
-   handleClick(e) {
-    //O BACK RECEBE OS QUIZ EM LISTA
-    //Aqui falta mandar os dados para o back e voltar para o dash
-    e.preventDefault();
-    console.log('O botão foi clicado.');
+   async handleClick(e) {
+
+    var apiBaseUrl = "localhost:3000/";
+    await axios.post(apiBaseUrl+'projects', this.state)
+    .then(function (response) {
+        this.props.history.push("/dash");
+    });
+        e.preventDefault();
 }
   render() {
     const useStyles = makeStyles(theme => ({
@@ -69,8 +73,8 @@ class CreateProjectScreen extends React.Component {
           placeholder="Nome do projeto"
           fullWidth
           margin="normal"
-          value={this.state.nomeProjeto}
-          onChange={e => this.setState({ nomeProjeto: e.target.value })}
+          value={this.state.title}
+          onChange={e => this.setState({ title: e.target.value })}
         />
 
         <TextField
@@ -80,8 +84,8 @@ class CreateProjectScreen extends React.Component {
           placeholder="campo de email"
           fullWidth
           margin="normal"
-          value={this.state.pontoDeContato}
-          onChange={e => this.setState({ pontoDeContato: e.target.value })}        />
+          value={this.state.email}
+          onChange={e => this.setState({ email: e.target.value })}        />
 
         <FormGroup row>
           <FormControlLabel
@@ -148,7 +152,7 @@ class CreateProjectScreen extends React.Component {
             label="D+90"
           />
         </FormGroup>
-        <Button variant="outlined" onClick ={this.handleClick} >Criar</Button>
+        <Button variant="outlined" onClick ={this.handleClick}>Criar</Button>
 
       </div>
     );

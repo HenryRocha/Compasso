@@ -39,8 +39,8 @@ saveQuiz(e) {
     this.state.questions.push(e);
 }
 async handleSaveTemplate(e) {
-    var apiBaseUrl = "api dos templates do vitinho";
-    await axios.post(apiBaseUrl+'my_favorites', this.state)
+    var apiBaseUrl = "localhost:3000/";
+    await axios.post(apiBaseUrl+'templates', this.state)
     .then(function (response) {
         this.props.history.push("/dash");
     })
@@ -84,10 +84,11 @@ render() {
       description={this.state.description}
       />
       </Grid>
-
+      <center>
       <Button variant="outlined" color="primary" onClick={e => this.handleSaveTemplate(e)}>
       Enviar!
       </Button>
+      </center>
       </div>
 
       );
