@@ -25,6 +25,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function FormDialog(props) {
+    const classes = useStyles();
+
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState('');
     const [A, setA] = React.useState('');
@@ -38,86 +40,83 @@ export default function FormDialog(props) {
         type: ""
     });
 
-    const handleClickOpen = () => {
-        setOpen(true);
+    const handleOpen = () => {
+        if (props.title !== '' && props.description !== '') {
+            setOpen(true);
+        }
+        else {
+            alert("Dados não preenchidos!");
+        }
     };
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    const classes = useStyles();
-
     const handleChange = event => {
         setValue(event.target.value);
     };
     const handleSubmit = () => {
-        console.log(quiz.question)
-        props.changeQuizzes(quiz)
-        handleClose()
+        props.saveQuiz(quiz);
+        handleClose();
     };
     const changeChoices = () => {
-        if (A !== '' && B !== '' && C !== '' && D !== '') {
-            let localChoices = []
+            let localChoices = [];
             localChoices.push(A, B, C, D);
             setQuiz({
                 question: quiz.question,
                 choices: localChoices,
+                answers: [],
                 type: quiz.type
             });
-            console.log('Entrou em Choices')
-        }
     }
 
     // Multiple
     const changeMQuestion = newQuestion => {
-        console.log("Entrou Question")
         setQuiz({
             question: newQuestion,
-            type: "Multipla escolha"
+            type: "multiple"
         });
     }
     const changeMChoiceA = newChoiceA => {
-        console.log("Entrou A")
         setA(newChoiceA);
         changeChoices();
     }
     const changeMChoiceB = newChoiceB => {
-        console.log("Entrou B")
         setB(newChoiceB);
         changeChoices();
     }
     const changeMChoiceC = newChoiceC => {
-        console.log("Entrou C")
         setC(newChoiceC);
         changeChoices();
     }
     const changeMChoiceD = newChoiceD => {
-        console.log("Entrou D")
         setD(newChoiceD);
         changeChoices();
     }
 
     // Short
     const changeSQuestion = newQuestion => {
-        console.log("Entrou Question")
         setQuiz({
             question: newQuestion,
-            type: "Resposta curta"
+            choices: [],
+            answers: [],
+            type: "discursive"
         });
     }
     // Rating
     const changeRQuestion = newQuestion => {
-        console.log("Entrou Question")
         setQuiz({
             question: newQuestion,
-            type: "Rating"
+            choices: [],
+            answers: [],
+            type: "rating"
         });
     }
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+            <Button variant="outlined" color="primary" onClick={handleOpen}>
                 ADICIONAR QUESTÃO
             </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -126,9 +125,9 @@ export default function FormDialog(props) {
                     <FormControl required component="fieldset" className={classes.formControl}>
                         <FormLabel component="legend">marque uma opção</FormLabel>
                         <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-                            <FormControlLabel control={<Radio />} value="Multipla escolha" label="Multiple choice" />
+                            <FormControlLabel control={<Radio />} value="Multipla escolha" label="Multipla escolha" />
                             <FormControlLabel control={<Radio />} value="Resposta Curta" label="Resposta curta" />
-                            <FormControlLabel control={<Radio />} value="Rating" label="Rating" />
+                            <FormControlLabel control={<Radio />} value="Rating" label="Avaliação" />
                         </RadioGroup>
                     </FormControl>
                 </DialogContent>
