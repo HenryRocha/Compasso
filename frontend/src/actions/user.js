@@ -1,6 +1,7 @@
 import api from "../api/api";
 
-import { persistor, history } from "../store";
+import store, { persistor, history } from "../store";
+import actions from ".";
 
 export const login = (email, password) => async _dispatch => {
   try {
@@ -9,6 +10,7 @@ export const login = (email, password) => async _dispatch => {
       password: password
     });
     history.push("/home");
+    store.dispatch(actions.getIdeas(response.data.id));
     return response;
   } catch (error) {
     throw error;
@@ -24,6 +26,7 @@ export const register = (name, email, password, token) => async _dispatch => {
       projectToken: token
     });
     history.push("/home");
+    store.dispatch(actions.getIdeas(response.data.id));
     return response;
   } catch (error) {
     throw error;
@@ -32,4 +35,5 @@ export const register = (name, email, password, token) => async _dispatch => {
 
 export const logout = () => {
   persistor.purge();
+  window.location.href = "/";
 };
