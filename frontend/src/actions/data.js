@@ -2,8 +2,16 @@ import api from "../api/api";
 
 //import store from "../store";
 
-export const postProject = project => dispatch => {
-  api.fetchAndDispatch("POST", "projects", "POST_PROJECT");
-  //store.dispatch({ type: "POST_PROJECT_SUCCESSFULL", payload: project });
-
+export const postIdea = (
+  _userId,
+  _projectId,
+  title,
+  description
+) => dispatch => {
+  api.fetchAndDispatch("POST", "idea", "IDEA", {
+    _userId,
+    _projectId,
+    title,
+    description
+  });
 };

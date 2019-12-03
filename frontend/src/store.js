@@ -5,7 +5,7 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 
 import { createBrowserHistory } from "history";
-export const initialState = { user: null, data: { projects: null } };
+export const initialState = { user: null, data: { ideas: null } };
 const middleWares = [thunk];
 
 const persistConfig = {

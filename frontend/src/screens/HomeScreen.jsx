@@ -4,9 +4,11 @@ import { connect } from "react-redux";
 import "../css/app.css";
 import ProjectForm from "../components/ProjectForm";
 import { persistor } from "../store";
+import actions from "../actions";
 
 const mapStateToProps = state => ({
-  projects: state.data.projects
+  ideas: state.data.ideas,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
@@ -20,7 +22,7 @@ class HomeScreen extends React.Component {
   }
   render() {
     const { showForm } = this.state;
-    const { projects } = this.props;
+    const { ideas, postIdea, user } = this.props;
     return (
       <div style={{ display: "flex" }}>
         <h1
@@ -28,20 +30,16 @@ class HomeScreen extends React.Component {
           style={{ marginRight: "1rem" }}
           onClick={() => this.setState({ showForm: true })}
         >
-          Adicionar projeto
+          Adicionar ideia
         </h1>
         <ProjectForm
           isVisible={showForm}
           onConfirm={() => this.setState({ showForm: false })}
         />
-        {projects && projects.map((p, i) => <div> Ideia {p.idea}</div>)}
-        <h1 onClick={() => persistor.purge()}>purge</h1>
+        {ideas && ideas.map((idea, i) => <div> Ideia {idea.idea.title}</div>)}
       </div>
     );
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
