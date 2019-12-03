@@ -28,7 +28,6 @@ const PROJECTQUIZ = new mongoose.Schema({
   name: String,
 });
 
-
 const projectSchema = new mongoose.Schema({
   title: String,
   description: String,
@@ -37,18 +36,38 @@ const projectSchema = new mongoose.Schema({
   quizzes: [PROJECTQUIZ],
 });
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   _projectId: mongoose.ObjectId,
-  name: String,
-  email: String,
+  name: {
+    type: String,
+    require: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    require: true,
+    lowercase: true,
+  },
+  password: {
+    type: String,
+    require: true,
+    select: false,
+  },
   salt: String,
   hash: String,
   admin: Boolean,
   manager: Boolean,
+  projectToken: {
+    type: Number,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const dbCompany = mongoose.model("projects", projectSchema);
-const dbUsers = mongoose.model("users", userSchema);
+const dbUsers = mongoose.model("users", UserSchema);
 
 async function getUser(userID) {
   return new Promise(function(resolve, reject) {
@@ -100,6 +119,7 @@ async function getProjects(userID) {
   });
 }
 
+
 async function addProject(projectInfo) {
   return new Promise(function(resolve, reject) {
     dbCompany.findOne({title: projectInfo.title}).then((resp) => {
@@ -127,4 +147,6 @@ async function addProject(projectInfo) {
   });
 }
 
+
 module.exports = {getUser, addProject, getProjects, getProject};
+

@@ -51,10 +51,8 @@ app.post("/projects", function(req, res, next) {
     title: req.body.title,
     description: req.body.description,
     email: req.body.email,
-    token: Math.round(Math.random() * (9999-1000) + 1000),
+    token: Math.round(Math.random() * (9999 - 1000) + 1000),
     quizzes: req.body.quizzes,
-
-
   };
 
   db.addProject(projectInfo).then((resp) => res.send(resp)).catch((err) => console.log(err));
