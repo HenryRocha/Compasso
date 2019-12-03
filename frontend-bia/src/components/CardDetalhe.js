@@ -6,7 +6,7 @@ const CardDetalhe = props => {
     <div>
       <Card body>
         <CardTitle>{props.nomeQuiz}</CardTitle>
-        <CardText>{props.quantRespostas}respostas</CardText>
+        {/* <CardText>{props.quantRespostas} respostas</CardText> */}
       </Card>
     </div>
   );

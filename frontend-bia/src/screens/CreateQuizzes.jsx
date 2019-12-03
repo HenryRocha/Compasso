@@ -2,18 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TextField from "@material-ui/core/TextField";
 import { bindActionCreators } from "redux";
-import actions from "../actions";
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import FormQuizDialogo from '../components/FormQuizDialogo'
 import Preview from '../components/Preview';
 import axios from 'axios';
-
-const mapStateToProps = state => ({ user: state.user });
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  postQuiz: actions.postQuiz
-}, dispatch);
 
 class QuizzesCreate extends React.Component {
   constructor(props) {
@@ -112,7 +105,4 @@ class QuizzesCreate extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(QuizzesCreate);
+export default connect()(QuizzesCreate);
