@@ -46,7 +46,7 @@ app.route("/idea").post(async (req, res, next) => {
 
 app.route("/idea").get(async (req, res, next) => {
   try {
-    const response = await axios.post(ADDRESSES.ideas + "/idea", {
+    const response = await axios.get(ADDRESSES.ideas + "/idea", {
       query: req.query,
     });
     res.status(response.status).send(response.data);
@@ -59,7 +59,7 @@ app.route("/idea").get(async (req, res, next) => {
 
 app.route("/projects/ideas").get(async (req, res, next) => {
   try {
-    const response = await axios.post(ADDRESSES.ideas + "/projects/ideas", {
+    const response = await axios.get(ADDRESSES.ideas + "/projects/ideas", {
       query: req.query,
     });
     res.status(response.status).send(response.data);
@@ -72,9 +72,8 @@ app.route("/projects/ideas").get(async (req, res, next) => {
 
 app.route("/user/ideas").get(async (req, res, next) => {
   try {
-    const response = await axios.post(ADDRESSES.ideas + "/user/ideas", {
-      query: req.query,
-    });
+    console.log(req.query.userId);
+    const response = await axios.get(ADDRESSES.ideas + "/user/ideas?userId=" + req.query.userId);
     res.status(response.status).send(response.data);
   } catch (e) {
     res.status(400).send({
