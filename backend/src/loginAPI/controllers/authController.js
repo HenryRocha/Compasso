@@ -15,8 +15,9 @@ router.post("/register", async (req, res) => {
     if (await User.findOne({email})) {
       return res.status(400).send({message: "User alredy exists"});
     }
-
-    if (await !Project.findOne({token})) {
+    const project = await Project.findOne({token: token})
+    console.log("Project", project)
+    if (!project) {
       return res.status(400).send({message: "Token not found"});
     }
 
@@ -49,7 +50,10 @@ router.post("/authenticate", async (req, res) => {
   }
 
   user.password = undefined;
-
+  console.log(user.projectToken)
+  const project = await Project.findOne({token: user.projectToken})
+  
+  console.log(project)
   res.send({
     id: user._id,
     name: user.name,
