@@ -18,6 +18,17 @@ export function data(state = initialState.data, action) {
           : action.payload.ideas;
         return { ...state, ideas };
       }
+    case "api/GET_QUIZZ_SUCCESSFUL":
+      if (action.payload) {
+        const quizzes =
+          typeof action.payload.quizzes === Array
+            ? action.payload.quizzes
+            : action.payload.quizzes;
+        const newQuizzes = state.quizzes
+          ? [...state.quizzes].concat(quizzes)
+          : quizzes;
+        return { ...state, quizzes: newQuizzes };
+      }
     default:
       return state;
   }
