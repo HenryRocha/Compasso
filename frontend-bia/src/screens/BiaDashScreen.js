@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 import AddIcon from '@material-ui/icons/Add';
 import { createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
@@ -15,15 +16,46 @@ import Header from '../components/Header';
 class BiaDashScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.projects = {
-            hits: []
-        };
+        this.state = {
+            projects: [],
+            templates: []
+        }
     }
+    componentWillMount() {
+
+        axios.get('http://localhost:5003/templates')
+        .then(res => {
+            if(res.status == 200){
+                this.setState({
+                templates: res.data.templates
+                });
+                console.log(res.data.templates)
+            }else{
+                this.setState({
+                templates: res.data.templates
+                });
+                console.log(res.data.templates)
+            }
+        });
+
+        axios.get('http://localhost:3002/projects?' + "aqui_vai_um_userId_tirado_do_store", )
+        .then(res => {
+            if(res.status == 200){
+                this.setState({
+                projects: res.data
+                });
+            }else{
+                this.setState({
+                projects: res.data
+                });
+            }
+        });
+    
+      }
     teste() {
         this.props.history.push('create_project');
     }
     render() {
-
 
         const titleStyle = {
             color: "black",
@@ -60,6 +92,47 @@ class BiaDashScreen extends React.Component {
             margin: 5
         };
 
+        const templatesList = this.state.templates.map((d) => 
+                                                       <div>
+                                                            <Slide index={0}>
+                                                                <Card className={classes.card}>
+                                                                    <div className="project_card">
+                                                                        <CardContent>
+                                                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
+                                                                               {d.title}
+                                                                            </Typography>
+                                                                        </CardContent>
+                                                                   </div>
+                                                                   <CardActions className="seeMore">
+                                                                        <Button size="small" color="primary">
+                                                                            Ver detalhes
+                                                                        </Button>
+                                                                    </CardActions>
+                                                                </Card>
+                                                            </Slide>
+                                                        </div>);
+
+        const projectsList = this.state.projects.map((d) => 
+                                                        <div>
+                                                            <Slide index={0}>
+                                                                <Card className={classes.card}>
+                                                                    <div className="project_card">
+                                                                        <CardContent>
+                                                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
+                                                                                {d.title}
+                                                                            </Typography>
+                                                                        </CardContent>
+                                                                    </div>
+                                                                    <CardActions className="seeMore">
+                                                                        <Button size="small" color="primary">
+                                                                            Ver detalhes
+                                                                        </Button>
+                                                                    </CardActions>
+                                                                </Card>
+                                                            </Slide>
+                                                        </div>);
+
+        
         return (
             //   Header< nao esquecer
             <div>
@@ -69,7 +142,7 @@ class BiaDashScreen extends React.Component {
                             PROJETO EM ANDAMENTO
                         </Typography>
                         <ThemeProvider theme={theme}>
-                            <Fab style={buttonStyle} color="secondary" size="small" aria-label="add" onclick={e => this.teste()}>
+                            <Fab style={buttonStyle} color="secondary" size="small" aria-label="add" onClick={e => this.teste()}>
                                 <AddIcon />
                             </Fab>
                         </ThemeProvider>
@@ -81,83 +154,7 @@ class BiaDashScreen extends React.Component {
                         touchEnabled="true"
                         visibleSlides={2}>
                         <Slider>
-                            <div>
-                                <Slide index={0}>
-                                    <Card className={classes.card}>
-                                        <div className="project_card">
-                                            <CardContent>
-                                                <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                    Nome do Projeto
-                                                </Typography>
-                                                <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                    2021
-                                                </Typography>
-                                                <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                    Data
-                                                </Typography>
-                                                <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                    Sicredi
-                                                </Typography>
-                                            </CardContent>
-                                        </div>
-                                        <CardActions className="seeMore">
-                                            <Button size="small" color="primary">
-                                                Ver detalhes
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
-                                </Slide>
-                            </div>
-                            <Slide index={1}>
-                                <Card className={classes.card}>
-                                    <div className="project_card">
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                Nome do Projeto
-                                            </Typography>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                2022
-                                            </Typography>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                Data
-                                            </Typography>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                Sicredi
-                                            </Typography>
-                                        </CardContent>
-                                    </div>
-                                    <CardActions className="seeMore">
-                                        <Button size="small" color="primary">
-                                            Ver detalhes
-                                        </Button>
-                                    </CardActions>
-                                </Card>
-                            </Slide>
-                            <Slide index={2}>
-                                <Card className={classes.card}>
-                                    <div className="project_card">
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                Nome do Projeto
-                                            </Typography>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                2023
-                                            </Typography>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                Data
-                                            </Typography>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                Sicredi
-                                            </Typography>
-                                        </CardContent>
-                                    </div>
-                                    <CardActions className="seeMore">
-                                        <Button size="small" color="primary">
-                                            Ver detalhes
-                                        </Button>
-                                    </CardActions>
-                                </Card>
-                            </Slide>
+                            {projectsList}
                         </Slider>
                         {/* <ButtonBack>Back</ButtonBack>
                         <ButtonNext>Next</ButtonNext> */}
@@ -181,83 +178,7 @@ class BiaDashScreen extends React.Component {
                         touchEnabled="true"
                         visibleSlides={2}>
                         <Slider>
-                            <div>
-                                <Slide index={0}>
-                                    <Card className={classes.card}>
-                                        <div className="project_card">
-                                            <CardContent>
-                                                <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                    Nome do Projeto
-                                                </Typography>
-                                                <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                    2021
-                                                </Typography>
-                                                <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                    Data
-                                                </Typography>
-                                                <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                    Sicredi
-                                                </Typography>
-                                            </CardContent>
-                                        </div>
-                                        <CardActions className="seeMore">
-                                            <Button size="small" color="primary">
-                                                Ver detalhes
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
-                                </Slide>
-                            </div>
-                            <Slide index={1}>
-                                <Card className={classes.card}>
-                                    <div className="project_card">
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                Nome do Projeto
-                                            </Typography>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                2022
-                                            </Typography>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                Data
-                                            </Typography>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                Sicredi
-                                            </Typography>
-                                        </CardContent>
-                                    </div>
-                                    <CardActions className="seeMore">
-                                        <Button size="small" color="primary">
-                                            Ver detalhes
-                                        </Button>
-                                    </CardActions>
-                                </Card>
-                            </Slide>
-                            <Slide index={2}>
-                                <Card className={classes.card}>
-                                    <div className="project_card">
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                Nome do Projeto
-                                            </Typography>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                2023
-                                            </Typography>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                Data
-                                            </Typography>
-                                            <Typography gutterBottom variant="h5" component="h2" className="project_title">
-                                                Sicredi
-                                            </Typography>
-                                        </CardContent>
-                                    </div>
-                                    <CardActions className="seeMore">
-                                        <Button size="small" color="primary">
-                                            Ver detalhes
-                                        </Button>
-                                    </CardActions>
-                                </Card>
-                            </Slide>
+                            {templatesList}
                         </Slider>
                         {/* <ButtonBack>Back</ButtonBack>
                         <ButtonNext>Next</ButtonNext> */}
