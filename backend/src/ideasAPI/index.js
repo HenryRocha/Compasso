@@ -24,6 +24,7 @@ app.listen(CONSTANTS.PORT, () => {
 // ROUTES
 app.route("/idea").post(async (req, res, next) => {
   console.log("\nReceived POST request on /idea");
+  console.log(req.body);
 
   const {ok, error, idea} = await db.postIdea(req.body);
 
@@ -82,17 +83,17 @@ app.route("/project/ideas").get(async (req, res, next) => {
 
 app.route("/user/ideas").get(async (req, res, next) => {
   console.log("\nReceived GET request on /user/ideas");
-
+  console.log(req.query.userId)
   const {ok, error, ideas} = await db.getUserIdeas(req.query.userId);
 
   if (ok === true) {
+    console.log('OID')
     res.send({
-      ok: true,
       ideas,
     });
   } else {
     console.log(error);
-    res.send({
+    res.status(400).send({
       ok: false,
       message: "Could not get ideas",
     });

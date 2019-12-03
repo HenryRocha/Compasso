@@ -1,17 +1,19 @@
 import api from "../api/api";
 
-//import store from "../store";
-
 export const postIdea = (
   _userId,
   _projectId,
   title,
   description
-) => dispatch => {
-  api.fetchAndDispatch("POST", "idea", "IDEA", {
+) => async _dispatch => {
+  await api.fetchAndDispatch("POST", "idea", "IDEA", {
     _userId,
     _projectId,
     title,
     description
   });
+};
+
+export const getIdeas = userId => async _dispatch => {
+  await api.fetchAndDispatch("GET", `user/ideas?userId=${userId}`, "IDEAS");
 };

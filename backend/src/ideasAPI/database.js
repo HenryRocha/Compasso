@@ -133,19 +133,21 @@ async function getProjectIdeas(userId, projectId) {
 async function getUserIdeas(userId) {
   try {
     const user = await dbUsers.findById(userId);
-
+    console.log(userId)
+    console.log(user)
     if (user) {
-      const ideas = await dbIdeas.find({_userId: user._id});
+      let ideas = await dbIdeas.find({_userId: user._id});
+      ideas = (ideas) ? ideas : [];
 
       return {
         ok: true,
         error: {},
-        ideas,
+        ideas: ideas,
       };
     }
 
     return {
-      ok: true,
+      ok: false,
       error: "No user found with that id",
     };
   } catch (err) {

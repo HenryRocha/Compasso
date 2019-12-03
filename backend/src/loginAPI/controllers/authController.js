@@ -8,17 +8,22 @@ const Project = require("../models/project");
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
-  const {email} = req.body.email;
-  const {token} = req.body.projectToken;
-  
+  const {projectToken, email} = req.body;
+
   try {
     if (await User.findOne({email})) {
       return res.status(400).send({message: "User alredy exists"});
     }
 
-    if (await !Project.findOne({token})) {
+    const project = await Project.findOne({token: projectToken});
+    console.log("Project", project);
+    if (!project) {
       return res.status(400).send({message: "Token not found"});
     }
+
+    console.log(project._id);
+    req.body.projectId = project._id;
+    console.log(req.body);
 
     const user = await User.create(req.body);
 
@@ -27,7 +32,8 @@ router.post("/register", async (req, res) => {
       id: user._id,
       name: user.name,
       email: user.email,
-      project: user.project,
+      projectId: project._id,
+      projectToken: projectToken,
       createdAt: user.createdAt,
     });
   } catch (err) {
@@ -49,11 +55,16 @@ router.post("/authenticate", async (req, res) => {
   }
 
   user.password = undefined;
+  console.log(user.projectToken);
+  const project = await Project.findOne({token: user.projectToken});
 
+  console.log(project);
   res.send({
     id: user._id,
     name: user.name,
     email: user.email,
+    projectId: user.projectId,
+    projectToken: user.projectToken,
     createdAt: user.createdAt,
   });
 });
