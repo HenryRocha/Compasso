@@ -25,12 +25,13 @@ app.listen(CONSTANTS.PORT, () => {
 app.route("/idea").post(async (req, res, next) => {
   console.log("\nReceived POST request on /idea");
 
-  const {ok, error} = await db.postIdea(req.body);
+  const {ok, error, idea} = await db.postIdea(req.body);
 
   if (ok === true) {
     res.send({
       ok: true,
       message: "Idea created successfully",
+      idea,
     });
   } else {
     console.log(error);
