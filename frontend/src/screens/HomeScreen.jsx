@@ -107,9 +107,13 @@ class HomeScreen extends React.Component {
                     </h1>
                 </div>
             </div>
-        );
+          ))}
+      
+        </div>
+        </div>
+    )
     }
-
+    
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
