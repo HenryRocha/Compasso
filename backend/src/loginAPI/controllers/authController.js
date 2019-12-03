@@ -21,7 +21,9 @@ router.post("/register", async (req, res) => {
       return res.status(400).send({message: "Token not found"});
     }
 
+    console.log(project._id);
     req.body.projectId = project._id;
+    console.log(req.body);
 
     const user = await User.create(req.body);
 
