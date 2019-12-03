@@ -48,13 +48,11 @@ app.route("/idea/quizzes").get(async (req, res, next) => {
 
   if (ok === true) {
     res.send({
-      ok: true,
       quizzes,
     });
   } else {
     console.log(error);
     res.send({
-      ok: false,
       message: "Could not get quizzes",
     });
   }
