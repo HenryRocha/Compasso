@@ -13,32 +13,48 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import Header from '../components/Header';
+import { Link } from '@material-ui/core';
+//Redux
+import actions from "../actions";
+import { persistor } from "../store";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
+const mapStateToProps = state => ({
+    user: state.user
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {},
+    dispatch
+  );
+
 class BiaDashScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             projects: [],
-            templates: []
+            templates: [],
+            user: null
         }
     }
-    componentWillMount() {
+    componentDidMount() {
 
         axios.get('http://localhost:5003/templates')
         .then(res => {
             if(res.status == 200){
                 this.setState({
-                templates: res.data.templates
+                    templates: res.data.templates
                 });
-                console.log(res.data.templates)
             }else{
                 this.setState({
-                templates: res.data.templates
+                    templates: []
                 });
-                console.log(res.data.templates)
             }
         });
 
-        axios.get('http://localhost:3002/projects?' + "aqui_vai_um_userId_tirado_do_store", )
+        axios.get("http://localhost:3002/projects?id=" + user.id_)
         .then(res => {
             if(res.status == 200){
                 this.setState({
@@ -46,17 +62,23 @@ class BiaDashScreen extends React.Component {
                 });
             }else{
                 this.setState({
-                projects: res.data
+                    projects: []
                 });
             }
         });
     
       }
-    teste() {
+    handleCreateProject() {
         this.props.history.push('create_project');
     }
     handleCreateTemplate() {
         this.props.history.push('create_template');
+    }
+    handleProjectDetails() {
+        this.props.history.push('project_details');
+    }
+    handleTemplateDetails() {
+        this.props.history.push('template_details');
     }
 
     render() {
@@ -108,7 +130,7 @@ class BiaDashScreen extends React.Component {
                                                                         </CardContent>
                                                                    </div>
                                                                    <CardActions className="seeMore">
-                                                                        <Button size="small" color="primary">
+                                                                        <Button size="small" color="primary" onClick={() => this.handleTemplateDetails()/*, this.setTemplate({id_: d.id_})*/}>
                                                                             Ver detalhes
                                                                         </Button>
                                                                     </CardActions>
@@ -128,7 +150,7 @@ class BiaDashScreen extends React.Component {
                                                                         </CardContent>
                                                                     </div>
                                                                     <CardActions className="seeMore">
-                                                                        <Button size="small" color="primary">
+                                                                        <Button size="small" color="primary" onClick={() => this.handleProjectDetails()/*, this.setProject({id_: d.id_})*/}>
                                                                             Ver detalhes
                                                                         </Button>
                                                                     </CardActions>
@@ -139,6 +161,7 @@ class BiaDashScreen extends React.Component {
         
         return (
             //   Header< nao esquecer
+            
             <div>
                 <Grid direction="column">
                     <Grid item xs container direction="row" spacing={2} style={titleStyle} >
@@ -146,7 +169,7 @@ class BiaDashScreen extends React.Component {
                             PROJETO EM ANDAMENTO
                         </Typography>
                         <ThemeProvider theme={theme}>
-                            <Fab style={buttonStyle} color="secondary" size="small" aria-label="add" onClick={e => this.teste()}>
+                            <Fab style={buttonStyle} color="secondary" size="small" aria-label="add" onClick={e => this.handleCreateProject()}>
                                 <AddIcon />
                             </Fab>
                         </ThemeProvider>
@@ -192,4 +215,5 @@ class BiaDashScreen extends React.Component {
         )
     }
 }
-export default (BiaDashScreen);
+
+export default connect(mapStateToProps, mapDispatchToProps)(BiaDashScreen);
