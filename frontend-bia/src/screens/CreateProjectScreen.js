@@ -5,65 +5,82 @@ import Header from "../components/Header";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Button from '@material-ui/core/Button';
-import axios from 'axios';
+import Button from "@material-ui/core/Button";
+import axios from "axios";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
+const mapStateToProps = state => ({
+    user: state.user
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {},
+    dispatch
+  );
+
 
 class CreateProjectScreen extends React.Component {
-  state = {
-    title: '',
-    description: '',
-    email: '',
-    quizzes: {},
-    D0:false,
-    D7:false,
-    D14:false,
-    D30:false,
-    D60:false,
-    D90:false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: "",
+      description: "",
+      email: "",
+      quizzes: {},
+      D0: false,
+      D7: false,
+      D14: false,
+      D30: false,
+      D60: false,
+      D90: false
+    };
+  }
   onChangeD0 = () => {
     this.setState(initialState => ({
-        D0: !initialState.D0,
+      D0: !initialState.D0
     }));
-  }
+  };
   onChangeD7 = () => {
     this.setState(initialState => ({
-        D7: !initialState.D7,
+      D7: !initialState.D7
     }));
-  }
+  };
   onChangeD14 = () => {
     this.setState(initialState => ({
-        D14: !initialState.D14,
+      D14: !initialState.D14
     }));
-  }
+  };
   onChangeD30 = () => {
     this.setState(initialState => ({
-        D30: !initialState.D30,
+      D30: !initialState.D30
     }));
-  }
+  };
   onChangeD60 = () => {
     this.setState(initialState => ({
-        D60: !initialState.D60,
+      D60: !initialState.D60
     }));
+  };
+
+  async handleClick(e) {
+    this.props.history.push("/dash");
+//Não esta funcionando o POST
+    //     var apiBaseUrl = "localhost:80/";
+    //     await axios.post(apiBaseUrl+'projects', this.state)
+    //     .then(function (response) {
+    //         this.props.history.push("/dash");
+    //     });
+    //         e.preventDefault();
   }
-
-   async handleClick(e) {
-
-    var apiBaseUrl = "localhost:80/";
-    await axios.post(apiBaseUrl+'projects', this.state)
-    .then(function (response) {
-        this.props.history.push("/dash");
-    });
-        e.preventDefault();
-}
   render() {
     const useStyles = makeStyles(theme => ({
-        root: {
-          '& > *': {
-            margin: theme.spacing(4),
-          },
-        },
-      }));
+      root: {
+        "& > *": {
+          margin: theme.spacing(4)
+        }
+      }
+    }));
     return (
       <div className={useStyles.root}>
         <TextField
@@ -85,16 +102,12 @@ class CreateProjectScreen extends React.Component {
           fullWidth
           margin="normal"
           value={this.state.email}
-          onChange={e => this.setState({ email: e.target.value })}        />
+          onChange={e => this.setState({ email: e.target.value })}
+        />
 
         <FormGroup row>
           <FormControlLabel
-            control={
-              <Checkbox
-                onChange={this.onChangeD0}
-                value="checkedD0"
-              />
-            }
+            control={<Checkbox onChange={this.onChangeD0} value="checkedD0" />}
             label="Registro de Ideias"
           />
           <FormControlLabel
@@ -107,7 +120,7 @@ class CreateProjectScreen extends React.Component {
             }
             label="D+7"
           />
-                    <FormControlLabel
+          <FormControlLabel
             control={
               <Checkbox
                 // checked={state.checkedB}
@@ -118,7 +131,7 @@ class CreateProjectScreen extends React.Component {
             }
             label="D+14"
           />
-                    <FormControlLabel
+          <FormControlLabel
             control={
               <Checkbox
                 // checked={state.checkedB}
@@ -129,7 +142,7 @@ class CreateProjectScreen extends React.Component {
             }
             label="D+30"
           />
-                    <FormControlLabel
+          <FormControlLabel
             control={
               <Checkbox
                 // checked={state.checkedB}
@@ -140,7 +153,7 @@ class CreateProjectScreen extends React.Component {
             }
             label="D+60"
           />
-                    <FormControlLabel
+          <FormControlLabel
             control={
               <Checkbox
                 // checked={state.checkedB}
@@ -152,8 +165,9 @@ class CreateProjectScreen extends React.Component {
             label="D+90"
           />
         </FormGroup>
-        <Button variant="outlined" onClick ={this.handleClick}>Criar</Button>
-
+        <Button variant="outlined" onClick={e => this.handleClick()}>
+          Criar
+        </Button>
       </div>
     );
   }
