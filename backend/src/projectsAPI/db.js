@@ -26,8 +26,7 @@ const PROJECTQUIZ = new mongoose.Schema({
   _templateId: mongoose.ObjectId,
   deadline: Date,
   name: String,
-});
-
+}, { _id: false });
 
 const projectSchema = new mongoose.Schema({
   title: String,
@@ -37,18 +36,38 @@ const projectSchema = new mongoose.Schema({
   quizzes: [PROJECTQUIZ],
 });
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   _projectId: mongoose.ObjectId,
-  name: String,
-  email: String,
+  name: {
+    type: String,
+    require: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    require: true,
+    lowercase: true,
+  },
+  password: {
+    type: String,
+    require: true,
+    select: false,
+  },
   salt: String,
   hash: String,
   admin: Boolean,
   manager: Boolean,
+  projectToken: {
+    type: Number,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const dbCompany = mongoose.model("projects", projectSchema);
-const dbUsers = mongoose.model("users", userSchema);
+const dbUsers = mongoose.model("users", UserSchema);
 
 async function getUser(userID) {
   return new Promise(function(resolve, reject) {
@@ -70,8 +89,10 @@ async function getProject(projectID, userID) {
     getUser(userID).then((resp) => {
       if (resp.data.admin || resp.data.manager && resp.data._projectId.equals(projectID)) {
         dbCompany.findById(projectID).then((resp) => {
-          resolve({resp});
-        }).catch((err) => console.log(err));
+          resolve(resp);
+        }).catch((err) => {
+          console.log(err)
+          resolve({"status": "error", "message":"Não foi possivel achar projeto"})});
       } else {
         resolve({
           "status": "error",
@@ -89,7 +110,8 @@ async function getProjects(userID) {
       if (resp.data.admin && resp.data != null) {
         dbCompany.find().then((resp) => {
           resolve(resp);
-        }).catch((err) => console.log(err));
+        }).catch((err) => {console.log(err)
+        resolve({"status":"error", "message":"Nao foi possivel localizar o projeto"})});
       } else {
         resolve({
           "status": "error",
@@ -99,6 +121,7 @@ async function getProjects(userID) {
     }).catch((err) => console.log(err));
   });
 }
+
 
 async function addProject(projectInfo) {
   return new Promise(function(resolve, reject) {
@@ -127,4 +150,6 @@ async function addProject(projectInfo) {
   });
 }
 
+
 module.exports = {getUser, addProject, getProjects, getProject};
+

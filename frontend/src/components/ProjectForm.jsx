@@ -5,13 +5,14 @@ import actions from "../actions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import store from "../store";
+import { Colors } from "../constants/Colors";
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({ user: state.user });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      postProject: actions.postProject
+      postIdea: actions.postIdea
     },
     dispatch
   );
@@ -20,134 +21,75 @@ class ProjectForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      idea: "",
-      client: "",
-      effort: "",
-      benefitRating: "",
-      alignment: "",
-      bennefitType: "",
-      needInvestment: null,
-      original: null,
-      newIdea: null,
-      willBeDeveloped: null
+      title: "",
+      description: ""
     };
   }
   render() {
-    const { isVisible, onConfirm } = this.props;
-    const { idea, client } = this.state;
+    const { isVisible, onConfirm, user } = this.props;
+    const { title, description } = this.state;
     return (
       <div
         style={{
           display: isVisible ? "flex" : "none",
           flexDirection: "column",
           alignSelf: "center",
-          width: "40%"
+          width: "27vw"
         }}
       >
         <div style={{ marginBottom: "1rem" }}>
-          <h1>1. Qual a ideia?</h1>
+          <h1>1. Qual o título do projeto?</h1>
           <input
-            onChange={e => this.setState({ idea: e.target.value })}
-            value={idea}
+            style={{
+              width: "100%",
+              border: "none",
+              borderBottom: "0.09rem solid black",
+              fontSize: "1rem"
+            }}
+            onChange={e => this.setState({ title: e.target.value })}
+            value={title}
           />
         </div>
         <div style={{ marginBottom: "1rem" }}>
-          <h1>2. Quem é o cliente na sua ideia?</h1>
+          <h1>2. Descreva brevemente o projeto</h1>
           <input
-            onChange={e => this.setState({ client: e.target.value })}
-            value={client}
-          />
-        </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <MCQuestion
-            question={"3. Indique o esforço de desenvolvimento"}
-            answers={["baixo", "médio", "alto"]}
-            value={value => this.setState({ effort: value })}
-          />
-        </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <MCQuestion
-            question={"4. Indique o potencial de benefício"}
-            answers={["baixo", "médio", "alto"]}
-            value={value => this.setState({ benefitRating: value })}
-          />
-        </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <MCQuestion
-            question={
-              "5. Qual o alinhamento estratégico dessa ideia, numa escala de 1 a 10, sendo 10 totalmente alinhado"
-            }
-            answers={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-            value={value => this.setState({ alignment: value })}
-          />
-        </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <MCQuestion
-            question={"6. Qual a natureza dos benefícios esperados?"}
-            answers={[
-              "Eficiência operacional",
-              "Melhoria em comunicação",
-              "Aperfeiçoamento de produtos",
-              " Melhora na Logística",
-              " Aumento de valor agregado (preço)",
-              "Aumento de vendas",
-              "Melhora no serviço ao cliente."
-            ]}
-            value={value => this.setState({ bennefitType: value })}
-            checkBox
-          />
-        </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <MCQuestion
-            question={"7. Existe necessidade de investimento?"}
-            answers={["sim", "não", "não sei dizer"]}
-            value={value => this.setState({ needInvestment: value })}
-          />
-        </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <MCQuestion
-            question={"8. Essa ideia é original?"}
-            answers={["sim", "não"]}
-            value={value => this.setState({ original: value })}
-          />
-        </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <MCQuestion
-            question={"9. Você já havia tido essa ideia antes?"}
-            answers={["sim", "não"]}
-            value={value => this.setState({ newIdea: value })}
-          />
-        </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <MCQuestion
-            question={"10. Acha que um dia essa ideia será desenvolvida?"}
-            answers={["sim", "não"]}
-            value={value => this.setState({ willBeDeveloped: value })}
+            style={{
+              width: "100%",
+              border: "none",
+              borderBottom: "0.09rem solid black",
+              fontSize: "1rem"
+            }}
+            onChange={e => this.setState({ description: e.target.value })}
+            value={description}
           />
         </div>
         <div
           className="hoverPointer"
           style={{
-            border: `0.09rem solid green`,
+            border: `0.09rem solid ${Colors.pink}`,
             borderRadius: "0.5rem",
             justifyContent: "center",
             padding: "0.3rem",
             marginRight: "0.5rem",
-            display: "inline-block"
+            display: "inline-block",
+            width: "30%"
           }}
           onClick={() => {
-            this.props.postProject(this.state);
+            this.props.postIdea(user.id, user.projectId, title, description);
             onConfirm();
           }}
         >
-          <h1 style={{ color: "green" }}>Adicionar</h1>
+          <h1
+            style={{
+              color: Colors.pink
+            }}
+          >
+            Adicionar
+          </h1>
         </div>
       </div>
     );
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProjectForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectForm);
