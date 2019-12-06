@@ -40,7 +40,7 @@ app.use(function(req, res, next) {
 
 // Request that get all projects in db (admin only)
 app.get("/projects", function(req, res, next) {
-  db.getProjects(req.query.userId).then((resp) => res.send(resp.data)).catch((err) => console.log(err));
+  db.getProjects(req.query.userId).then((resp) => res.send(resp)).catch((err) => console.log(err));
 });
 
 

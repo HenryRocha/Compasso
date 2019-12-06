@@ -24,7 +24,7 @@ db.once("open", function() {
 
 const PROJECTQUIZ = new mongoose.Schema({
   _templateId: mongoose.ObjectId,
-  deadline: String,
+  deadline: Date,
   name: String,
 }, { _id: false });
 
@@ -89,8 +89,10 @@ async function getProject(projectID, userID) {
     getUser(userID).then((resp) => {
       if (resp.data.admin || resp.data.manager && resp.data._projectId.equals(projectID)) {
         dbCompany.findById(projectID).then((resp) => {
-          resolve({resp});
-        }).catch((err) => console.log(err));
+          resolve(resp);
+        }).catch((err) => {
+          console.log(err)
+          resolve({"status": "error", "message":"Não foi possivel achar projeto"})});
       } else {
         resolve({
           "status": "error",
@@ -108,7 +110,8 @@ async function getProjects(userID) {
       if (resp.data.admin && resp.data != null) {
         dbCompany.find().then((resp) => {
           resolve(resp);
-        }).catch((err) => console.log(err));
+        }).catch((err) => {console.log(err)
+        resolve({"status":"error", "message":"Nao foi possivel localizar o projeto"})});
       } else {
         resolve({
           "status": "error",
