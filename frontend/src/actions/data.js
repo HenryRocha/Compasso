@@ -46,7 +46,7 @@ export const patchQuizz = (quizId, data) => async _dispatch => {
   try {
     const response = await api.fetchAndDispatch(
       "PATCH",
-      `quiz?quizId=${quizId}`,
+      `quizzes?quizId=${quizId}`,
       "QUIZZ",
       data
     );
