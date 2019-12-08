@@ -46,10 +46,14 @@ export const patchQuizz = (quizId, data) => async _dispatch => {
   try {
     const response = await api.fetchAndDispatch(
       "PATCH",
-      `quizzes?quizId=${quizId}`,
+      `quiz?quizId=${quizId}`,
       "QUIZZ",
+      data,
+      false,
+      false,
       data
     );
+    store.dispatch({ type: "api/PATCH_QUIZ_SUCCESSFUL", payload: data });
     return response;
   } catch (error) {
     throw error;

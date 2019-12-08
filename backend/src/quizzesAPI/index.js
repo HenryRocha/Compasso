@@ -48,12 +48,12 @@ app.route("/idea/quizzes").get(async (req, res, next) => {
   const {ok, error, quizzes} = await db.getQuizzesIdea(req.query.userId, req.query.ideaId);
 
   if (ok === true) {
-    //for (i = 0; i < quizzes.length; i++) {
+    // for (i = 0; i < quizzes.length; i++) {
     //  quizzes[i].ideaId = req.query.ideaId;
-    //}
-    let response = [];
+    // }
+    const response = [];
     quizzes.forEach((quizz) => {
-      const q = {...quizz._doc, ideaId: req.query.ideaId}
+      const q = {...quizz._doc, ideaId: req.query.ideaId};
       console.log(q);
       response.push(q);
     });
@@ -94,6 +94,7 @@ app.route("/quiz").patch(async (req, res, next) => {
 
   if (ok === true) {
     res.send({
+      quiz: req.body,
       ok: true,
       message: "Quiz patched successfully",
     });

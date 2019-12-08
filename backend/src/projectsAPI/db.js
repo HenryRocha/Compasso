@@ -14,11 +14,11 @@ mongoose.connect(URL, {useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
 
 db.on("error", function() {
-  console.log("Could not connect to the database");
+  console.log("projectsAPI could not connect to the database");
 });
 
 db.once("open", function() {
-  console.log("Successfully connected to the database");
+  console.log("projectsAPI successfully connected to the database");
 });
 
 
@@ -26,7 +26,7 @@ const PROJECTQUIZ = new mongoose.Schema({
   _templateId: mongoose.ObjectId,
   deadline: Date,
   name: String,
-}, { _id: false });
+}, {_id: false});
 
 const projectSchema = new mongoose.Schema({
   title: String,
@@ -91,8 +91,9 @@ async function getProject(projectID, userID) {
         dbCompany.findById(projectID).then((resp) => {
           resolve(resp);
         }).catch((err) => {
-          console.log(err)
-          resolve({"status": "error", "message":"Não foi possivel achar projeto"})});
+          console.log(err);
+          resolve({"status": "error", "message" : "Não foi possivel achar projeto"});
+        });
       } else {
         resolve({
           "status": "error",
@@ -110,8 +111,10 @@ async function getProjects(userID) {
       if (resp.data.admin && resp.data != null) {
         dbCompany.find().then((resp) => {
           resolve(resp);
-        }).catch((err) => {console.log(err)
-        resolve({"status":"error", "message":"Nao foi possivel localizar o projeto"})});
+        }).catch((err) => {
+          console.log(err);
+          resolve({"status": "error", "message" : "Não foi possivel localizar o projeto"});
+        });
       } else {
         resolve({
           "status": "error",
