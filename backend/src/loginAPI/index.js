@@ -10,5 +10,5 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use("/auth", require("./controllers/authController"));
 
 app.listen(port, function() {
-    console.log("loginAPI listening on port " + port);
+  console.log("loginAPI listening on port " + port);
 });
