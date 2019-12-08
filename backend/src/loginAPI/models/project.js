@@ -1,9 +1,9 @@
 const mongoose = require("../database");
 
 const PROJECTQUIZ = new mongoose.Schema({
-    _templateId: mongoose.ObjectId,
-    deadline: Date,
-    name: String,
+  _templateId: mongoose.ObjectId,
+  deadline: Date,
+  name: String,
 });
 
 const projectSchema = new mongoose.Schema({
