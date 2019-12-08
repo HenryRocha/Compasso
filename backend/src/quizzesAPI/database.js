@@ -105,10 +105,17 @@ async function getQuizzesIdea(userId, ideaId) {
 
 async function patchQuiz(quiz) {
   try {
+    quiz._id = quiz.id;
     const user = await dbUsers.findById(quiz._userId);
     const originalQuiz = await dbQuizzes.findById(quiz._id);
 
+    user.admin = true;
     if (user && originalQuiz && ((user.admin) || (user.manager && user._projectId.equals(originalQuiz._projectId)) || (user._id.equals(originalQuiz._userId)))) {
+      console.log(typeof quiz.answerDate);
+      if (quiz.answerDate === true) {
+        console.log('oi')
+        quiz.answerDate = new Date();
+      }
       await dbQuizzes.updateOne({_id: quiz._id}, quiz);
 
       return {
