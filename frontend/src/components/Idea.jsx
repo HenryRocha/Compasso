@@ -41,10 +41,13 @@ export class Idea extends Component {
                   className="hoverUnderline hoverPointer"
                   onClick={() => toggleQuizModal(quiz._id)}
                 >
-                  {"Quiz: " + quiz.name + " (responder)"}
+                  {`Quiz: ${quiz.name} ${
+                    quiz.answerDate ? "(respondido)" : "(responder)"
+                  }`}
                 </h1>
               );
             }
+            return;
           })}
       </div>
     );
