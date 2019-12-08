@@ -1,9 +1,7 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import store from "../store";
 
-
 export const BASE_URL = "http://ec2-3-83-147-131.compute-1.amazonaws.com";
-
 
 type HTTPMethods = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -20,30 +18,23 @@ export const api = {
     const { user } = store.getState();
     const token = user && user.token;
 
-
     const request: AxiosRequestConfig = {
       method,
       url: !external
         ? `${BASE_URL}${endpoint[0] === "/" ? "" : "/"}${endpoint}`
         : endpoint,
 
-      responseType: "json",
-      headers:
-        token && includeToken
-          ? { Authorization: token, "Content-Type": "application/json" }
-          : { "Content-Type": "application/json" }
-
+      responseType: "json"
+      //headers: { "Content-Type": "application/json" }
     };
 
     if (data) {
       request[method === "GET" || method === "DELETE" ? "data" : "data"] = data;
     }
 
-
     // if (token && includeToken) {
     //   request.headers = { Authorization: token };
     // }
-
 
     store.dispatch({
       request,

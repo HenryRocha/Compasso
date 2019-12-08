@@ -40,8 +40,8 @@ export function data(state = initialState.data, action) {
       }
     case "api/PATCH_QUIZ_SUCCESSFUL":
       const oldQuizzes = { ...state.quizzes };
-      const index = oldQuizzes.map(q => q._id).indexOf(action.payload.quiz._id);
-      oldQuizzes[index] = action.payload.quiz;
+      const index = oldQuizzes.map(q => q._id).indexOf(action.payload._id);
+      oldQuizzes[index] = action.payload;
       return { ...state, quizzes: oldQuizzes };
     default:
       return state;
