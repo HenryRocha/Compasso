@@ -10,10 +10,8 @@ import CriacaoDeProjeto from './screens/CriacaoDeProjeto';
 import store from "./store";
 import "./App.css";
 import { history } from "./store";
-import HomeScreen from "./screens/HomeScreen";
 import BiaDashScreen from "./screens/BiaDashScreen";
 import CreateProjectScreen from "./screens/CreateProjectScreen";
-import LoginScreen from "./screens/LoginScreen";
 import Header from "./components/Header";
 import createTemplate from "./screens/createTemplate"
 
@@ -27,8 +25,6 @@ export class App extends Component {
             <main>
               <Header />
               <Switch>
-                <Route exact path="/" component={LoginScreen} />
-                <Route exact path="/home" component={HomeScreen} />
                 <Route exact path="/dash" component={BiaDashScreen} />
                 <Route exact path="/create_project" component={CreateProjectScreen} />
                 <Route exact path="/create_template" component={createTemplate}/>

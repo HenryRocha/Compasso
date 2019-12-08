@@ -43,6 +43,7 @@ class BiaDashScreen extends React.Component {
 
         axios.get('http://ec2-3-83-147-131.compute-1.amazonaws.com/templates')
         .then(res => {
+            console.log(res.status)
             if(res.status === 200){
                 this.setState({
                     templates: res.data.templates
