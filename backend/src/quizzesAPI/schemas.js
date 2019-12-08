@@ -23,7 +23,7 @@ const QUIZ = new mongoose.Schema({
   _userId: mongoose.ObjectId,
   _projectId: mongoose.ObjectId,
   _templateId: mongoose.ObjectId,
-  answerDate: {type: Date, default: null},
+  answerDate: {type: Date, default: new Date()},
   deadline: Date,
   questions: [{type: mongoose.Schema.Types.Mixed, ref: QUESTION}],
   name: String,
