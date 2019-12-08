@@ -60,5 +60,5 @@ app.post("/projects", function(req, res, next) {
 
 
 app.listen(port, function() {
-  console.log("App running");
+  console.log("projectsAPI listening on port " + port);
 });
