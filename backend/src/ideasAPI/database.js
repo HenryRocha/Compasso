@@ -60,7 +60,7 @@ async function postIdea(idea) {
       idea.quizzes = quizIdList;
 
       createdIdea = await dbIdeas.create(idea);
-      idea.id = createdIdea._id;
+      idea._id = createdIdea._id;
 
       return {
         ok: true,
