@@ -55,18 +55,18 @@ class BiaDashScreen extends React.Component {
             }
         });
 
-        // axios.get("http://ec2-3-83-147-131.compute-1.amazonaws.com/projects?id=" + this.state.user._id)
-        // .then(res => {
-        //     if(res.status === 200){
-        //         this.setState({
-        //         projects: res.data
-        //         });
-        //     }else{
-        //         this.setState({
-        //             projects: []
-        //         });
-        //     }
-        // });
+        axios.get("http://ec2-3-83-147-131.compute-1.amazonaws.com/projects?id=" + this.state.user._id)
+        .then(res => {
+            if(res.status === 200){
+                this.setState({
+                projects: res.data
+                });
+            }else{
+                this.setState({
+                    projects: []
+                });
+            }
+        });
     
       }
     handleCreateProject() {
