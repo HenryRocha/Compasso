@@ -41,7 +41,7 @@ class BiaDashScreen extends React.Component {
     }
     componentDidMount() {
 
-        axios.get('http://ec2-3-83-147-131.compute-1.amazonaws.com/templates')
+        axios.get("http://ec2-3-83-147-131.compute-1.amazonaws.com/templates")
         .then(res => {
             console.log(res.status)
             if(res.status === 200){
@@ -55,7 +55,7 @@ class BiaDashScreen extends React.Component {
             }
         });
 
-        // axios.get("http://localhost:3002/projects?id=" + this.state.user._id)
+        // axios.get("http://ec2-3-83-147-131.compute-1.amazonaws.com/projects?id=" + this.state.user._id)
         // .then(res => {
         //     if(res.status === 200){
         //         this.setState({
