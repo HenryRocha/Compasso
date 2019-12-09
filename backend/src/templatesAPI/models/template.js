@@ -1,23 +1,11 @@
 const mongoose = require("mongoose");
 
 const TemplateSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true,
-  },
-  description: {
-    type: String,
-  },
-  questions: {
-    type: Array,
-  },
-  companies: {
-    type: [String],
-  },
+  title: String,
+  description: String,
+  questions: Array,
 });
 
 
-const Template = mongoose.model("Template", TemplateSchema);
+const Template = mongoose.model("templates", TemplateSchema);
 module.exports = Template;

@@ -61,15 +61,4 @@ router.get("/templates", function(req, res, next) {
   });
 });
 
-router.get("/templates/:company", function(req, res, next) {
-  const {company} = req.params;
-  Template.find({companies: {"$regex": company, "$options": "i"}}).exec(function(error, templates) {
-    if (error) {
-      res.status(400).json({text: error.message});
-    } else {
-      res.status(200).json({templates});
-    }
-  });
-});
-
 module.exports = router;
