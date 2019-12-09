@@ -94,6 +94,7 @@ app.route("/quiz").patch(async (req, res, next) => {
 
   if (ok === true) {
     res.send({
+      quiz: req.body,
       ok: true,
       message: "Quiz patched successfully",
     });

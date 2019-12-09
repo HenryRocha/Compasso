@@ -45,6 +45,7 @@ class QuizModal extends React.Component {
     oldQuiz.questions.map((q, i) => {
       q.answers = answers[i];
     });
+    oldQuiz.answerDate = true;
     patchQuizz(quiz._id, oldQuiz);
   }
 

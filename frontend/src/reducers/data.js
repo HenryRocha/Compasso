@@ -21,14 +21,28 @@ export function data(state = initialState.data, action) {
     case "api/GET_QUIZZ_SUCCESSFUL":
       if (action.payload) {
         const quizzes =
-          typeof action.payload.quizzes === Array
+          action.payload.quizzes && action.payload.quizzes.length > 0
             ? action.payload.quizzes
-            : action.payload.quizzes;
-        const newQuizzes = state.quizzes
-          ? [...state.quizzes].concat(quizzes)
-          : quizzes;
-        return { ...state, quizzes: newQuizzes };
+            : [];
+        const a = state.quizzes ? [...state.quizzes] : [];
+        if (a && a.length > 0) {
+          quizzes
+            .map(q => q._id)
+            .map((id, index) => {
+              if (!state.quizzes.map((q, i) => q._id).includes(id)) {
+                a.push(quizzes[index]);
+              }
+            });
+
+          return { ...state, quizzes: a };
+        }
+        return { ...state, quizzes: quizzes };
       }
+    case "api/PATCH_QUIZ_SUCCESSFUL":
+      const oldQuizzes = { ...state.quizzes };
+      const index = oldQuizzes.map(q => q._id).indexOf(action.payload._id);
+      oldQuizzes[index] = action.payload;
+      return { ...state, quizzes: oldQuizzes };
     default:
       return state;
   }
