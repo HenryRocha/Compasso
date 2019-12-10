@@ -14,6 +14,7 @@ import BiaDashScreen from "./screens/BiaDashScreen";
 import CreateProjectScreen from "./screens/CreateProjectScreen";
 import Header from "./components/Header";
 import createTemplate from "./screens/createTemplate"
+import LoginScreen from "./screens/LoginScreen";
 
 export class App extends Component {
   persistor = persistStore(store);
@@ -24,7 +25,8 @@ export class App extends Component {
           <ConnectedRouter history={history}>
             <main>
               <Header />
-              <Switch>
+              <Switch>`
+                <Route exact path="/" component={LoginScreen} />`
                 <Route exact path="/dash" component={BiaDashScreen} />
                 <Route exact path="/create_project" component={CreateProjectScreen} />
                 <Route exact path="/create_template" component={createTemplate}/>
