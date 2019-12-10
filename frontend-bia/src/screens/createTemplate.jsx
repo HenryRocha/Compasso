@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 const mapStateToProps = state => ({ user: state.user });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  postQuiz: actions.postQuiz
+  postTemplate: actions.postTemplate
 }, dispatch);
 
 class QuizzesCreate extends React.Component {
@@ -53,13 +53,12 @@ class QuizzesCreate extends React.Component {
   }
 
   async handleSaveTemplate(e) {
-    this.props.history.push("/dash");
-    //GET não esta funcionando
-    // var apiBaseUrl = 'https://ec2-3-83-147-131.compute-1.amazonaws.com/';
-    // await axios.post(apiBaseUrl + 'template', this.state)
-    //   .then(function (response) {
-    //     this.props.history.push("/dash");
-    //   })
+    console.log(this.state)
+    this.props.postTemplate(
+      this.state.title,
+      this.state.description,
+      this.state.questions
+    );
   }
   render() {
 

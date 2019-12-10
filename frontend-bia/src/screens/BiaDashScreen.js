@@ -6,14 +6,12 @@ import { createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/sty
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
+import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import Header from '../components/Header';
-import { Link } from '@material-ui/core';
 //Redux
 import actions from "../actions";
 import { persistor } from "../store";

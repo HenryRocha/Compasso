@@ -25,6 +25,26 @@ export const getProjects = userId => async _dispatch => {
   await api.fetchAndDispatch("GET", `projects?userId=${userId}`, "PROJECTS");
 };
 
+export const postProject = (
+  title,
+  description,
+  email,
+  quizzes,
+  ) => async _dispatch => {
+    try{
+      const response = await api.fetchAndDispatch("POST", `projects`, "PROJECTS", {
+        title,
+        description,
+        email,
+        quizzes,
+      });
+      history.push("/dash");
+      return response
+    }catch(error){
+      throw error;
+    }
+};
+
 export const setProject = project => async _dispatch => {
   console.log("Project: " + project)
   store.dispatch({
@@ -37,6 +57,25 @@ export const setProject = project => async _dispatch => {
 
 export const getTemplates = () => async _dispatch => {
   await api.fetchAndDispatch("GET", `templates`, "TEMPLATES");
+};
+
+export const postTemplate = (
+  title,
+  description,
+  questions
+  ) => async _dispatch => {
+    console.log("Aqui" + title + description + questions)
+    try{
+      const response = await api.fetchAndDispatch("POST", `template`, "TEMPLATES", {
+        title,
+        description,
+        questions
+      });
+      history.push("/dash");
+      return response
+    }catch(error){
+      throw error;
+    }
 };
 
 export const setTemplate = template => async _dispatch => {
