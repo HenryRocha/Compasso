@@ -22,8 +22,8 @@ export class App extends Component {
           <ConnectedRouter history={history}>
             <main>
               <Header />
-              <Switch>`
-                <Route exact path="/" component={LoginScreen} />`
+              <Switch>
+                <Route exact path="/" component={LoginScreen} />
                 <Route exact path="/dash" component={BiaDashScreen} />
                 <Route exact path="/create_project" component={CreateProjectScreen} />
                 <Route exact path="/create_template" component={createTemplate}/>

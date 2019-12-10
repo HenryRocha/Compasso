@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-
 import AddIcon from '@material-ui/icons/Add';
 import { createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
@@ -129,7 +128,6 @@ class BiaDashScreen extends React.Component {
                                                             </Slide>
                                                         </div>);
 
-        console.log(this.state)
         return (
             //   Header< nao esquecer
             

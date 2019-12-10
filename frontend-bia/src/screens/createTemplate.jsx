@@ -72,9 +72,6 @@ class QuizzesCreate extends React.Component {
       fontSize: "20px"
     };
 
-    // const previewElement = <Preview
-    //   changePreview={this.state.questions}
-    // />
 
     return (
       <div>

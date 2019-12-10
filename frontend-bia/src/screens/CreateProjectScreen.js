@@ -20,7 +20,6 @@ bindActionCreators(
   dispatch
 );
 
-
 class CreateProjectScreen extends React.Component {
   constructor(props) {
     super(props);

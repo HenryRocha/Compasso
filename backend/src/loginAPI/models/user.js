@@ -20,8 +20,8 @@ const UserSchema = new mongoose.Schema({
   },
   salt: String,
   hash: String,
-  admin: Boolean,
-  manager: Boolean,
+  admin: {type: Boolean, default: false},
+  manager: {type: Boolean, default: false},
   projectToken: {
     type: Number,
   },
