@@ -1,12 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import Header from "../components/Header";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import axios from "axios";
+//Redux
+import actions from "../actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -15,11 +15,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {},
-    dispatch
-  );
-
+bindActionCreators(
+  { postProject: actions.postProject},
+  dispatch
+);
 
 class CreateProjectScreen extends React.Component {
   constructor(props) {
@@ -64,14 +63,13 @@ class CreateProjectScreen extends React.Component {
   };
 
   async handleClick(e) {
-    this.props.history.push("/dash");
-//Não esta funcionando o POST
-    //     var apiBaseUrl = "localhost:80/";
-    //     await axios.post(apiBaseUrl+'projects', this.state)
-    //     .then(function (response) {
-    //         this.props.history.push("/dash");
-    //     });
-    //         e.preventDefault();
+    console.log(this.state)
+    this.props.postProject(
+      this.state.title,
+      this.state.description,
+      this.state.email,
+      []
+    );
   }
   render() {
     const useStyles = makeStyles(theme => ({
@@ -172,4 +170,5 @@ class CreateProjectScreen extends React.Component {
     );
   }
 }
-export default CreateProjectScreen;
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProjectScreen);

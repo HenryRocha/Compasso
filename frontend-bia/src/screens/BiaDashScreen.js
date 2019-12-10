@@ -1,19 +1,16 @@
 import React from 'react';
 import axios from 'axios';
-
 import AddIcon from '@material-ui/icons/Add';
 import { createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
+import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import Header from '../components/Header';
-import { Link } from '@material-ui/core';
 //Redux
 import actions from "../actions";
 import { persistor } from "../store";
@@ -21,12 +18,14 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 const mapStateToProps = state => ({
+    templates: state.data.templates,
+    projects: state.data.projects,
     user: state.user
-});
+  });
 
-const mapDispatchToProps = dispatch =>
+  const mapDispatchToProps = dispatch =>
   bindActionCreators(
-    {},
+    { setTemplate: actions.setTemplate, setProject: actions.setProject },
     dispatch
   );
 
@@ -34,57 +33,23 @@ class BiaDashScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            projects: [],
-            templates: [],
-            userId: "5deeccd2d496b72261d5b47e"
+            projects: props.projects,
+            templates: props.templates,
+            user: props.user
         }
-        this.menosTemp = 0;
-        this.menosProj = 0;
     }
-    componentDidMount() {
-
-        axios.get('http://ec2-3-83-147-131.compute-1.amazonaws.com/templates')
-        .then(res => {
-            console.log(res.status)
-            if(res.status === 200){
-                this.setState({
-                    templates: res.data.templates
-                });
-            }else{
-                this.setState({
-                    templates: []
-                });
-            }
-        });
-
-        axios.get("http://ec2-3-83-147-131.compute-1.amazonaws.com/projects?userId=" + this.state.userId)
-        .then(res => {
-            if(res.status === 200){
-                this.setState({
-                projects: res.data
-                });
-            }else{
-                this.setState({
-                    projects: []
-                });
-            }
-        });
-    
-      }
+ 
     handleCreateProject() {
         this.props.history.push('create_project');
     }
     handleCreateTemplate() {
         this.props.history.push('create_template');
     }
-    handleProjectDetails() {
-        this.props.history.push('project_details');
+    handleProjectDetails(project) {
+        this.props.setProject(project);
     }
-    handleTemplateEdite() {
-        this.props.history.push('template_details');
-    }
-    handleTemplateDelete() {
-        this.props.history.push('template_details');
+    handleTemplateDetails(template) {
+        this.props.setTemplate(template);
     }
 
     render() {
@@ -109,7 +74,8 @@ class BiaDashScreen extends React.Component {
         });
         const classes = makeStyles({
             card: {
-                minWidth: 275,
+                height: 345,
+                width: 345,
             },
             media: {
                 height: 140,
@@ -122,11 +88,9 @@ class BiaDashScreen extends React.Component {
         const slideStyle = {
             margin: 5
         };
-
-        const templatesList = this.state.templates.map((d,i) => 
-                                                    d.title != null ?
+        var templateCards = this.state.templates.map((d) => 
                                                        <div>
-                                                            <Slide index={i}>
+                                                            <Slide index={0}>
                                                                 <Card className={classes.card}>
                                                                     <div className="project_card">
                                                                         <CardContent>
@@ -136,15 +100,17 @@ class BiaDashScreen extends React.Component {
                                                                         </CardContent>
                                                                    </div>
                                                                    <CardActions className="seeMore">
+                                                                        <Button size="small" color="primary" onClick={() => this.handleTemplateDetails(d)}>
+                                                                            Ver detalhes
+                                                                        </Button>
                                                                     </CardActions>
                                                                 </Card>
                                                             </Slide>
-                                                        </div>:this.menosTemp++);
+                                                        </div>);
 
-        const projectsList = this.state.projects.map((d,i) => 
-                                                    d.title != null ?
+        var projectCards = this.state.projects.map((d) => 
                                                         <div>
-                                                            <Slide index={i}>
+                                                            <Slide index={0}>
                                                                 <Card className={classes.card}>
                                                                     <div className="project_card">
                                                                         <CardContent>
@@ -154,15 +120,14 @@ class BiaDashScreen extends React.Component {
                                                                         </CardContent>
                                                                     </div>
                                                                     <CardActions className="seeMore">
-                                                                        <Button size="small" color="primary" onClick={() => this.handleProjectDetails()/*, this.setProject({id_: d.id_})*/}>
+                                                                        <Button size="small" color="primary" onClick={() => this.handleProjectDetails(d)}>
                                                                             Ver detalhes
                                                                         </Button>
                                                                     </CardActions>
                                                                 </Card>
                                                             </Slide>
-                                                        </div>:this.menosProj++);
+                                                        </div>);
 
-        
         return (
             //   Header< nao esquecer
             
@@ -181,12 +146,11 @@ class BiaDashScreen extends React.Component {
                     <CarouselProvider
                         naturalSlideWidth={30}
                         naturalSlideHeight={15}
-                        totalSlides={this.state.projects.length-this.menosProj}
-                        touchEnabled={true}
-                        visibleSlides={this.state.projects.length-this.menosProj+2}
-                        infinite={true}>
+                        totalSlides={3}
+                        touchEnabled="true"
+                        visibleSlides={2}>
                         <Slider>
-                            {projectsList}
+                            {projectCards}
                         </Slider>
                         {/* <ButtonBack>Back</ButtonBack>
                         <ButtonNext>Next</ButtonNext> */}
@@ -206,12 +170,11 @@ class BiaDashScreen extends React.Component {
                     <CarouselProvider
                         naturalSlideWidth={30}
                         naturalSlideHeight={15}
-                        totalSlides={this.state.templates.length-this.menosTemp}
-                        touchEnabled={true}
-                        visibleSlides={this.state.templates.length-this.menosTemp+2}
-                        infinite={true}>
+                        totalSlides={3}
+                        touchEnabled="true"
+                        visibleSlides={2}>
                         <Slider>
-                            {templatesList}
+                            {templateCards}
                         </Slider>
                         {/* <ButtonBack>Back</ButtonBack>
                         <ButtonNext>Next</ButtonNext> */}

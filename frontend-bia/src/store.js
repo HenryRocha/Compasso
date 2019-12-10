@@ -7,7 +7,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import { createBrowserHistory } from "history";
 export const initialState = {
   user: null,
-  data: { ideas: null, quizzes: null },
+  data: { ideas: null, quizzes: null, templates: [], projects: [], template: null, project: null },
   quizzId: null
 };
 const middleWares = [thunk];

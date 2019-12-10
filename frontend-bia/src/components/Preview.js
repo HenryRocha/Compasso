@@ -32,7 +32,7 @@ export default function Preview(props) {
 
     return (
         <div>
-            {!changePreview.length === 0 ?
+            {changePreview.length != 0 ?
             changePreview.map((a, i) => (
                 <Grid item xs container direction="row" spacing={2} style={titleStyle} >
                     <Grid item xs container direction="row" spacing={5} style={titleStyle} >
@@ -59,7 +59,7 @@ export default function Preview(props) {
                     </Grid>
                 </Grid>
             ))
-                : null
+                : console.log(null)
             }
         </div>
     );
