@@ -7,7 +7,7 @@ require("dotenv").config();
 const parser = require("body-parser");
 const express = require("express");
 const db = require("./db");
-const urlencodedParser = parser.urlencoded({ extended: true })
+const urlencodedParser = parser.urlencoded({extended: true});
 
 
 // CONSTANTS
@@ -20,7 +20,6 @@ const port = process.env.PORT || 3002;
 // Configure which JSON parser is to be used by the app.
 app.use(urlencodedParser);
 app.use(parser.json());
-
 
 
 // Configure where we can receive requests from and which methods and headers we allow.
@@ -59,18 +58,13 @@ app.post("/projects", urlencodedParser, function(req, res, next) {
     quizzes: JSON.parse(req.body.quizzes),
   };
 
-  console.log(req.body)
-  
+  console.log(req.body);
 
- 
-  
-  
-  
 
   db.addProject(projectInfo).then((resp) => res.send(resp)).catch((err) => console.log(err));
 });
 
 
 app.listen(port, function() {
-  console.log("App running");
+  console.log("projectsAPI listening on port " + port);
 });

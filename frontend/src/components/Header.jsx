@@ -45,7 +45,7 @@ class Header extends React.Component {
               width: "2.2rem",
               margin: "1rem 0 1rem 1rem"
             }}
-            src="https://teambuilding.mastertech.com.br/assets/images/mastertech-logo.png"
+            src="https://s3-sa-east-1.amazonaws.com/bibliotecafiles/Icones/logoMt.png"
           />
           {user && (
             <h1 style={{ color: Colors.white, marginLeft: "1rem" }}>

@@ -113,7 +113,7 @@ async function patchQuiz(quiz) {
     if (user && originalQuiz && ((user.admin) || (user.manager && user._projectId.equals(originalQuiz._projectId)) || (user._id.equals(originalQuiz._userId)))) {
       console.log(typeof quiz.answerDate);
       if (quiz.answerDate === true) {
-        console.log('oi')
+        console.log("oi");
         quiz.answerDate = new Date();
       }
       await dbQuizzes.updateOne({_id: quiz._id}, quiz);
