@@ -2,7 +2,6 @@ const parser = require("body-parser");
 const express = require("express");
 const axios = require("axios");
 
-
 // CONSTANTS
 // Declaring the app constant and the port this API will run on.
 const app = express();
@@ -122,7 +121,8 @@ app.route("/quiz").get(async (req, res, next) => {
 
 app.route("/quiz").patch(async (req, res, next) => {
   try {
-    const response = await axios.patch(ADDRESSES.quizzes + "/quiz", req.body);
+    console.log('patching');
+    const response = await axios.patch(ADDRESSES.quizzes + "/quiz?quizId=" + req.query.quizId, req.body);
 
     res.status(response.status).send(response.data);
   } catch (e) {
@@ -160,10 +160,7 @@ app.route("/project/quizzes").get(async (req, res, next) => {
 
 app.route("/projects").get(async (req, res, next) => {
   try {
-    const response = await axios.get(ADDRESSES.projects + "/projects", {
-      query: req.query,
-    });
-
+    const response = await axios.get(ADDRESSES.projects + "/projects?userId=" + req.query.userId);
     res.status(response.status).send(response.data);
   } catch (e) {
     res.status(400).send({
@@ -186,9 +183,7 @@ app.route("/projects").post(async (req, res, next) => {
 
 app.route("/project").get(async (req, res, next) => {
   try {
-    const response = await axios.get(ADDRESSES.projects + "/project", {
-      query: req.query,
-    });
+    const response = await axios.get(ADDRESSES.projects + "/project?userId=" + req.query.userId + "&projectId=" + req.query.projectId);
 
     res.status(response.status).send(response.data);
   } catch (e) {
