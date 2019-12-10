@@ -88,9 +88,9 @@ class BiaDashScreen extends React.Component {
         const slideStyle = {
             margin: 5
         };
-        var templateCards = this.state.templates.map((d) => 
+        var templateCards = this.state.templates.map((d,i) => 
                                                        <div>
-                                                            <Slide index={0}>
+                                                            <Slide index={i}>
                                                                 <Card className={classes.card}>
                                                                     <div className="project_card">
                                                                         <CardContent>
@@ -108,9 +108,9 @@ class BiaDashScreen extends React.Component {
                                                             </Slide>
                                                         </div>);
 
-        var projectCards = this.state.projects.map((d) => 
+        var projectCards = this.state.projects.map((d,i) => 
                                                         <div>
-                                                            <Slide index={0}>
+                                                            <Slide index={i}>
                                                                 <Card className={classes.card}>
                                                                     <div className="project_card">
                                                                         <CardContent>
@@ -146,9 +146,9 @@ class BiaDashScreen extends React.Component {
                     <CarouselProvider
                         naturalSlideWidth={30}
                         naturalSlideHeight={15}
-                        totalSlides={3}
+                        totalSlides={this.state.projects.length}
                         touchEnabled="true"
-                        visibleSlides={2}>
+                        visibleSlides={this.state.projects.length + 2}>
                         <Slider>
                             {projectCards}
                         </Slider>
@@ -170,9 +170,9 @@ class BiaDashScreen extends React.Component {
                     <CarouselProvider
                         naturalSlideWidth={30}
                         naturalSlideHeight={15}
-                        totalSlides={3}
+                        totalSlides={this.state.projects.length}
                         touchEnabled="true"
-                        visibleSlides={2}>
+                        visibleSlides={this.state.projects.length+3}>
                         <Slider>
                             {templateCards}
                         </Slider>
