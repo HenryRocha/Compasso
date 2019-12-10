@@ -36,8 +36,10 @@ class BiaDashScreen extends React.Component {
         this.state = {
             projects: [],
             templates: [],
-            user: null
+            userId: "5deeccd2d496b72261d5b47e"
         }
+        this.menosTemp = 0;
+        this.menosProj = 0;
     }
     componentDidMount() {
 
@@ -55,18 +57,18 @@ class BiaDashScreen extends React.Component {
             }
         });
 
-        // axios.get("http://localhost:3002/projects?id=" + this.state.user._id)
-        // .then(res => {
-        //     if(res.status === 200){
-        //         this.setState({
-        //         projects: res.data
-        //         });
-        //     }else{
-        //         this.setState({
-        //             projects: []
-        //         });
-        //     }
-        // });
+        axios.get("http://ec2-3-83-147-131.compute-1.amazonaws.com/projects?userId=" + this.state.userId)
+        .then(res => {
+            if(res.status === 200){
+                this.setState({
+                projects: res.data
+                });
+            }else{
+                this.setState({
+                    projects: []
+                });
+            }
+        });
     
       }
     handleCreateProject() {
@@ -78,7 +80,10 @@ class BiaDashScreen extends React.Component {
     handleProjectDetails() {
         this.props.history.push('project_details');
     }
-    handleTemplateDetails() {
+    handleTemplateEdite() {
+        this.props.history.push('template_details');
+    }
+    handleTemplateDelete() {
         this.props.history.push('template_details');
     }
 
@@ -104,8 +109,7 @@ class BiaDashScreen extends React.Component {
         });
         const classes = makeStyles({
             card: {
-                height: 345,
-                width: 345,
+                minWidth: 275,
             },
             media: {
                 height: 140,
@@ -119,9 +123,10 @@ class BiaDashScreen extends React.Component {
             margin: 5
         };
 
-        const templatesList = this.state.templates.map((d) => 
+        const templatesList = this.state.templates.map((d,i) => 
+                                                    d.title != null ?
                                                        <div>
-                                                            <Slide index={0}>
+                                                            <Slide index={i}>
                                                                 <Card className={classes.card}>
                                                                     <div className="project_card">
                                                                         <CardContent>
@@ -131,17 +136,15 @@ class BiaDashScreen extends React.Component {
                                                                         </CardContent>
                                                                    </div>
                                                                    <CardActions className="seeMore">
-                                                                        <Button size="small" color="primary" onClick={() => this.handleTemplateDetails()/*, this.setTemplate({id_: d.id_})*/}>
-                                                                            Ver detalhes
-                                                                        </Button>
                                                                     </CardActions>
                                                                 </Card>
                                                             </Slide>
-                                                        </div>);
+                                                        </div>:this.menosTemp++);
 
-        const projectsList = this.state.projects.map((d) => 
+        const projectsList = this.state.projects.map((d,i) => 
+                                                    d.title != null ?
                                                         <div>
-                                                            <Slide index={0}>
+                                                            <Slide index={i}>
                                                                 <Card className={classes.card}>
                                                                     <div className="project_card">
                                                                         <CardContent>
@@ -157,7 +160,7 @@ class BiaDashScreen extends React.Component {
                                                                     </CardActions>
                                                                 </Card>
                                                             </Slide>
-                                                        </div>);
+                                                        </div>:this.menosProj++);
 
         
         return (
@@ -178,9 +181,10 @@ class BiaDashScreen extends React.Component {
                     <CarouselProvider
                         naturalSlideWidth={30}
                         naturalSlideHeight={15}
-                        totalSlides={3}
-                        touchEnabled="true"
-                        visibleSlides={2}>
+                        totalSlides={this.state.projects.length-this.menosProj}
+                        touchEnabled={true}
+                        visibleSlides={this.state.projects.length-this.menosProj+2}
+                        infinite={true}>
                         <Slider>
                             {projectsList}
                         </Slider>
@@ -202,9 +206,10 @@ class BiaDashScreen extends React.Component {
                     <CarouselProvider
                         naturalSlideWidth={30}
                         naturalSlideHeight={15}
-                        totalSlides={3}
-                        touchEnabled="true"
-                        visibleSlides={2}>
+                        totalSlides={this.state.templates.length-this.menosTemp}
+                        touchEnabled={true}
+                        visibleSlides={this.state.templates.length-this.menosTemp+2}
+                        infinite={true}>
                         <Slider>
                             {templatesList}
                         </Slider>
