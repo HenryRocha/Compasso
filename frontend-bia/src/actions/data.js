@@ -38,6 +38,7 @@ export const postProject = (
         email,
         quizzes,
       });
+      await store.dispatch(actions.getProjects(store.user._userId));
       history.push("/dash");
       return response
     }catch(error){
@@ -71,6 +72,7 @@ export const postTemplate = (
         description,
         questions
       });
+      await store.dispatch(actions.getTemplates());
       history.push("/dash");
       return response
     }catch(error){

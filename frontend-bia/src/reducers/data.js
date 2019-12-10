@@ -47,15 +47,11 @@ export function data(state = initialState.data, action) {
       return state;
 
     case "api/POST_TEMPLATES_SUCCESSFUL":
-        console.log(action.payload)
-        if (action.payload && action.payload.ok) {
-          const newTemplate = state.templates
-            ? [...state.templates, action.payload.template]
-            : [action.payload.template];
-          return { ...state, templates: newTemplate };
-        } else {
-          return { ...state };
-        }
+      if (action.payload && action.payload.ok) {
+        return { ...state };
+      } else {
+        return { ...state };
+      }
 
     case "api/GET_TEMPLATES_SUCCESSFUL":
       if (action.payload) {
@@ -66,12 +62,8 @@ export function data(state = initialState.data, action) {
       }
 
     case "api/POST_PROJECTS_SUCCESSFUL":
-      console.log(action.payload)
       if (action.payload && action.payload.ok) {
-        const newProject = state.projects
-          ? [...state.projects, action.payload]
-          : [action.payload];
-        return { ...state, projects: newProject };
+        return { ...state };
       } else {
         return { ...state };
       }
