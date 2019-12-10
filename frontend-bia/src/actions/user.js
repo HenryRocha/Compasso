@@ -9,9 +9,9 @@ export const login = (email, password) => async _dispatch => {
       email: email,
       password: password
     });
-    history.push("/home");
-    await store.dispatch(actions.getIdeas(response.data.id));
-    await store.dispatch(actions.getQuizzes());
+    await store.dispatch(actions.getProjects(response.data.id));
+    await store.dispatch(actions.getTemplates());
+    history.push("/dash");
     return response;
   } catch (error) {
     throw error;

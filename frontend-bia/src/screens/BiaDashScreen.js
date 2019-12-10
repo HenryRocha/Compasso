@@ -21,12 +21,14 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 const mapStateToProps = state => ({
+    templates: state.data.templates,
+    projects: state.data.projects,
     user: state.user
-});
+  });
 
-const mapDispatchToProps = dispatch =>
+  const mapDispatchToProps = dispatch =>
   bindActionCreators(
-    {},
+    { setTemplate: actions.setTemplate, setProject: actions.setProject },
     dispatch
   );
 
@@ -34,52 +36,23 @@ class BiaDashScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            projects: [],
-            templates: [],
-            user: null
+            projects: props.projects,
+            templates: props.templates,
+            user: props.user
         }
     }
-    componentDidMount() {
-
-        axios.get("http://ec2-3-83-147-131.compute-1.amazonaws.com/templates")
-        .then(res => {
-            console.log(res.status)
-            if(res.status === 200){
-                this.setState({
-                    templates: res.data.templates
-                });
-            }else{
-                this.setState({
-                    templates: []
-                });
-            }
-        });
-
-        axios.get("http://ec2-3-83-147-131.compute-1.amazonaws.com/projects?id=" + this.state.user._id)
-        .then(res => {
-            if(res.status === 200){
-                this.setState({
-                projects: res.data
-                });
-            }else{
-                this.setState({
-                    projects: []
-                });
-            }
-        });
-    
-      }
+ 
     handleCreateProject() {
         this.props.history.push('create_project');
     }
     handleCreateTemplate() {
         this.props.history.push('create_template');
     }
-    handleProjectDetails() {
-        this.props.history.push('project_details');
+    handleProjectDetails(project) {
+        this.props.setProject(project);
     }
-    handleTemplateDetails() {
-        this.props.history.push('template_details');
+    handleTemplateDetails(template) {
+        this.props.setTemplate(template);
     }
 
     render() {
@@ -118,8 +91,7 @@ class BiaDashScreen extends React.Component {
         const slideStyle = {
             margin: 5
         };
-
-        const templatesList = this.state.templates.map((d) => 
+        var templateCards = this.state.templates.map((d) => 
                                                        <div>
                                                             <Slide index={0}>
                                                                 <Card className={classes.card}>
@@ -131,7 +103,7 @@ class BiaDashScreen extends React.Component {
                                                                         </CardContent>
                                                                    </div>
                                                                    <CardActions className="seeMore">
-                                                                        <Button size="small" color="primary" onClick={() => this.handleTemplateDetails()/*, this.setTemplate({id_: d.id_})*/}>
+                                                                        <Button size="small" color="primary" onClick={() => this.handleTemplateDetails(d)}>
                                                                             Ver detalhes
                                                                         </Button>
                                                                     </CardActions>
@@ -139,7 +111,7 @@ class BiaDashScreen extends React.Component {
                                                             </Slide>
                                                         </div>);
 
-        const projectsList = this.state.projects.map((d) => 
+        var projectCards = this.state.projects.map((d) => 
                                                         <div>
                                                             <Slide index={0}>
                                                                 <Card className={classes.card}>
@@ -151,7 +123,7 @@ class BiaDashScreen extends React.Component {
                                                                         </CardContent>
                                                                     </div>
                                                                     <CardActions className="seeMore">
-                                                                        <Button size="small" color="primary" onClick={() => this.handleProjectDetails()/*, this.setProject({id_: d.id_})*/}>
+                                                                        <Button size="small" color="primary" onClick={() => this.handleProjectDetails(d)}>
                                                                             Ver detalhes
                                                                         </Button>
                                                                     </CardActions>
@@ -159,7 +131,7 @@ class BiaDashScreen extends React.Component {
                                                             </Slide>
                                                         </div>);
 
-        
+        console.log(this.state)
         return (
             //   Header< nao esquecer
             
@@ -182,7 +154,7 @@ class BiaDashScreen extends React.Component {
                         touchEnabled="true"
                         visibleSlides={2}>
                         <Slider>
-                            {projectsList}
+                            {projectCards}
                         </Slider>
                         {/* <ButtonBack>Back</ButtonBack>
                         <ButtonNext>Next</ButtonNext> */}
@@ -206,7 +178,7 @@ class BiaDashScreen extends React.Component {
                         touchEnabled="true"
                         visibleSlides={2}>
                         <Slider>
-                            {templatesList}
+                            {templateCards}
                         </Slider>
                         {/* <ButtonBack>Back</ButtonBack>
                         <ButtonNext>Next</ButtonNext> */}

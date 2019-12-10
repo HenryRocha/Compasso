@@ -1,5 +1,5 @@
 import api from "../api/api";
-import store from "../store";
+import store, { persistor, history } from "../store";
 import actions from ".";
 
 export const postIdea = (
@@ -19,6 +19,34 @@ export const postIdea = (
 
 export const getIdeas = userId => async _dispatch => {
   await api.fetchAndDispatch("GET", `user/ideas?userId=${userId}`, "IDEAS");
+};
+
+export const getProjects = userId => async _dispatch => {
+  await api.fetchAndDispatch("GET", `projects?userId=${userId}`, "PROJECTS");
+};
+
+export const setProject = project => async _dispatch => {
+  console.log("Project: " + project)
+  store.dispatch({
+    type: `SETPROJECT`,
+    payload: {project}
+  });
+  history.push("/project_details");
+  return project;
+};
+
+export const getTemplates = () => async _dispatch => {
+  await api.fetchAndDispatch("GET", `templates`, "TEMPLATES");
+};
+
+export const setTemplate = template => async _dispatch => {
+  console.log("Template: " + template)
+  store.dispatch({
+    type: `SETTEMPLATE`,
+    payload: {template}
+  });
+  history.push("/template_details");
+  return template;
 };
 
 export const getQuizz = (userId, ideaId) => async _dispatch => {
