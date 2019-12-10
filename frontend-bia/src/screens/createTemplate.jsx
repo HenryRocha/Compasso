@@ -14,12 +14,12 @@ import Typography from '@material-ui/core/Typography';
 
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-    },
-    textField: {
-        margin: theme.spacing(2),
-    },
+  root: {
+    display: 'flex',
+  },
+  textField: {
+    margin: theme.spacing(2),
+  },
 }));
 
 const mapStateToProps = state => ({ user: state.user });
@@ -35,7 +35,7 @@ class QuizzesCreate extends React.Component {
     this.state = {
       title: "",
       description: "",
-      questions: [],
+      questions: []
     };
 
     this.quiz = {
@@ -44,22 +44,19 @@ class QuizzesCreate extends React.Component {
       answers: [],
       type: ""
     };
+    this.saveQuiz = this.saveQuiz.bind(this);
   }
 
   saveQuiz(e) {
-    console.log(e)
     this.state.questions.push(e);
-    console.log(this.state)
+    console.log(this.state.questions.length)
   }
 
   async handleSaveTemplate(e) {
-    this.props.history.push("/dash");
-    //GET não esta funcionando
-    // var apiBaseUrl = 'https://ec2-3-83-147-131.compute-1.amazonaws.com/';
-    // await axios.post(apiBaseUrl + 'template', this.state)
-    //   .then(function (response) {
-    //     this.props.history.push("/dash");
-    //   })
+    // GET não esta funcionando
+    var apiBaseUrl = 'http://ec2-3-83-147-131.compute-1.amazonaws.com/';
+    await axios.post(apiBaseUrl + 'template', this.state)
+      .then( this.props.history.push("/dash"))
   }
   render() {
 
@@ -72,9 +69,9 @@ class QuizzesCreate extends React.Component {
       fontSize: "20px"
     };
 
-    const previewElement = <Preview
-      changePreview={this.state.questions}
-    />
+    // const previewElement = <Preview
+    //   changePreview={this.state.questions}
+    // />
 
     return (
       <div>
@@ -99,38 +96,13 @@ class QuizzesCreate extends React.Component {
             description={this.state.description}
           />
         </Grid>
-        {!this.state.questions.length === 0 ?
-          this.state.questions.map((a, i) => (
-            <Grid item xs container direction="row" spacing={2} style={titleStyle} >
-              <Grid item xs container direction="row" spacing={5} style={titleStyle} >
-                <Typography
-                  style={titleStyle}
-                >{a.question}</Typography>
-
-                <TextField
-                  id="tipo"
-                  label="Tipo"
-                  multiline
-                  rows="2"
-                  defaultValue={a.type}
-                  margin="normal"
-                  variant="outlined"
-                />
-                <Button onClick={null} color="primary">
-                  Editar
-                    </Button>
-                <Button onClick={null} color="primary">
-                  Deletar
-                    </Button>
-              </Grid>
-            </Grid>
-          ))
-          : null
-        }
+        <Preview
+          changePreview={this.state.questions}
+        />
         <center>
           <Button variant="outlined" color="primary" onClick={e => this.handleSaveTemplate(e)}>
             Enviar!
-      </Button>
+          </Button>
         </center>
       </div>
 
