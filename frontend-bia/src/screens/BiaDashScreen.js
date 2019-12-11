@@ -140,7 +140,7 @@ class BiaDashScreen extends React.Component {
                     </Grid>
                     <CarouselProvider
                         naturalSlideWidth={30}
-                        naturalSlideHeight={15}
+                        naturalSlideHeight={20}
                         totalSlides={this.state.projects.length}
                         touchEnabled="true"
                         visibleSlides={this.state.projects.length + 2}>
