@@ -74,7 +74,7 @@ class BiaDashScreen extends React.Component {
         });
         const classes = makeStyles({
             card: {
-                height: 345,
+                height: 500,
                 width: 345,
             },
             media: {
@@ -169,7 +169,7 @@ class BiaDashScreen extends React.Component {
                     </Grid>
                     <CarouselProvider
                         naturalSlideWidth={30}
-                        naturalSlideHeight={15}
+                        naturalSlideHeight={20}
                         totalSlides={this.state.projects.length}
                         touchEnabled="true"
                         visibleSlides={this.state.projects.length+3}>

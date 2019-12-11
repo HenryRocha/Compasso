@@ -29,9 +29,10 @@ class CreateProjectScreen extends React.Component {
       title: "",
       description: "",
       email: "",
-      token: "1234",
+      token: 1234,
       quizzes: [],
-      templates : props.templates
+      templates : props.templates,
+      user: props.user
     };
   }
   handleCheck = (d) => {
@@ -49,7 +50,8 @@ class CreateProjectScreen extends React.Component {
       this.state.description,
       this.state.email,
       this.state.token,
-      this.state.quizzes
+      this.state.quizzes,
+      this.state.user
     );
   }
   render() {
