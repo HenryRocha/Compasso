@@ -52,7 +52,7 @@ export const setProject = project => async _dispatch => {
     type: `SETPROJECT`,
     payload: {project}
   });
-  history.push("/project_details");
+  history.push("/ver_detalhes");
   return project;
 };
 
@@ -86,7 +86,7 @@ export const setTemplate = template => async _dispatch => {
     type: `SETTEMPLATE`,
     payload: {template}
   });
-  history.push("/template_details");
+  history.push("/ver_detalhes");
   return template;
 };
 

@@ -8,6 +8,11 @@ import Button from "@material-ui/core/Button";
 import CardDetalhe from "../components/CardDetalhe"
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+//Redux
+import actions from "../actions";
+import { persistor } from "../store";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,14 +23,25 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const mapStateToProps = state => ({
+  project: state.data.project,
+  user: state.user
+});
+
+const mapDispatchToProps = dispatch =>
+bindActionCreators(
+  { },
+  dispatch
+);
+
+
 class VerDetalhesScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      nomeProjeto: "",
-      pontoDeContato: "",
-      listaDeQuizzes: []
+      project: props.project,
+
     };
 
     this.titleStyle = {
@@ -50,16 +66,10 @@ class VerDetalhesScreen extends React.Component {
             label="Empresa"
             multiline
             rows="2"
-            defaultValue={this.state.nomeProjeto}
+            defaultValue={this.state.project.title}
             // className={}
             margin="normal"
           />
-          <Button onClick={null} color="primary">
-            Editar
-          </Button>
-          <Button onClick={null} color="primary">
-            Deletar
-          </Button>
         </Grid>
         <Grid item xs container direction="row" spacing={2} style={this.titleStyle} >
           <TextField
@@ -67,7 +77,7 @@ class VerDetalhesScreen extends React.Component {
             label="Ponto de Contato"
             multiline
             rows="2"
-            defaultValue={this.state.pontoDeContato}
+            defaultValue={this.state.project.email}
             // className={}
             margin="normal"
           />
@@ -78,11 +88,13 @@ class VerDetalhesScreen extends React.Component {
         </Typography>
         </Grid>
         <Grid item xs container direction="row" spacing={5} style={this.titleStyle} >
-          {this.state.listaDeQuizzes.length !== 0 ?
-            this.state.listaDeQuizzes.map((a, i) => (
-              <CardDetalhe
-                nomeQuiz={a.title}
-              />
+          {this.state.project.quizzes.length !== 0 ?
+            this.state.project.quizzes.map((a, i) => (
+              <Typography style={this.titleStyle}>
+                <CardDetalhe
+                  nomeQuiz={a.name}
+                />
+              </Typography>
             ))
             : null
           }
@@ -92,4 +104,5 @@ class VerDetalhesScreen extends React.Component {
     );
   }
 }
-export default VerDetalhesScreen;
+
+export default connect(mapStateToProps, mapDispatchToProps)(VerDetalhesScreen);

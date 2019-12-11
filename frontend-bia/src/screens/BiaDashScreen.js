@@ -99,11 +99,6 @@ class BiaDashScreen extends React.Component {
                                                                             </Typography>
                                                                         </CardContent>
                                                                    </div>
-                                                                   <CardActions className="seeMore">
-                                                                        <Button size="small" color="primary" onClick={() => this.handleTemplateDetails(d)}>
-                                                                            Ver detalhes
-                                                                        </Button>
-                                                                    </CardActions>
                                                                 </Card>
                                                             </Slide>
                                                         </div>);
@@ -152,8 +147,6 @@ class BiaDashScreen extends React.Component {
                         <Slider>
                             {projectCards}
                         </Slider>
-                        {/* <ButtonBack>Back</ButtonBack>
-                        <ButtonNext>Next</ButtonNext> */}
                     </CarouselProvider>
                 </Grid>
                 <Grid direction="column">
@@ -176,8 +169,6 @@ class BiaDashScreen extends React.Component {
                         <Slider>
                             {templateCards}
                         </Slider>
-                        {/* <ButtonBack>Back</ButtonBack>
-                        <ButtonNext>Next</ButtonNext> */}
                     </CarouselProvider>
                 </Grid>
             </div>
