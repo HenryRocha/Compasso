@@ -29,16 +29,19 @@ export const postProject = (
   title,
   description,
   email,
+  token,
   quizzes,
+  user,
   ) => async _dispatch => {
     try{
       const response = await api.fetchAndDispatch("POST", `projects`, "PROJECTS", {
         title,
         description,
         email,
+        token,
         quizzes,
       });
-      await store.dispatch(actions.getProjects(store.user._userId));
+      await store.dispatch(actions.getProjects(user.id));
       history.push("/dash");
       return response
     }catch(error){

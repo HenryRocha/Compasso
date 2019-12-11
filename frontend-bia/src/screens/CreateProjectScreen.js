@@ -11,14 +11,16 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 const mapStateToProps = state => ({
-    user: state.user
+  user: state.user,
+  projects: state.data.projects,
+  templates: state.data.templates
 });
 
 const mapDispatchToProps = dispatch =>
-bindActionCreators(
-  { postProject: actions.postProject},
-  dispatch
-);
+  bindActionCreators(
+    { postProject: actions.postProject },
+    dispatch
+  );
 
 class CreateProjectScreen extends React.Component {
   constructor(props) {
@@ -27,39 +29,18 @@ class CreateProjectScreen extends React.Component {
       title: "",
       description: "",
       email: "",
-      quizzes: {},
-      D0: false,
-      D7: false,
-      D14: false,
-      D30: false,
-      D60: false,
-      D90: false
+      token: 1234,
+      quizzes: [],
+      templates : props.templates,
+      user: props.user
     };
   }
-  onChangeD0 = () => {
-    this.setState(initialState => ({
-      D0: !initialState.D0
-    }));
-  };
-  onChangeD7 = () => {
-    this.setState(initialState => ({
-      D7: !initialState.D7
-    }));
-  };
-  onChangeD14 = () => {
-    this.setState(initialState => ({
-      D14: !initialState.D14
-    }));
-  };
-  onChangeD30 = () => {
-    this.setState(initialState => ({
-      D30: !initialState.D30
-    }));
-  };
-  onChangeD60 = () => {
-    this.setState(initialState => ({
-      D60: !initialState.D60
-    }));
+  handleCheck = (d) => {
+    this.state.quizzes.push({
+      _templateId: d._id,
+      deadline: "2021-12-31T03:00:00.000+00:00",
+      name:d.title
+    })
   };
 
   async handleClick(e) {
@@ -68,7 +49,9 @@ class CreateProjectScreen extends React.Component {
       this.state.title,
       this.state.description,
       this.state.email,
-      []
+      this.state.token,
+      this.state.quizzes,
+      this.state.user
     );
   }
   render() {
@@ -79,6 +62,16 @@ class CreateProjectScreen extends React.Component {
         }
       }
     }));
+
+    var checkBox = this.state.templates.map((d, i) =>
+      <div>
+        <FormControlLabel
+          control={<Checkbox onChange={() => this.handleCheck(d)} value={i} />}
+          label={d.title}
+        />
+      </div>
+    );
+
     return (
       <div className={useStyles.root}>
         <TextField
@@ -104,64 +97,7 @@ class CreateProjectScreen extends React.Component {
         />
 
         <FormGroup row>
-          <FormControlLabel
-            control={<Checkbox onChange={this.onChangeD0} value="checkedD0" />}
-            label="Registro de Ideias"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                onChange={this.onChangeD7}
-                value="checkedD7"
-                color="primary"
-              />
-            }
-            label="D+7"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                // checked={state.checkedB}
-                onChange={this.onChangeD14}
-                value="checkedD14"
-                color="primary"
-              />
-            }
-            label="D+14"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                // checked={state.checkedB}
-                onChange={this.onChangeD30}
-                value="checkedD30"
-                color="primary"
-              />
-            }
-            label="D+30"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                // checked={state.checkedB}
-                onChange={this.onChangeD60}
-                value="checkedD60"
-                color="primary"
-              />
-            }
-            label="D+60"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                // checked={state.checkedB}
-                onChange={this.onChangeD90}
-                value="checkedD90"
-                color="primary"
-              />
-            }
-            label="D+90"
-          />
+          {checkBox}
         </FormGroup>
         <Button variant="outlined" onClick={e => this.handleClick()}>
           Criar
